@@ -1,4 +1,4 @@
-import { fetchPaintings, fetchArtists, getImageUrl } from './api.js';
+import { fetchPaintings, fetchArtists, getJpegUrl } from './api.js';
 import { router } from './router.js';
 
 export async function renderGallery(params) {
@@ -85,7 +85,7 @@ export async function renderGallery(params) {
               <a href="/painting/${painting.id}" data-link>
                 <div class="painting-image">
                   <img
-                    src="${getImageUrl(painting.dropbox_link_front)}"
+                    src="${getJpegUrl(painting.jpeg_url_front)}"
                     alt="${painting.descriptive_title || painting.artists_title || 'Untitled'}"
                     loading="lazy"
                   />

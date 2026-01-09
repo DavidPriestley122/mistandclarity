@@ -1,4 +1,4 @@
-import { fetchPainting, getImageUrl } from './api.js';
+import { fetchPainting, getJpegUrl, getImageUrl } from './api.js';
 
 export async function renderPaintingDetail(id) {
   const app = document.querySelector('#app');
@@ -22,13 +22,20 @@ export async function renderPaintingDetail(id) {
         <div class="painting-detail">
           <div class="painting-detail-image">
             <img
-              src="${getImageUrl(painting.dropbox_link_front)}"
+              src="${getJpegUrl(painting.jpeg_url_front)}"
               alt="${painting.descriptive_title || painting.artists_title || 'Untitled'}"
             />
-            ${painting.dropbox_link_reverse && painting.dropbox_link_reverse.toLowerCase() !== 'no' ? `
+            ${painting.jpeg_url_reverse ? `
               <div class="reverse-image-link">
-                <a href="${getImageUrl(painting.dropbox_link_reverse)}" target="_blank">
+                <a href="${getJpegUrl(painting.jpeg_url_reverse)}" target="_blank">
                   View reverse side →
+                </a>
+              </div>
+            ` : ''}
+            ${painting.dropbox_link_front ? `
+              <div class="download-link">
+                <a href="${getImageUrl(painting.dropbox_link_front)}" target="_blank" download>
+                  Download High-Res TIF →
                 </a>
               </div>
             ` : ''}

@@ -26,3 +26,10 @@ Thumbs.db
 # Temporary files
 *.tmp
 .cache/
+
+# Image extraction temporary files
+backend/extracted-images/
+backend/extract-images.js
+backend/verify-images.js
+backend/copy-matched-images.js
+backend/fix-missing-images.js
