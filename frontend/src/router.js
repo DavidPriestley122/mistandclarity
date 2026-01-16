@@ -33,6 +33,9 @@ class Router {
     if (path === '/' || path === '/index.html') {
       this.currentRoute = this.routes['/'];
       if (this.currentRoute) this.currentRoute(params);
+    } else if (path === '/gallery') {
+      this.currentRoute = this.routes['/gallery'];
+      if (this.currentRoute) this.currentRoute(params);
     } else if (path.startsWith('/painting/')) {
       const id = path.split('/')[2];
       this.currentRoute = this.routes['/painting/:id'];
