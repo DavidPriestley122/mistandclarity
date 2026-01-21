@@ -1,6 +1,5 @@
 // API configuration
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
-const SERVER_BASE_URL = API_BASE_URL.replace('/api', '');
 
 // Helper function to convert Dropbox preview link to raw image URL (legacy)
 export function getImageUrl(dropboxLink) {
@@ -13,14 +12,15 @@ export function getImageUrl(dropboxLink) {
   return dropboxLink.replace('?dl=0', '?raw=1').replace('www.dropbox.com', 'dl.dropboxusercontent.com');
 }
 
-// Helper function to get JPEG image URL from backend
-export function getJpegUrl(jpegPath) {
-  if (!jpegPath) {
+// Helper function to get local JPEG image URL from catalog number
+export function getJpegUrl(catalogNumber) {
+  if (!catalogNumber) {
     return '/placeholder.jpg';
   }
 
-  // jpegPath is like "/images/front/0001-a.jpg"
-  return `${SERVER_BASE_URL}${jpegPath}`;
+  // Pad catalog number to 4 digits (e.g., 3 -> "0003")
+  const padded = String(catalogNumber).padStart(4, '0');
+  return `/images/${padded}-a.jpg`;
 }
 
 // Fetch all paintings with optional filters

@@ -85,7 +85,7 @@ export async function renderGallery(params) {
               <a href="/painting/${painting.id}" data-link>
                 <div class="painting-image">
                   <img
-                    src="${getJpegUrl(painting.jpeg_url_front)}"
+                    src="${getJpegUrl(painting.catalog_number)}"
                     alt="${painting.descriptive_title || painting.artists_title || 'Untitled'}"
                     loading="lazy"
                   />
@@ -112,7 +112,7 @@ export async function renderGallery(params) {
       if (document.getElementById('theme-filter').value) {
         params.set('theme', document.getElementById('theme-filter').value);
       }
-      router.navigate('/?' + params.toString());
+      router.navigate('/gallery?' + params.toString());
     });
 
     document.getElementById('theme-filter').addEventListener('change', (e) => {
@@ -121,11 +121,11 @@ export async function renderGallery(params) {
         params.set('artist_id', document.getElementById('artist-filter').value);
       }
       if (e.target.value) params.set('theme', e.target.value);
-      router.navigate('/?' + params.toString());
+      router.navigate('/gallery?' + params.toString());
     });
 
     document.getElementById('clear-filters').addEventListener('click', () => {
-      router.navigate('/');
+      router.navigate('/gallery');
     });
 
   } catch (error) {

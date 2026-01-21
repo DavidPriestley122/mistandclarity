@@ -16,22 +16,15 @@ export async function renderPaintingDetail(id) {
     app.innerHTML = `
       <div class="container">
         <div class="back-link">
-          <a href="/" data-link>← Back to Gallery</a>
+          <a href="/gallery" data-link>← Back to Gallery</a>
         </div>
 
         <div class="painting-detail">
           <div class="painting-detail-image">
             <img
-              src="${getJpegUrl(painting.jpeg_url_front)}"
+              src="${getJpegUrl(painting.catalog_number)}"
               alt="${painting.descriptive_title || painting.artists_title || 'Untitled'}"
             />
-            ${painting.jpeg_url_reverse ? `
-              <div class="reverse-image-link">
-                <a href="${getJpegUrl(painting.jpeg_url_reverse)}" target="_blank">
-                  View reverse side →
-                </a>
-              </div>
-            ` : ''}
             ${painting.dropbox_link_front ? `
               <div class="download-link">
                 <a href="${getImageUrl(painting.dropbox_link_front)}" target="_blank" download>
@@ -110,7 +103,7 @@ export async function renderPaintingDetail(id) {
     app.innerHTML = `
       <div class="container">
         <div class="back-link">
-          <a href="/" data-link>← Back to Gallery</a>
+          <a href="/gallery" data-link>← Back to Gallery</a>
         </div>
         <div class="error">
           <p>Error loading painting details.</p>
