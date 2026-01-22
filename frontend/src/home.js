@@ -1,4 +1,4 @@
-import { fetchPaintings } from './api.js';
+import { fetchPaintings, fetchActiveExhibition, getJpegUrl } from './api.js';
 
 export async function renderHome() {
   const app = document.querySelector('#app');
@@ -11,9 +11,17 @@ export async function renderHome() {
   `;
 
   try {
-    // Fetch paintings for the carousel (we'll get from active collection later)
-    // Get 16 for slower, smoother rotation
-    const paintings = await fetchPaintings({ limit: 16 });
+    // Try to get paintings from the active exhibition first
+    let paintings = [];
+    const { collection, paintings: exhibitionPaintings } = await fetchActiveExhibition();
+
+    if (exhibitionPaintings && exhibitionPaintings.length > 0) {
+      // Use exhibition paintings (up to 16 for carousel)
+      paintings = exhibitionPaintings.slice(0, 16);
+    } else {
+      // Fall back to fetching recent paintings if no exhibition
+      paintings = await fetchPaintings({ limit: 16 });
+    }
 
     app.innerHTML = `
       <div class="home">
@@ -78,7 +86,7 @@ export async function renderHome() {
                 <div class="carousel-slide ${index === 0 ? 'active' : ''}" data-index="${index}">
                   <a href="/painting/${painting.id}" data-link>
                     <img
-                      src="http://localhost:3000${painting.jpeg_url_front || '/placeholder.jpg'}"
+                      src="${getJpegUrl(painting.catalog_number)}"
                       alt="${painting.descriptive_title || painting.artists_title || 'Untitled'}"
                       loading="lazy"
                     />

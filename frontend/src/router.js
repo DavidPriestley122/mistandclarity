@@ -3,17 +3,25 @@ class Router {
   constructor() {
     this.routes = {};
     this.currentRoute = null;
+    this.beforeNavigateCallbacks = [];
 
     // Listen for browser back/forward
     window.addEventListener('popstate', () => this.handleRoute());
 
-    // Listen for link clicks
+    // Listen for link clicks - handle nested elements within data-link anchors
     document.addEventListener('click', (e) => {
-      if (e.target.matches('[data-link]')) {
+      // Find the closest ancestor with data-link attribute
+      const link = e.target.closest('[data-link]');
+      if (link) {
         e.preventDefault();
-        this.navigate(e.target.href);
+        this.navigate(link.href);
       }
     });
+  }
+
+  // Register a callback to run before navigation
+  onBeforeNavigate(callback) {
+    this.beforeNavigateCallbacks.push(callback);
   }
 
   addRoute(path, handler) {
@@ -28,6 +36,9 @@ class Router {
   handleRoute() {
     const path = window.location.pathname;
     const params = new URLSearchParams(window.location.search);
+
+    // Run beforeNavigate callbacks
+    this.beforeNavigateCallbacks.forEach(callback => callback(path, params));
 
     // Match routes
     if (path === '/' || path === '/index.html') {

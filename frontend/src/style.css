@@ -998,3 +998,428 @@ header h1 {
   font-weight: 400;
   letter-spacing: 0.03em;
 }
+
+/* ==========================================
+   Admin Panel Styles
+   ========================================== */
+
+#admin-panel-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  align-items: stretch;
+}
+
+.admin-panel-toggle {
+  width: 30px;
+  height: 60px;
+  background-color: var(--accent-red);
+  color: white;
+  border: none;
+  border-radius: 4px 0 0 4px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  transition: background-color 0.3s;
+}
+
+.admin-panel-toggle:hover {
+  background-color: var(--hover-red);
+}
+
+.admin-panel {
+  width: 350px;
+  height: 100%;
+  background-color: var(--ivory);
+  border-left: 2px solid var(--accent-red);
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: width 0.3s ease, opacity 0.3s ease;
+}
+
+.admin-panel.collapsed {
+  width: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.admin-panel-header {
+  background-color: var(--accent-red);
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-panel-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.admin-badge {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+}
+
+.admin-panel-section {
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.admin-panel-section label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.admin-panel-section select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  font-family: Georgia, serif;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  background-color: white;
+}
+
+.admin-panel-section select:focus {
+  outline: none;
+  border-color: var(--accent-red);
+}
+
+.exhibition-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exhibition-info strong {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.painting-count {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.exhibition-description {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.exhibition-paintings {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 0;
+}
+
+.exhibition-paintings h4 {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--primary-color);
+  margin-bottom: 12px;
+}
+
+#exhibition-paintings-list {
+  max-height: calc(100vh - 380px);
+  overflow-y: auto;
+}
+
+.empty-message {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.exhibition-painting-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  margin-bottom: 8px;
+}
+
+.exhibition-painting-item .painting-thumb {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.exhibition-painting-item .painting-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.exhibition-painting-item .painting-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.exhibition-painting-item .painting-title {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--primary-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.exhibition-painting-item .painting-artist {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.exhibition-painting-item .painting-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.exhibition-painting-item .painting-actions button {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--border-color);
+  background-color: white;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.exhibition-painting-item .painting-actions button:hover:not(:disabled) {
+  background-color: var(--accent-red);
+  border-color: var(--accent-red);
+  color: white;
+}
+
+.exhibition-painting-item .painting-actions button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.exhibition-painting-item .btn-remove {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.admin-panel-footer {
+  padding: 15px 20px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  gap: 10px;
+}
+
+.btn-small {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-family: Georgia, serif;
+  border: 1px solid var(--border-color);
+  background-color: white;
+  color: var(--text-color);
+  border-radius: 3px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.btn-small:hover {
+  background-color: var(--accent-red);
+  border-color: var(--accent-red);
+  color: white;
+}
+
+.btn-preview {
+  background-color: var(--accent-red);
+  border-color: var(--accent-red);
+  color: white;
+}
+
+.btn-preview:hover {
+  background-color: var(--hover-red);
+  border-color: var(--hover-red);
+}
+
+/* Admin Mode Banner in Gallery */
+.admin-mode-banner {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background-color: var(--accent-red);
+  color: white;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.admin-indicator {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.admin-hint {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+/* Gallery Admin Mode Adjustments */
+.gallery-admin {
+  padding-right: 380px;
+}
+
+/* Add to Exhibition Button */
+.painting-card {
+  position: relative;
+}
+
+.btn-add-to-exhibition {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--accent-red);
+  color: white;
+  border: 2px solid white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+}
+
+.btn-add-to-exhibition:hover:not(.in-exhibition) {
+  background-color: var(--hover-red);
+  transform: scale(1.1);
+}
+
+.btn-add-to-exhibition.in-exhibition {
+  background-color: #4CAF50;
+  cursor: default;
+}
+
+.painting-card.in-exhibition {
+  box-shadow: 0 0 0 3px #4CAF50;
+}
+
+/* Exhibition Header (Public View) */
+.exhibition-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 30px;
+  background-color: var(--ivory);
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+}
+
+.exhibition-title {
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  letter-spacing: 0.03em;
+}
+
+.exhibition-header .exhibition-description {
+  font-size: 1rem;
+  color: var(--text-color);
+  margin-bottom: 15px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.exhibition-count {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Exhibition Empty State */
+.exhibition-empty {
+  text-align: center;
+  padding: 80px 40px;
+  background-color: var(--ivory);
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+}
+
+.exhibition-empty h2 {
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+.exhibition-empty p {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Responsive Admin Panel */
+@media (max-width: 1200px) {
+  .gallery-admin {
+    padding-right: 20px;
+  }
+
+  .admin-panel {
+    width: 300px;
+  }
+
+  #exhibition-paintings-list {
+    max-height: calc(100vh - 400px);
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-panel {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .admin-mode-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+}

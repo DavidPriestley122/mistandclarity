@@ -15,6 +15,41 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get the currently active exhibition
+router.get('/active', async (req, res) => {
+  try {
+    // Get the active collection
+    const collectionResult = await db.query(
+      'SELECT * FROM collections WHERE is_active = true LIMIT 1'
+    );
+
+    if (collectionResult.rows.length === 0) {
+      return res.json({ collection: null, paintings: [] });
+    }
+
+    const collection = collectionResult.rows[0];
+
+    // Get paintings in this collection (ordered by display_order)
+    const paintingsResult = await db.query(
+      `SELECT p.*, cp.display_order, a.name_preferred as artist_name
+       FROM paintings p
+       JOIN collection_paintings cp ON p.id = cp.painting_id
+       LEFT JOIN artists a ON p.artist_id = a.id
+       WHERE cp.collection_id = $1
+       ORDER BY cp.display_order`,
+      [collection.id]
+    );
+
+    res.json({
+      collection: collection,
+      paintings: paintingsResult.rows
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch active exhibition' });
+  }
+});
+
 // Get single collection with paintings (in display order)
 router.get('/:id', async (req, res) => {
   try {
@@ -93,6 +128,48 @@ router.put('/:id', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to update collection' });
+  }
+});
+
+// Activate a collection as the current exhibition
+router.put('/:id/activate', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Use a transaction to deactivate all, then activate the target
+    const client = await db.pool.connect();
+
+    try {
+      await client.query('BEGIN');
+
+      // Deactivate all collections
+      await client.query('UPDATE collections SET is_active = false');
+
+      // Activate the specified collection
+      const result = await client.query(
+        `UPDATE collections
+         SET is_active = true, updated_at = CURRENT_TIMESTAMP
+         WHERE id = $1
+         RETURNING *`,
+        [id]
+      );
+
+      if (result.rows.length === 0) {
+        await client.query('ROLLBACK');
+        return res.status(404).json({ error: 'Collection not found' });
+      }
+
+      await client.query('COMMIT');
+      res.json(result.rows[0]);
+    } catch (err) {
+      await client.query('ROLLBACK');
+      throw err;
+    } finally {
+      client.release();
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to activate collection' });
   }
 });
 

@@ -1,7 +1,9 @@
 import { fetchPainting, getJpegUrl, getImageUrl } from './api.js';
+import { isAdminMode, adminLink } from './admin.js';
 
 export async function renderPaintingDetail(id) {
   const app = document.querySelector('#app');
+  const adminMode = isAdminMode();
 
   // Show loading state
   app.innerHTML = `
@@ -12,11 +14,12 @@ export async function renderPaintingDetail(id) {
 
   try {
     const painting = await fetchPainting(id);
+    const backLink = adminMode ? adminLink('/gallery') : '/gallery';
 
     app.innerHTML = `
       <div class="container">
         <div class="back-link">
-          <a href="/gallery" data-link>← Back to Gallery</a>
+          <a href="${backLink}" data-link>← Back to ${adminMode ? 'Storage' : 'Gallery'}</a>
         </div>
 
         <div class="painting-detail">
@@ -100,10 +103,11 @@ export async function renderPaintingDetail(id) {
 
   } catch (error) {
     console.error('Error loading painting:', error);
+    const backLink = adminMode ? adminLink('/gallery') : '/gallery';
     app.innerHTML = `
       <div class="container">
         <div class="back-link">
-          <a href="/gallery" data-link>← Back to Gallery</a>
+          <a href="${backLink}" data-link>← Back to ${adminMode ? 'Storage' : 'Gallery'}</a>
         </div>
         <div class="error">
           <p>Error loading painting details.</p>

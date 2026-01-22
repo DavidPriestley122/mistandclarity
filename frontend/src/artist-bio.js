@@ -1,5 +1,8 @@
+import { isAdminMode, adminLink } from './admin.js';
+
 export function renderArtistBio(artistSlug) {
   const app = document.querySelector('#app');
+  const adminMode = isAdminMode();
 
   const bios = {
     'chang-chien-ying': {
@@ -107,10 +110,16 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
     return;
   }
 
+  const backLink = adminMode ? adminLink('/gallery') : '/';
+  const artistId = artistSlug === 'chang-chien-ying' ? '2' : '1';
+  const paintingsLink = adminMode
+    ? `/gallery?artist_id=${artistId}&admin=true`
+    : `/gallery?artist_id=${artistId}`;
+
   app.innerHTML = `
     <div class="container">
       <div class="back-link">
-        <a href="/" data-link>← Back to Gallery</a>
+        <a href="${backLink}" data-link>← Back to ${adminMode ? 'Storage' : 'Home'}</a>
       </div>
 
       <div class="artist-bio">
@@ -131,7 +140,7 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
         </div>
 
         <div class="bio-footer">
-          <a href="/?artist_id=${artistSlug === 'chang-chien-ying' ? '2' : '1'}" data-link class="btn">
+          <a href="${paintingsLink}" data-link class="btn">
             View ${bio.name.split(' ')[0]}'s Paintings
           </a>
         </div>
