@@ -1129,6 +1129,13 @@ header h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
+}
+
+.exhibition-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .exhibition-info strong {
@@ -1147,6 +1154,83 @@ header h1 {
   font-size: 0.9rem;
   color: var(--text-color);
   line-height: 1.5;
+}
+
+/* Exhibition Info Editing */
+.btn-edit-info {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  transition: all 0.2s;
+}
+
+.btn-edit-info:hover {
+  background-color: var(--accent-red);
+  color: white;
+}
+
+.exhibition-info-edit {
+  width: 100%;
+}
+
+.edit-field {
+  margin-bottom: 10px;
+}
+
+.edit-field label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 5px;
+}
+
+.edit-field input,
+.edit-field textarea {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  font-family: Georgia, serif;
+  font-size: 0.9rem;
+  background-color: white;
+}
+
+.edit-field input:focus,
+.edit-field textarea:focus {
+  outline: none;
+  border-color: var(--accent-red);
+  box-shadow: 0 0 0 2px rgba(200, 53, 46, 0.1);
+}
+
+.edit-field textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn-save {
+  background-color: var(--accent-red);
+  border-color: var(--accent-red);
+  color: white;
+}
+
+.btn-save:hover {
+  background-color: var(--hover-red);
+  border-color: var(--hover-red);
 }
 
 .exhibition-paintings {

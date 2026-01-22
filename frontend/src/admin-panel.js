@@ -7,6 +7,7 @@ import {
   removeFromExhibition,
   reorderExhibition,
   activateExhibition,
+  updateCollection,
   getJpegUrl
 } from './api.js';
 import { adminLink } from './admin.js';
@@ -18,7 +19,8 @@ let adminPanelState = {
   exhibitions: [],
   exhibitionPaintings: [],
   paintingIdsInExhibition: new Set(),
-  viewMode: 'preview' // 'list' or 'preview'
+  viewMode: 'preview', // 'list' or 'preview'
+  isEditingInfo: false
 };
 
 // Event callbacks for gallery integration
@@ -193,6 +195,119 @@ async function handleExhibitionSwitch(collectionId) {
   } catch (error) {
     console.error('Failed to switch exhibition:', error);
     alert('Failed to activate exhibition.');
+  }
+}
+
+// Enable editing mode for exhibition info
+function enableEditingExhibitionInfo() {
+  adminPanelState.isEditingInfo = true;
+  renderExhibitionInfo();
+}
+
+// Cancel editing exhibition info
+function cancelEditingExhibitionInfo() {
+  adminPanelState.isEditingInfo = false;
+  renderExhibitionInfo();
+}
+
+// Save exhibition info changes
+async function saveExhibitionInfo() {
+  const nameInput = document.getElementById('edit-exhibition-name');
+  const descInput = document.getElementById('edit-exhibition-description');
+
+  if (!nameInput) return;
+
+  const newName = nameInput.value.trim();
+  const newDescription = descInput ? descInput.value.trim() : '';
+
+  if (!newName) {
+    alert('Exhibition name cannot be empty.');
+    return;
+  }
+
+  const collectionId = getCurrentExhibitionId();
+  if (!collectionId) return;
+
+  try {
+    await updateCollection(collectionId, {
+      name: newName,
+      description: newDescription
+    });
+
+    // Update local state
+    adminPanelState.currentExhibition.name = newName;
+    adminPanelState.currentExhibition.description = newDescription;
+
+    // Update the exhibition in the list
+    const exhibition = adminPanelState.exhibitions.find(ex => ex.id === collectionId);
+    if (exhibition) {
+      exhibition.name = newName;
+      exhibition.description = newDescription;
+    }
+
+    adminPanelState.isEditingInfo = false;
+    renderExhibitionInfo();
+    renderExhibitionSelector();
+
+    if (onExhibitionChange) onExhibitionChange();
+  } catch (error) {
+    console.error('Failed to update exhibition info:', error);
+    alert('Failed to update exhibition information.');
+  }
+}
+
+// Render the exhibition info section
+function renderExhibitionInfo() {
+  const container = document.getElementById('exhibition-info-container');
+  if (!container) return;
+
+  const currentExhibition = adminPanelState.currentExhibition;
+  const paintingCount = adminPanelState.exhibitionPaintings.length;
+
+  if (adminPanelState.isEditingInfo && currentExhibition) {
+    container.innerHTML = `
+      <div class="exhibition-info-edit">
+        <div class="edit-field">
+          <label for="edit-exhibition-name">Name:</label>
+          <input type="text"
+                 id="edit-exhibition-name"
+                 value="${currentExhibition.name || ''}"
+                 placeholder="Exhibition name">
+        </div>
+        <div class="edit-field">
+          <label for="edit-exhibition-description">Description:</label>
+          <textarea id="edit-exhibition-description"
+                    rows="3"
+                    placeholder="Exhibition description (optional)">${currentExhibition.description || ''}</textarea>
+        </div>
+        <div class="edit-actions">
+          <button id="btn-save-info" class="btn-small btn-save">Save</button>
+          <button id="btn-cancel-info" class="btn-small">Cancel</button>
+        </div>
+      </div>
+      <div class="painting-count">${paintingCount} painting${paintingCount !== 1 ? 's' : ''}</div>
+    `;
+
+    // Add event listeners
+    document.getElementById('btn-save-info').addEventListener('click', saveExhibitionInfo);
+    document.getElementById('btn-cancel-info').addEventListener('click', cancelEditingExhibitionInfo);
+  } else {
+    container.innerHTML = `
+      <div class="exhibition-info">
+        <div class="exhibition-name-row">
+          <strong>${currentExhibition?.name || 'No exhibition selected'}</strong>
+          ${currentExhibition ? '<button id="btn-edit-info" class="btn-edit-info" title="Edit exhibition info">✎</button>' : ''}
+        </div>
+        <span class="painting-count">${paintingCount} painting${paintingCount !== 1 ? 's' : ''}</span>
+      </div>
+      ${currentExhibition?.description ? `<p class="exhibition-description">${currentExhibition.description}</p>` : ''}
+    `;
+
+    // Add event listener for edit button
+    const editBtn = document.getElementById('btn-edit-info');
+    if (editBtn) {
+      editBtn.addEventListener('click', enableEditingExhibitionInfo);
+    }
   }
 }
 
@@ -437,12 +552,8 @@ function renderAdminPanel() {
         <button id="btn-create-exhibition" class="btn-small">+ New Exhibition</button>
       </div>
 
-      <div class="admin-panel-section">
-        <div class="exhibition-info">
-          <strong>${currentExhibition?.name || 'No exhibition selected'}</strong>
-          <span class="painting-count">${paintingCount} painting${paintingCount !== 1 ? 's' : ''}</span>
-        </div>
-        ${currentExhibition?.description ? `<p class="exhibition-description">${currentExhibition.description}</p>` : ''}
+      <div class="admin-panel-section" id="exhibition-info-container">
+        <!-- Exhibition info will be rendered here -->
       </div>
 
       <div class="admin-panel-section exhibition-paintings">
@@ -480,6 +591,9 @@ function renderAdminPanel() {
 
   document.getElementById('btn-toggle-view').addEventListener('click', toggleViewMode);
 
+  // Render the exhibition info
+  renderExhibitionInfo();
+
   // Render the paintings list
   renderExhibitionPaintingsList();
 
@@ -497,6 +611,7 @@ export function removeAdminPanel() {
 // Refresh the exhibition data and re-render
 export async function refreshAdminPanel() {
   await loadExhibitionData();
+  renderExhibitionInfo();
   renderExhibitionPaintingsList();
   renderExhibitionSelector();
 }
