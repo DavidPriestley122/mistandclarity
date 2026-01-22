@@ -576,8 +576,12 @@ header h1 {
    ========================================== */
 
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   border-bottom: 2px solid var(--hover-red);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--ivory);
 }
 
 /* Top Bar: Calligraphy Lintel */
@@ -626,6 +630,11 @@ header h1 {
 
 .nav-links a:hover {
   border-bottom-color: var(--ivory);
+}
+
+.nav-links a.active {
+  border-bottom-color: var(--ivory);
+  font-weight: 500;
 }
 
 .translate-btn {

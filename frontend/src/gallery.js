@@ -8,6 +8,7 @@ import {
   addPaintingToExhibition,
   setOnExhibitionChange
 } from './admin-panel.js';
+import { renderNavigation } from './nav.js';
 
 // Track current gallery state for re-render
 let currentFilters = {};
@@ -76,20 +77,12 @@ async function renderStorageView(app, params) {
 
   // Render gallery with admin controls
   app.innerHTML = `
+    ${renderNavigation()}
     <div class="container gallery-admin">
-      <header>
-        <h1>Mist and Clarity</h1>
-        <p class="subtitle">Paintings by Fei Cheng-wu and Chang Chien-ying</p>
-        <div class="admin-mode-banner">
-          <span class="admin-indicator">Storage View (Admin Mode)</span>
-          <span class="admin-hint">Click a painting to add it to the exhibition</span>
-        </div>
-        <div class="artist-links">
-          <a href="${adminLink('/artist/fei-cheng-wu')}" data-link>About Fei Cheng-wu</a>
-          <span class="separator">|</span>
-          <a href="${adminLink('/artist/chang-chien-ying')}" data-link>About Chang Chien-ying</a>
-        </div>
-      </header>
+      <div class="admin-mode-banner">
+        <span class="admin-indicator">Storage View (Admin Mode)</span>
+        <span class="admin-hint">Click a painting to add it to the exhibition</span>
+      </div>
 
       <div class="filters">
         <div class="filter-group">
@@ -164,17 +157,8 @@ async function renderExhibitionView(app) {
   if (!collection || paintings.length === 0) {
     // No active exhibition
     app.innerHTML = `
+      ${renderNavigation()}
       <div class="container">
-        <header>
-          <h1>Mist and Clarity</h1>
-          <p class="subtitle">Paintings by Fei Cheng-wu and Chang Chien-ying</p>
-          <div class="artist-links">
-            <a href="/artist/fei-cheng-wu" data-link>About Fei Cheng-wu</a>
-            <span class="separator">|</span>
-            <a href="/artist/chang-chien-ying" data-link>About Chang Chien-ying</a>
-          </div>
-        </header>
-
         <div class="exhibition-empty">
           <h2>Exhibition Coming Soon</h2>
           <p>We are preparing a new exhibition. Please check back soon.</p>
@@ -186,17 +170,8 @@ async function renderExhibitionView(app) {
 
   // Render exhibition
   app.innerHTML = `
+    ${renderNavigation()}
     <div class="container">
-      <header>
-        <h1>Mist and Clarity</h1>
-        <p class="subtitle">Paintings by Fei Cheng-wu and Chang Chien-ying</p>
-        <div class="artist-links">
-          <a href="/artist/fei-cheng-wu" data-link>About Fei Cheng-wu</a>
-          <span class="separator">|</span>
-          <a href="/artist/chang-chien-ying" data-link>About Chang Chien-ying</a>
-        </div>
-      </header>
-
       <div class="exhibition-header">
         <h2 class="exhibition-title">${collection.name}</h2>
         ${collection.description ? `<p class="exhibition-description">${collection.description}</p>` : ''}

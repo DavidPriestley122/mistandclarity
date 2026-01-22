@@ -1,4 +1,5 @@
 import { fetchPaintings, fetchActiveExhibition, getJpegUrl } from './api.js';
+import { renderNavigation } from './nav.js';
 
 export async function renderHome() {
   const app = document.querySelector('#app');
@@ -25,26 +26,7 @@ export async function renderHome() {
 
     app.innerHTML = `
       <div class="home">
-        <!-- Two-Bar Header with Calligraphy Lintel -->
-        <header class="site-header">
-          <!-- Top Bar: Calligraphy Lintel -->
-          <div class="calligraphy-lintel-bar">
-            <img src="/images/wuminglou-calligraphy.jpg" alt="Wu Ming Lou calligraphy by Yu Youren" class="lintel-calligraphy" />
-          </div>
-
-          <!-- Bottom Bar: Navigation -->
-          <nav class="header-nav">
-            <div class="nav-links">
-              <a href="/" data-link>Home</a>
-              <a href="/gallery" data-link>Gallery</a>
-              <a href="/artist/chang-chien-ying" data-link>Chang Chien-ying</a>
-              <a href="/artist/fei-cheng-wu" data-link>Fei Cheng-wu</a>
-            </div>
-            <div class="nav-actions">
-              <button class="translate-btn" onclick="alert('Translation feature coming soon')">中文</button>
-            </div>
-          </nav>
-        </header>
+        ${renderNavigation()}
 
         <!-- Hero Section with Artist Portraits -->
         <section class="hero-section">

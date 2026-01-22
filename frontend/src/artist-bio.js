@@ -1,4 +1,5 @@
 import { isAdminMode, adminLink } from './admin.js';
+import { renderNavigation } from './nav.js';
 
 export function renderArtistBio(artistSlug) {
   const app = document.querySelector('#app');
@@ -103,6 +104,7 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
 
   if (!bio) {
     app.innerHTML = `
+      ${renderNavigation()}
       <div class="container">
         <div class="error">Artist biography not found.</div>
       </div>
@@ -117,6 +119,7 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
     : `/gallery?artist_id=${artistId}`;
 
   app.innerHTML = `
+    ${renderNavigation()}
     <div class="container">
       <div class="back-link">
         <a href="${backLink}" data-link>← Back to ${adminMode ? 'Storage' : 'Home'}</a>
