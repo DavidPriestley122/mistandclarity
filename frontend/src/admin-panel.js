@@ -84,10 +84,23 @@ export async function addPaintingToExhibition(paintingId, paintingData) {
     return true;
   } catch (error) {
     if (error.message === 'Painting already in exhibition') {
-      alert('This painting is already in the exhibition.');
+      // Silently succeed - it's already there
+      adminPanelState.paintingIdsInExhibition.add(paintingId);
+      if (onExhibitionChange) onExhibitionChange();
+      return true;
     } else {
       console.error('Failed to add painting:', error);
-      alert('Failed to add painting to exhibition.');
+      // Show brief error but don't block - might be temporary connection issue
+      const statusEl = document.querySelector('.exhibition-info strong');
+      if (statusEl) {
+        const originalText = statusEl.textContent;
+        statusEl.textContent = 'Connection error - try again';
+        statusEl.style.color = '#D32F2F';
+        setTimeout(() => {
+          statusEl.textContent = originalText;
+          statusEl.style.color = '';
+        }, 2000);
+      }
     }
     return false;
   }

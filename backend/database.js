@@ -1,10 +1,13 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
-// Create PostgreSQL connection pool
+// Create PostgreSQL connection pool with conservative limits for Railway free tier
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  max: 5, // Maximum connections in pool (Railway free tier is limited)
+  idleTimeoutMillis: 30000, // Close idle connections after 30 seconds
+  connectionTimeoutMillis: 10000 // Timeout after 10 seconds if can't connect
 });
 
 // Test connection
