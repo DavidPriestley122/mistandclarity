@@ -17,7 +17,8 @@ let adminPanelState = {
   currentExhibition: null,
   exhibitions: [],
   exhibitionPaintings: [],
-  paintingIdsInExhibition: new Set()
+  paintingIdsInExhibition: new Set(),
+  viewMode: 'preview' // 'list' or 'preview'
 };
 
 // Event callbacks for gallery integration
@@ -227,17 +228,39 @@ function renderExhibitionSelector() {
   `;
 }
 
+// Toggle between list and preview view modes
+function toggleViewMode() {
+  adminPanelState.viewMode = adminPanelState.viewMode === 'list' ? 'preview' : 'list';
+  renderExhibitionPaintingsList();
+
+  // Update button text
+  const toggleBtn = document.getElementById('btn-toggle-view');
+  if (toggleBtn) {
+    toggleBtn.textContent = adminPanelState.viewMode === 'list' ? 'Grid View' : 'List View';
+  }
+}
+
 // Render the list of paintings in the current exhibition
 function renderExhibitionPaintingsList() {
-  const list = document.getElementById('exhibition-paintings-list');
-  if (!list) return;
+  const container = document.getElementById('exhibition-paintings-list');
+  if (!container) return;
 
   if (adminPanelState.exhibitionPaintings.length === 0) {
-    list.innerHTML = '<p class="empty-message">No paintings in exhibition yet. Add paintings from the gallery.</p>';
+    container.innerHTML = '<p class="empty-message">No paintings in exhibition yet. Add paintings from the gallery.</p>';
     return;
   }
 
-  list.innerHTML = adminPanelState.exhibitionPaintings.map((painting, index) => `
+  if (adminPanelState.viewMode === 'preview') {
+    renderPreviewMode(container);
+  } else {
+    renderListMode(container);
+  }
+}
+
+// Render compact list mode with up/down arrows
+function renderListMode(container) {
+  container.className = 'exhibition-paintings-list-mode';
+  container.innerHTML = adminPanelState.exhibitionPaintings.map((painting, index) => `
     <div class="exhibition-painting-item" data-id="${painting.id}">
       <div class="painting-thumb">
         <img src="${getJpegUrl(painting.catalog_number)}" alt="${painting.descriptive_title || 'Painting'}" />
@@ -255,17 +278,130 @@ function renderExhibitionPaintingsList() {
   `).join('');
 
   // Add event listeners
-  list.querySelectorAll('.btn-move-up').forEach(btn => {
+  container.querySelectorAll('.btn-move-up').forEach(btn => {
     btn.addEventListener('click', () => movePaintingUp(parseInt(btn.dataset.index)));
   });
 
-  list.querySelectorAll('.btn-move-down').forEach(btn => {
+  container.querySelectorAll('.btn-move-down').forEach(btn => {
     btn.addEventListener('click', () => movePaintingDown(parseInt(btn.dataset.index)));
   });
 
-  list.querySelectorAll('.btn-remove').forEach(btn => {
+  container.querySelectorAll('.btn-remove').forEach(btn => {
     btn.addEventListener('click', () => removePaintingFromExhibition(parseInt(btn.dataset.id)));
   });
+}
+
+// Render visual preview mode with drag-and-drop
+function renderPreviewMode(container) {
+  container.className = 'exhibition-paintings-preview-mode';
+  container.innerHTML = adminPanelState.exhibitionPaintings.map((painting, index) => `
+    <div class="preview-painting-card"
+         data-id="${painting.id}"
+         data-index="${index}"
+         draggable="true">
+      <button class="preview-remove-btn" data-id="${painting.id}" title="Remove from exhibition">&times;</button>
+      <div class="preview-painting-image">
+        <img src="${getJpegUrl(painting.catalog_number)}"
+             alt="${painting.descriptive_title || painting.artists_title || 'Untitled'}" />
+      </div>
+      <div class="preview-painting-info">
+        <div class="preview-painting-title">${painting.descriptive_title || painting.artists_title || 'Untitled'}</div>
+        <div class="preview-painting-artist">${painting.artist_name || 'Unknown'}</div>
+      </div>
+      <div class="preview-order-number">#${index + 1}</div>
+    </div>
+  `).join('');
+
+  // Add drag-and-drop event listeners
+  const cards = container.querySelectorAll('.preview-painting-card');
+  cards.forEach(card => {
+    card.addEventListener('dragstart', handleDragStart);
+    card.addEventListener('dragover', handleDragOver);
+    card.addEventListener('drop', handleDrop);
+    card.addEventListener('dragend', handleDragEnd);
+    card.addEventListener('dragenter', handleDragEnter);
+    card.addEventListener('dragleave', handleDragLeave);
+  });
+
+  // Add remove button listeners
+  container.querySelectorAll('.preview-remove-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      removePaintingFromExhibition(parseInt(btn.dataset.id));
+    });
+  });
+}
+
+// Drag and drop handlers
+let draggedElement = null;
+let draggedIndex = null;
+
+function handleDragStart(e) {
+  draggedElement = e.currentTarget;
+  draggedIndex = parseInt(draggedElement.dataset.index);
+  draggedElement.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/html', draggedElement.innerHTML);
+}
+
+function handleDragOver(e) {
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
+  e.dataTransfer.dropEffect = 'move';
+  return false;
+}
+
+function handleDragEnter(e) {
+  if (e.currentTarget !== draggedElement) {
+    e.currentTarget.classList.add('drag-over');
+  }
+}
+
+function handleDragLeave(e) {
+  e.currentTarget.classList.remove('drag-over');
+}
+
+async function handleDrop(e) {
+  if (e.stopPropagation) {
+    e.stopPropagation();
+  }
+  e.preventDefault();
+
+  const dropTarget = e.currentTarget;
+  dropTarget.classList.remove('drag-over');
+
+  if (draggedElement !== dropTarget) {
+    const dropIndex = parseInt(dropTarget.dataset.index);
+
+    // Reorder the paintings array
+    const paintings = adminPanelState.exhibitionPaintings;
+    const [movedPainting] = paintings.splice(draggedIndex, 1);
+    paintings.splice(dropIndex, 0, movedPainting);
+
+    // Save the new order
+    await saveExhibitionOrder();
+
+    // Re-render
+    renderExhibitionPaintingsList();
+  }
+
+  return false;
+}
+
+function handleDragEnd(e) {
+  e.currentTarget.classList.remove('dragging');
+
+  // Remove all drag-over classes
+  const container = document.getElementById('exhibition-paintings-list');
+  if (container) {
+    container.querySelectorAll('.drag-over').forEach(el => {
+      el.classList.remove('drag-over');
+    });
+  }
+
+  draggedElement = null;
+  draggedIndex = null;
 }
 
 // Render the full admin panel
@@ -310,7 +446,10 @@ function renderAdminPanel() {
       </div>
 
       <div class="admin-panel-section exhibition-paintings">
-        <h4>Paintings in Exhibition</h4>
+        <div class="exhibition-paintings-header">
+          <h4>Paintings in Exhibition</h4>
+          <button id="btn-toggle-view" class="btn-toggle-view">${adminPanelState.viewMode === 'list' ? 'Grid View' : 'List View'}</button>
+        </div>
         <div id="exhibition-paintings-list"></div>
       </div>
 
@@ -338,6 +477,8 @@ function renderAdminPanel() {
   });
 
   document.getElementById('btn-create-exhibition').addEventListener('click', handleCreateExhibition);
+
+  document.getElementById('btn-toggle-view').addEventListener('click', toggleViewMode);
 
   // Render the paintings list
   renderExhibitionPaintingsList();
