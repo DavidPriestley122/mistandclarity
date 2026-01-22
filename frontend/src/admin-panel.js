@@ -285,7 +285,7 @@ function renderAdminPanel() {
     <div id="admin-panel" class="admin-panel ${adminPanelState.isOpen ? '' : 'collapsed'}">
       <div class="admin-panel-header">
         <h3>Exhibition Manager</h3>
-        <span class="admin-badge">Admin Mode</span>
+        <button id="btn-close-admin" class="btn-close-admin" title="Exit Admin Mode">&times;</button>
       </div>
 
       <div class="admin-panel-section">
@@ -325,6 +325,11 @@ function renderAdminPanel() {
 
   // Add event listeners
   document.getElementById('admin-panel-toggle').addEventListener('click', togglePanel);
+
+  document.getElementById('btn-close-admin').addEventListener('click', () => {
+    // Exit admin mode by navigating to gallery without admin param
+    window.location.href = '/gallery';
+  });
 
   document.getElementById('exhibition-selector').addEventListener('change', (e) => {
     if (e.target.value) {
