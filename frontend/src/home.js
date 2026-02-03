@@ -18,10 +18,9 @@ export async function renderHome() {
             The studio of London Chinese artists Chien-ying Chang and Cheng-wu Fei
           </p>
 
-          <a href="/gallery" class="btn-enter" data-link>
-            <span>Enter</span>
-            <span class="arrow">→</span>
-          </a>
+          <div class="btn-container">
+            <a href="/gallery" class="btn-enter" data-link>Enter</a>
+          </div>
         </div>
 
         <div class="photo-credit">
