@@ -1737,7 +1737,7 @@ header h1 {
   position: relative;
   z-index: 3;
   text-align: left;
-  padding: 40px 60px 60px;
+  padding: 40px 60px 70px 120px;
   max-width: 700px;
 }
 
@@ -1806,7 +1806,7 @@ header h1 {
 /* Responsive Landing Page */
 @media (max-width: 768px) {
   .landing-content {
-    padding: 30px 30px 50px;
+    padding: 30px 30px 60px 80px;
   }
 
   .landing-title {
@@ -1825,7 +1825,7 @@ header h1 {
 
 @media (max-width: 480px) {
   .landing-content {
-    padding: 25px 20px 40px;
+    padding: 25px 20px 50px 70px;
   }
 
   .landing-title {
