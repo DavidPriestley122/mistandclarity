@@ -1696,7 +1696,7 @@ header h1 {
   position: relative;
   display: flex;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .landing-image-container {
@@ -1716,7 +1716,7 @@ header h1 {
   filter: sepia(0.15) contrast(1.1);
 }
 
-/* Dark overlay for text readability - stronger at bottom */
+/* Dark overlay for text readability - stronger at bottom left */
 .landing-hero::before {
   content: '';
   position: absolute;
@@ -1736,10 +1736,9 @@ header h1 {
 .landing-content {
   position: relative;
   z-index: 3;
-  text-align: center;
-  padding: 40px 30px 60px;
-  max-width: 800px;
-  width: 100%;
+  text-align: left;
+  padding: 40px 60px 60px;
+  max-width: 700px;
 }
 
 .landing-title {
@@ -1756,17 +1755,8 @@ header h1 {
 .landing-description {
   font-size: 1rem;
   color: var(--ivory);
-  margin-bottom: 8px;
-  line-height: 1.6;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-}
-
-.landing-tagline {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.95);
-  font-style: italic;
   margin-bottom: 30px;
-  line-height: 1.7;
+  line-height: 1.6;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
@@ -1804,45 +1794,38 @@ header h1 {
 /* Responsive Landing Page */
 @media (max-width: 768px) {
   .landing-content {
-    padding: 30px 20px;
+    padding: 30px 30px 50px;
   }
 
-  .landing-title {
-    font-size: 2.2rem;
-  }
-
-  .landing-subtitle {
-    font-size: 1.4rem;
-  }
-
-  .landing-description {
-    font-size: 1.1rem;
-  }
-
-  .landing-tagline {
-    font-size: 1rem;
-  }
-
-  .btn-enter {
-    padding: 15px 35px;
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 480px) {
   .landing-title {
     font-size: 1.8rem;
   }
 
-  .landing-subtitle {
-    font-size: 1.2rem;
+  .landing-description {
+    font-size: 0.95rem;
+  }
+
+  .btn-enter {
+    padding: 12px 30px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-content {
+    padding: 25px 20px 40px;
+  }
+
+  .landing-title {
+    font-size: 1.5rem;
   }
 
   .landing-description {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
-  .landing-tagline {
+  .btn-enter {
+    padding: 10px 25px;
     font-size: 0.9rem;
   }
 }

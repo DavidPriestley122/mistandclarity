@@ -15,14 +15,11 @@ export async function renderHome() {
         <div class="landing-content">
           <h1 class="landing-title">Welcome to the Vermillion Pavilion</h1>
           <p class="landing-description">
-            The London studio of Chang Chien-ying and Fei Cheng-wu
-          </p>
-          <p class="landing-tagline">
-            The first Chinese academically trained artists to settle permanently in Britain
+            The studio of London Chinese artists Chien-ying Chang and Cheng-wu Fei
           </p>
 
           <a href="/gallery" class="btn-enter" data-link>
-            <span>Enter the Gallery</span>
+            <span>Enter</span>
             <span class="arrow">→</span>
           </a>
         </div>
