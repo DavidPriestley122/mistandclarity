@@ -1791,6 +1791,18 @@ header h1 {
   transform: translateX(5px);
 }
 
+.photo-credit {
+  position: absolute;
+  bottom: 20px;
+  right: 25px;
+  z-index: 3;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.01em;
+}
+
 /* Responsive Landing Page */
 @media (max-width: 768px) {
   .landing-content {
@@ -1827,5 +1839,11 @@ header h1 {
   .btn-enter {
     padding: 10px 25px;
     font-size: 0.9rem;
+  }
+
+  .photo-credit {
+    font-size: 0.6rem;
+    bottom: 15px;
+    right: 15px;
   }
 }

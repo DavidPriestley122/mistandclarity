@@ -23,6 +23,10 @@ export async function renderHome() {
             <span class="arrow">→</span>
           </a>
         </div>
+
+        <div class="photo-credit">
+          Middlesex Guildhall, Parliament Square, London, 1948
+        </div>
       </div>
     </div>
   `;
