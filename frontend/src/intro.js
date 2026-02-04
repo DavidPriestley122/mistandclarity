@@ -113,7 +113,7 @@ export async function renderIntro() {
         <!-- Explore Further -->
         <section class="intro-explore">
           ${activeExhibition ? `
-            <a href="/exhibition/${activeExhibition.id}" class="btn btn-large btn-primary" data-link>
+            <a href="/gallery" class="btn btn-large btn-primary" data-link>
               View Current Exhibition
             </a>
           ` : ''}

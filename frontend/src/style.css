@@ -1848,7 +1848,7 @@ header h1 {
    ========================================== */
 
 .intro-page {
-  background-color: var(--warm-cream);
+  background-color: #3C3C3C;
   min-height: 100vh;
 }
 
@@ -1862,14 +1862,14 @@ header h1 {
 .intro-hero {
   text-align: center;
   padding-bottom: 50px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   margin-bottom: 60px;
 }
 
 .intro-main-title {
   font-size: 3.5rem;
   font-weight: 400;
-  color: var(--primary-color);
+  color: #F5F0E8;
   margin-bottom: 20px;
   letter-spacing: 0.05em;
   font-family: Georgia, 'Palatino Linotype', serif;
@@ -1877,7 +1877,7 @@ header h1 {
 
 .intro-subtitle {
   font-size: 2rem;
-  color: var(--accent-red);
+  color: #E8B4B4;
   font-weight: 400;
   letter-spacing: 0.03em;
 }
@@ -1890,7 +1890,7 @@ header h1 {
 .intro-section h2 {
   font-size: 2rem;
   font-weight: 400;
-  color: var(--accent-red);
+  color: #E8B4B4;
   margin-bottom: 30px;
   letter-spacing: 0.02em;
   text-align: center;
@@ -1899,7 +1899,7 @@ header h1 {
 .intro-text {
   font-size: 1.1rem;
   line-height: 1.9;
-  color: var(--text-color);
+  color: #E5E5E5;
   margin-bottom: 40px;
 }
 
@@ -1910,7 +1910,7 @@ header h1 {
 
 .intro-text strong {
   font-weight: 600;
-  color: var(--primary-color);
+  color: #F5F0E8;
 }
 
 /* Photos */
@@ -1932,7 +1932,7 @@ header h1 {
 .photo-caption {
   margin-top: 15px;
   font-size: 0.95rem;
-  color: var(--text-muted);
+  color: #B0B0B0;
   font-style: italic;
   line-height: 1.6;
   text-align: center;
@@ -1941,7 +1941,7 @@ header h1 {
 .photo-caption-center {
   text-align: center;
   font-size: 0.95rem;
-  color: var(--text-muted);
+  color: #E5E5E5;
   font-style: italic;
   margin-top: 15px;
 }
