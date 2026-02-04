@@ -22,13 +22,12 @@ export async function renderIntro() {
         <!-- Hero Section -->
         <section class="intro-hero">
           <h1 class="intro-main-title">The Vermillion Pavilion</h1>
-          <p class="intro-subtitle">霧明樓 (Wuming Lou)</p>
         </section>
 
         <!-- Main Introduction -->
         <section class="intro-section">
           <div class="intro-text">
-            <p>Chang Chien-ying (1909-2003) and Fei Cheng-wu (1911-2000) were the first Chinese academically trained artists to settle permanently in Britain. Theirs was an extraordinary story.</p>
+            <p>Chang Chien-ying (1909-2003) and Fei Cheng-wu (1911-2000) were the first Chinese academically trained artists to settle permanently in Britain. They called their joint studio "The Vermillion Pavilion" (in Chinese: 霧明樓, <em>Wuming Lou</em> – the names are not direct translations of each other). Theirs was an extraordinary story.</p>
 
             <p>During the Anti-Japanese War (1937-1945), as young qualified artists, they found themselves part of a remarkable concentration of talent in Chongqing. There have been few times in history when such artistic creativity was gathered in one place. They counted among their friends, colleagues and teachers a group whose names read like a roll call of twentieth century Chinese art: <strong>Fu Baoshi, Xu Beihong, Zhang Daqian, Pang Xunqin, Wu Zuoren, Huang Junbi, Lin Fengmian, Chen Zhifo, Xie Zhiliu</strong>, and many others.</p>
           </div>
