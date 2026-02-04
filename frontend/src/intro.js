@@ -21,7 +21,7 @@ export async function renderIntro() {
 
         <!-- Hero Section -->
         <section class="intro-hero">
-          <h1 class="intro-main-title">the Vermillion Pavilion</h1>
+          <h1 class="intro-main-title">Vermillion Pavilion</h1>
         </section>
 
         <!-- Main Introduction -->
