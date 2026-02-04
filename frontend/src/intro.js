@@ -1,0 +1,133 @@
+import { renderNavigation } from './nav.js';
+import { fetchActiveExhibition } from './api.js';
+
+export async function renderIntro() {
+  const app = document.querySelector('#app');
+
+  // Check if there's an active exhibition
+  let activeExhibition = null;
+  try {
+    const { collection } = await fetchActiveExhibition();
+    activeExhibition = collection;
+  } catch (error) {
+    console.log('No active exhibition');
+  }
+
+  app.innerHTML = `
+    ${renderNavigation()}
+
+    <div class="intro-page">
+      <div class="intro-container">
+
+        <!-- Hero Section -->
+        <section class="intro-hero">
+          <h1 class="intro-main-title">The Vermillion Pavilion</h1>
+          <p class="intro-subtitle">霧明樓 (Wuming Lou)</p>
+        </section>
+
+        <!-- Main Introduction -->
+        <section class="intro-section">
+          <div class="intro-text">
+            <p>Chang Chien-ying (1909-2003) and Fei Cheng-wu (1911-2000) were the first Chinese academically trained artists to settle permanently in Britain. Theirs was an extraordinary story.</p>
+
+            <p>During the Anti-Japanese War (1937-1945), as young qualified artists, they found themselves part of a remarkable concentration of talent in Chongqing. There have been few times in history when such artistic creativity was gathered in one place. They counted among their friends, colleagues and teachers a group whose names read like a roll call of twentieth century Chinese art: <strong>Fu Baoshi, Xu Beihong, Zhang Daqian, Pang Xunqin, Wu Zuoren, Huang Junbi, Lin Fengmian, Chen Zhifo, Xie Zhiliu</strong>, and many others.</p>
+          </div>
+
+          <div class="intro-photo">
+            <img src="/images/Chien-ying with Zhang Daqian, Fu Baoshi, Xu Beihong and others.jpg"
+                 alt="Chang Chien-ying with masters of Chinese art" />
+            <p class="photo-caption">Chang Chien-ying with masters of Chinese art, including Zhang Daqian, Fu Baoshi, and Xu Beihong</p>
+          </div>
+
+          <div class="intro-photo">
+            <img src="/images/Photo 1 -Chang and Fei with students and teachers -.jpg"
+                 alt="Fine Arts Department, National Central University, Chongqing" />
+            <p class="photo-caption">Fine Arts Department, National Central University, Chongqing, c. 1942. Fei Cheng-wu and Chang Chien-ying with Fu Baoshi, Xu Beihong, Chen Zhifo, and colleagues</p>
+          </div>
+        </section>
+
+        <!-- Journey to Britain -->
+        <section class="intro-section">
+          <h2>The Journey to Britain</h2>
+          <div class="intro-text">
+            <p>In 1946, with victory in the war, their mentor <strong>Xu Beihong</strong> selected four artists to travel to Britain to study Western art techniques, intending they would return to encourage a new synthesis of Eastern and Western art. Chang Chien-ying and Fei Cheng-wu were among them.</p>
+
+            <p>Laden with parting gifts from their artist friends, they flew from China, stopping in Vietnam, India, Iraq, Greece, and France before arriving in London in October 1946.</p>
+
+            <p>They studied at the <strong>Slade School of Art</strong>, <strong>Chelsea School of Art</strong>, the <strong>Courtauld Institute</strong>, and <strong>Camberwell School of Art</strong>. They became friends with <strong>Stanley Spencer</strong>, visiting him in Cookham and exhibiting together.</p>
+          </div>
+
+          <div class="intro-photo">
+            <img src="/images/Photo 3- Registy office with Stanley Spencer.jpg"
+                 alt="Wedding at Kensington and Chelsea Register Office, 1953" />
+            <p class="photo-caption">Wedding at Kensington and Chelsea Register Office, May 1953. Stanley Spencer, playwright Hsiung Shih-I, and friends celebrate with the newlyweds</p>
+          </div>
+        </section>
+
+        <!-- Life in London -->
+        <section class="intro-section">
+          <h2>Life in London</h2>
+          <div class="intro-text">
+            <p>As history turned, they found themselves separated permanently from their homeland. Complementary in character, outlook, and artistic style, they married in 1953 and together faced their new life as British Chinese artists.</p>
+
+            <p>They exhibited extensively across Britain at prestigious venues including the <strong>Leicester Galleries</strong>, <strong>Tryon Gallery</strong>, <strong>Royal Academy Summer Exhibitions</strong>, <strong>Graves Art Gallery</strong> (Sheffield), <strong>Derby Museum and Art Gallery</strong>, and <strong>Scottish Lyceum Gallery</strong> (Edinburgh). Chang was elected to the <strong>Royal Institute of Painters in Watercolours</strong>.</p>
+          </div>
+
+          <div class="intro-photo">
+            <img src="/images/Fei and Chang Exhibition Cards.jpg"
+                 alt="Exhibition invitations" />
+            <p class="photo-caption">Exhibition invitations spanning their careers in Britain</p>
+          </div>
+
+          <div class="intro-text">
+            <p>Their work has a unique quality - combining Western (almost British) sensibility with Chinese traditions that evolved in artistic isolation, calibrated only by the artists' own taste and judgment.</p>
+          </div>
+
+          <div class="intro-photos-row">
+            <div class="intro-photo-small">
+              <img src="/images/FeiCWpainting1.jpg" alt="Fei Cheng-wu painting" />
+            </div>
+            <div class="intro-photo-small">
+              <img src="/images/ChangCYpaintingfish1.jpg" alt="Chang Chien-ying painting" />
+            </div>
+          </div>
+          <p class="photo-caption-center">The artists at work</p>
+
+          <div class="intro-photo">
+            <img src="/images/Photo 5 - Mr and Mrs Fei withPekinese.jpg"
+                 alt="At home with Pekinese dog" />
+            <p class="photo-caption">At home in North Finchley with their beloved Pekinese, Zhe'er, 1960s</p>
+          </div>
+        </section>
+
+        <!-- About the Collection -->
+        <section class="intro-section intro-collection">
+          <h2>About the Collection</h2>
+          <div class="intro-text">
+            <p>This website presents paintings from the studio of Chang Chien-ying and Fei Cheng-wu, spanning their remarkable careers from Chongqing to London. The works demonstrate their mastery across multiple styles and subjects - from traditional Chinese bird-and-flower paintings to British landscapes, from elegant calligraphy to expressive portraits.</p>
+
+            <p class="collection-highlight"><strong>These paintings are available for acquisition.</strong> For pricing information, condition reports, provenance details, or to arrange a viewing, please contact us at <a href="mailto:info@vermillionpavilion.com">info@vermillionpavilion.com</a>.</p>
+          </div>
+        </section>
+
+        <!-- Explore Further -->
+        <section class="intro-explore">
+          ${activeExhibition ? `
+            <a href="/exhibition/${activeExhibition.id}" class="btn btn-large btn-primary" data-link>
+              View Current Exhibition
+            </a>
+          ` : ''}
+          <div class="intro-links">
+            <a href="/artist/fei-cheng-wu" class="btn btn-large btn-secondary" data-link>
+              About Fei Cheng-wu
+            </a>
+            <a href="/artist/chang-chien-ying" class="btn btn-large btn-secondary" data-link>
+              About Chang Chien-ying
+            </a>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  `;
+}

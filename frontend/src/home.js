@@ -19,7 +19,7 @@ export async function renderHome() {
           </p>
 
           <div class="btn-container">
-            <a href="/gallery" class="btn-enter" data-link>Enter</a>
+            <a href="/intro" class="btn-enter" data-link>Enter</a>
           </div>
         </div>
 
