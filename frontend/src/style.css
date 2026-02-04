@@ -600,9 +600,9 @@ header h1 {
   filter: sepia(0.15) contrast(1.15);
 }
 
-/* Bottom Bar: Navigation (Vermillion) */
+/* Bottom Bar: Navigation */
 .header-nav {
-  background-color: var(--accent-red);
+  background-color: var(--ivory);
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 40px;
@@ -610,6 +610,7 @@ header h1 {
   justify-content: space-between;
   align-items: center;
   height: 55px;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .nav-links {
@@ -618,7 +619,7 @@ header h1 {
 }
 
 .nav-links a {
-  color: var(--ivory);
+  color: var(--accent-red);
   text-decoration: none;
   font-size: 1.05rem;
   font-weight: 400;
@@ -629,18 +630,18 @@ header h1 {
 }
 
 .nav-links a:hover {
-  border-bottom-color: var(--ivory);
+  border-bottom-color: var(--accent-red);
 }
 
 .nav-links a.active {
-  border-bottom-color: var(--ivory);
+  border-bottom-color: var(--accent-red);
   font-weight: 500;
 }
 
 .translate-btn {
   background-color: transparent;
-  border: 2px solid var(--ivory);
-  color: var(--ivory);
+  border: 2px solid var(--accent-red);
+  color: var(--accent-red);
   padding: 8px 20px;
   font-size: 1rem;
   cursor: pointer;
@@ -650,8 +651,8 @@ header h1 {
 }
 
 .translate-btn:hover {
-  background-color: var(--ivory);
-  color: var(--accent-red);
+  background-color: var(--accent-red);
+  color: var(--ivory);
 }
 
 
