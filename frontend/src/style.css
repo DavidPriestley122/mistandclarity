@@ -609,6 +609,25 @@ header h1 {
   justify-content: space-between;
   align-items: center;
   height: 55px;
+  gap: 40px;
+}
+
+.site-branding {
+  flex-shrink: 0;
+}
+
+.site-title {
+  color: var(--ivory);
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  font-family: Georgia, 'Palatino Linotype', serif;
+  transition: opacity 0.3s;
+}
+
+.site-title:hover {
+  opacity: 0.85;
 }
 
 .nav-links {
