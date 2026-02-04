@@ -10,8 +10,8 @@ export function renderNavigation() {
 
   // Helper function to check if a path is active
   const isActive = (path) => {
-    if (path === '/') {
-      return currentPath === '/';
+    if (path === '/intro') {
+      return currentPath === '/intro';
     }
     if (path === '/gallery') {
       return currentPath === '/gallery';
@@ -26,7 +26,7 @@ export function renderNavigation() {
     <header class="site-header">
       <!-- Top Bar: Calligraphy Lintel -->
       <div class="calligraphy-lintel-bar">
-        <a href="${adminLink('/')}" data-link>
+        <a href="${adminLink('/intro')}" data-link>
           <img src="/images/wuminglou-calligraphy.jpg" alt="Wu Ming Lou calligraphy by Yu Youren" class="lintel-calligraphy" />
         </a>
       </div>
@@ -34,7 +34,7 @@ export function renderNavigation() {
       <!-- Bottom Bar: Navigation -->
       <nav class="header-nav">
         <div class="nav-links">
-          <a href="${adminLink('/')}" data-link class="${isActive('/') ? 'active' : ''}">Home</a>
+          <a href="${adminLink('/intro')}" data-link class="${isActive('/intro') ? 'active' : ''}">About</a>
           <a href="${adminLink('/gallery')}" data-link class="${isActive('/gallery') ? 'active' : ''}">Gallery</a>
           <a href="${adminLink('/artist/chang-chien-ying')}" data-link class="${isActive('/artist/chang-chien-ying') ? 'active' : ''}">Chang Chien-ying</a>
           <a href="${adminLink('/artist/fei-cheng-wu')}" data-link class="${isActive('/artist/fei-cheng-wu') ? 'active' : ''}">Fei Cheng-wu</a>
