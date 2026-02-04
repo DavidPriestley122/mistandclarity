@@ -24,14 +24,7 @@ export function renderNavigation() {
 
   return `
     <header class="site-header">
-      <!-- Top Bar: Calligraphy Lintel -->
-      <div class="calligraphy-lintel-bar">
-        <a href="${adminLink('/intro')}" data-link>
-          <img src="/images/wuminglou-calligraphy.jpg" alt="Wu Ming Lou calligraphy by Yu Youren" class="lintel-calligraphy" />
-        </a>
-      </div>
-
-      <!-- Bottom Bar: Navigation -->
+      <!-- Navigation -->
       <nav class="header-nav">
         <div class="nav-links">
           <a href="${adminLink('/intro')}" data-link class="${isActive('/intro') ? 'active' : ''}">About</a>
