@@ -27,7 +27,7 @@ export function renderNavigation() {
       <!-- Navigation -->
       <nav class="header-nav">
         <div class="site-branding">
-          <a href="${adminLink('/intro')}" data-link class="site-title">Vermillion Pavilion</a>
+          <a href="${adminLink('/')}" data-link class="site-title">Vermillion Pavilion</a>
         </div>
         <div class="nav-links">
           <a href="${adminLink('/intro')}" data-link class="${isActive('/intro') ? 'active' : ''}">About</a>
