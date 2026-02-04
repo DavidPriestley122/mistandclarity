@@ -44,6 +44,9 @@ class Router {
     if (path === '/' || path === '/index.html') {
       this.currentRoute = this.routes['/'];
       if (this.currentRoute) this.currentRoute(params);
+    } else if (path === '/intro') {
+      this.currentRoute = this.routes['/intro'];
+      if (this.currentRoute) this.currentRoute(params);
     } else if (path === '/gallery') {
       this.currentRoute = this.routes['/gallery'];
       if (this.currentRoute) this.currentRoute(params);
