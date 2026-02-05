@@ -7,6 +7,7 @@ let startX = 0;
 let startY = 0;
 let translateX = 0;
 let translateY = 0;
+let lightboxHistoryPushed = false;
 
 export function initLightbox() {
   // Create lightbox HTML if it doesn't exist
@@ -29,7 +30,19 @@ export function initLightbox() {
     `;
     document.body.insertAdjacentHTML('beforeend', lightboxHTML);
     attachLightboxListeners();
+    attachPopstateListener();
   }
+}
+
+function attachPopstateListener() {
+  // Listen for back button to close lightbox
+  window.addEventListener('popstate', (e) => {
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox && lightbox.classList.contains('active')) {
+      // Back button pressed while lightbox is open - close it
+      closeLightbox(true);
+    }
+  });
 }
 
 function attachLightboxListeners() {
@@ -171,14 +184,32 @@ export function openLightbox(imageSrc, imageAlt) {
   translateY = 0;
   updateImageTransform();
 
+  // Push state to history so back button can close lightbox
+  history.pushState({ lightboxOpen: true }, '');
+  lightboxHistoryPushed = true;
+
   lightbox.classList.add('active');
   document.body.style.overflow = 'hidden';
 }
 
-export function closeLightbox() {
+export function closeLightbox(fromPopstate = false) {
   const lightbox = document.getElementById('lightbox');
+
+  // Check if already closed
+  if (!lightbox || !lightbox.classList.contains('active')) {
+    return;
+  }
+
   lightbox.classList.remove('active');
   document.body.style.overflow = '';
+
+  // If closing from X button or overlay (not from back button), remove the history entry
+  if (lightboxHistoryPushed && !fromPopstate) {
+    lightboxHistoryPushed = false;
+    history.back();
+  } else if (fromPopstate) {
+    lightboxHistoryPushed = false;
+  }
 }
 
 // Attach click listeners to painting images
