@@ -226,3 +226,17 @@ export async function deleteCollection(collectionId) {
 
   return response.json();
 }
+
+// Update painting
+export async function updatePainting(paintingId, data) {
+  const response = await fetch(`${API_BASE_URL}/paintings/${paintingId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) {
+    throw new Error('Failed to update painting');
+  }
+
+  return response.json();
+}
