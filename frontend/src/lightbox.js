@@ -42,16 +42,8 @@ function attachLightboxListeners() {
   const resetBtn = lightbox.querySelector('.lightbox-reset');
 
   // Close lightbox
-  closeBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    closeLightbox();
-  });
-  overlay.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    closeLightbox();
-  });
+  closeBtn.addEventListener('click', closeLightbox);
+  overlay.addEventListener('click', closeLightbox);
 
   // ESC key to close
   document.addEventListener('keydown', (e) => {
@@ -193,30 +185,12 @@ export function closeLightbox() {
 export function attachPaintingClickListeners() {
   document.querySelectorAll('.painting-image img, .painting-detail-image img').forEach(img => {
     img.style.cursor = 'zoom-in';
+    img.setAttribute('data-lightbox-trigger', 'true');
 
-    // Remove any existing listener to avoid duplicates
-    const clickHandler = (e) => {
+    img.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      e.stopImmediatePropagation();
       openLightbox(img.src, img.alt);
-      return false;
-    };
-
-    img.addEventListener('click', clickHandler, true);
-
-    // Also prevent the parent link from navigating
-    const parentLink = img.closest('a[data-link]');
-    if (parentLink) {
-      parentLink.addEventListener('click', (e) => {
-        // Check if the click originated from the image
-        if (e.target.tagName === 'IMG' || e.target.closest('.painting-image') || e.target.closest('.painting-detail-image')) {
-          e.preventDefault();
-          e.stopPropagation();
-          e.stopImmediatePropagation();
-          return false;
-        }
-      }, true);
-    }
+    }, true);
   });
 }

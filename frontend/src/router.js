@@ -10,6 +10,11 @@ class Router {
 
     // Listen for link clicks - handle nested elements within data-link anchors
     document.addEventListener('click', (e) => {
+      // Skip if clicking on a lightbox trigger image
+      if (e.target.hasAttribute && e.target.hasAttribute('data-lightbox-trigger')) {
+        return;
+      }
+
       // Find the closest ancestor with data-link attribute
       const link = e.target.closest('[data-link]');
       if (link) {
