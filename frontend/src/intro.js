@@ -26,8 +26,11 @@ export async function renderIntro() {
 
         <!-- Main Introduction -->
         <section class="intro-section">
-          <div class="intro-text">
-            <p>Chang Chien-ying (1909-2003) and Fei Cheng-wu (1911-2000) were the first Chinese academically trained artists to settle permanently in Britain. They called their joint studio the "Vermillion Pavilion" (in Chinese: 霧明樓, <em>Wuming Lou</em> – the names are not direct translations of each other). Theirs was an extraordinary story.</p>
+          <div class="intro-text intro-opening">
+            <p class="intro-first-paragraph">
+              <span class="artist-name">Chang Chien-ying</span> <span class="artist-dates">(1909-2003)</span> and
+              <span class="artist-name">Fei Cheng-wu</span> <span class="artist-dates">(1911-2000)</span> were the first Chinese academically trained artists to settle permanently in Britain. They called their joint studio the "Vermillion Pavilion" (in Chinese: <span class="chinese-text">霧明樓</span>, <em>Wuming Lou</em> – the names are not direct translations of each other). Theirs was <span class="emphasis">an extraordinary story</span>.
+            </p>
           </div>
 
           <div class="intro-cta">
@@ -37,7 +40,9 @@ export async function renderIntro() {
           </div>
 
           <div class="intro-text">
-            <p>During the Anti-Japanese War (1937-1945), as young qualified artists, they found themselves part of a remarkable concentration of talent in Chongqing. There have been few times in history when such artistic creativity was gathered in one place. They counted among their friends, colleagues and teachers a group whose names read like a roll call of twentieth century Chinese art: <strong>Fu Baoshi, Xu Beihong, Zhang Daqian, Pang Xunqin, Wu Zuoren, Huang Junbi, Lin Fengmian, Chen Zhifo, Xie Zhiliu</strong>, and many others.</p>
+            <p>During the Anti-Japanese War (1937-1945), as young qualified artists, they found themselves part of <span class="emphasis">a remarkable concentration of talent</span> in Chongqing. There have been few times in history when such artistic creativity was gathered in one place.</p>
+
+            <p class="masters-list">They counted among their friends, colleagues and teachers a group whose names read like a roll call of twentieth century Chinese art: <strong>Fu Baoshi, Xu Beihong, Zhang Daqian, Pang Xunqin, Wu Zuoren, Huang Junbi, Lin Fengmian, Chen Zhifo, Xie Zhiliu</strong>, and many others.</p>
           </div>
 
           <div class="intro-photo">
