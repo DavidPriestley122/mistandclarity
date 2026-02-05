@@ -15,7 +15,7 @@ export async function renderHome() {
         <div class="landing-content">
           <h1 class="landing-title">Welcome to the Vermillion Pavilion</h1>
           <p class="landing-description">
-            The studio of London Chinese artists Chien-ying Chang and Cheng-wu Fei
+            The studio of London Chinese artists Chang Chien-ying and Fei Cheng-wu
           </p>
 
           <div class="btn-container">
