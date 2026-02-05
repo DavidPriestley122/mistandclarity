@@ -220,6 +220,9 @@ function renderPaintingCard(painting, isAdminView) {
           ${painting.dimensions_h && painting.dimensions_w ?
             `<p class="dimensions">${painting.dimensions_h} × ${painting.dimensions_w} cm</p>`
             : ''}
+          <div class="painting-card-action">
+            <span class="view-details-link">View Details →</span>
+          </div>
         </div>
       </a>
     </div>

@@ -250,6 +250,26 @@ header h1 {
   color: var(--text-muted);
 }
 
+.painting-card-action {
+  margin-top: 15px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.view-details-link {
+  display: inline-block;
+  color: var(--accent-red);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color 0.3s;
+}
+
+.painting-card:hover .view-details-link {
+  color: var(--hover-red);
+  text-decoration: underline;
+}
+
 /* Painting Detail Page */
 .back-link {
   margin-bottom: 30px;
