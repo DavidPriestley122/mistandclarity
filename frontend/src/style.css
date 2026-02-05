@@ -1780,7 +1780,7 @@ header h1 {
   z-index: 3;
   text-align: left;
   padding: 40px 60px 70px 120px;
-  max-width: 560px;
+  max-width: 700px;
 }
 
 .landing-title {
@@ -1795,11 +1795,12 @@ header h1 {
 }
 
 .landing-description {
-  font-size: 0.98rem;
+  font-size: 0.92rem;
   color: var(--ivory);
   margin-bottom: 25px;
   line-height: 1.6;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
 }
 
 .btn-container {
