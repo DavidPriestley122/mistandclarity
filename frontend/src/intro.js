@@ -52,7 +52,7 @@ export async function renderIntro() {
           <div class="intro-photo">
             <img src="/images/Chien-ying with Zhang Daqian, Fu Baoshi, Xu Beihong and others.jpg"
                  alt="Chang Chien-ying with masters of Chinese art" />
-            <p class="photo-caption">Chang Chien-ying with masters of Chinese art, including Zhang Daqian, Fu Baoshi, and Xu Beihong</p>
+            <p class="photo-caption">Chang Chien-ying (wearing checked scarf) with masters of Chinese art, including Zhang Daqian, Fu Baoshi, and Xu Beihong</p>
           </div>
         </section>
 
