@@ -2052,6 +2052,13 @@ header h1 {
   border-bottom-color: var(--hover-red);
 }
 
+/* CTA Section (early in page) */
+.intro-cta {
+  text-align: center;
+  margin: 40px 0;
+  padding: 30px 0;
+}
+
 /* Explore Section */
 .intro-explore {
   margin-top: 60px;

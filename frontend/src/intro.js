@@ -28,7 +28,15 @@ export async function renderIntro() {
         <section class="intro-section">
           <div class="intro-text">
             <p>Chang Chien-ying (1909-2003) and Fei Cheng-wu (1911-2000) were the first Chinese academically trained artists to settle permanently in Britain. They called their joint studio the "Vermillion Pavilion" (in Chinese: 霧明樓, <em>Wuming Lou</em> – the names are not direct translations of each other). Theirs was an extraordinary story.</p>
+          </div>
 
+          <div class="intro-cta">
+            <a href="/gallery" class="btn btn-large btn-primary" data-link>
+              View Gallery
+            </a>
+          </div>
+
+          <div class="intro-text">
             <p>During the Anti-Japanese War (1937-1945), as young qualified artists, they found themselves part of a remarkable concentration of talent in Chongqing. There have been few times in history when such artistic creativity was gathered in one place. They counted among their friends, colleagues and teachers a group whose names read like a roll call of twentieth century Chinese art: <strong>Fu Baoshi, Xu Beihong, Zhang Daqian, Pang Xunqin, Wu Zuoren, Huang Junbi, Lin Fengmian, Chen Zhifo, Xie Zhiliu</strong>, and many others.</p>
           </div>
 
@@ -111,11 +119,9 @@ export async function renderIntro() {
 
         <!-- Explore Further -->
         <section class="intro-explore">
-          ${activeExhibition ? `
-            <a href="/gallery" class="btn btn-large btn-primary" data-link>
-              View Current Exhibition
-            </a>
-          ` : ''}
+          <a href="/gallery" class="btn btn-large btn-primary" data-link>
+            View Gallery
+          </a>
           <div class="intro-links">
             <a href="/artist/fei-cheng-wu" class="btn btn-large btn-secondary" data-link>
               About Fei Cheng-wu
