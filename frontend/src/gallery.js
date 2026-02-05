@@ -1,4 +1,4 @@
-import { fetchPaintings, fetchArtists, fetchActiveExhibition, getJpegUrl } from './api.js';
+import { fetchPaintings, fetchArtists, fetchActiveExhibition, fetchActiveExhibitions, getJpegUrl } from './api.js';
 import { router } from './router.js';
 import { isAdminMode, adminLink, buildGalleryUrl } from './admin.js';
 import {
@@ -40,8 +40,8 @@ export async function renderGallery(params) {
       setOnExhibitionChange(() => updatePaintingCards());
       await initAdminPanel();
     } else {
-      // Public mode: show active exhibition only
-      await renderExhibitionView(app);
+      // Public mode: show exhibitions index
+      await renderExhibitionsIndex(app);
     }
 
     // Attach lightbox click listeners to painting images
@@ -156,38 +156,53 @@ async function renderStorageView(app, params) {
   addPaintingClickHandlers();
 }
 
-// Render the public exhibition view
-async function renderExhibitionView(app) {
-  // Fetch active exhibition
-  const { collection, paintings } = await fetchActiveExhibition();
+// Render the public exhibitions index
+async function renderExhibitionsIndex(app) {
+  // Fetch all active exhibitions
+  const exhibitions = await fetchActiveExhibitions();
 
-  if (!collection || paintings.length === 0) {
-    // No active exhibition
+  if (!exhibitions || exhibitions.length === 0) {
+    // No active exhibitions
     app.innerHTML = `
       ${renderNavigation()}
       <div class="container">
         <div class="exhibition-empty">
-          <h2>Exhibition Coming Soon</h2>
-          <p>We are preparing a new exhibition. Please check back soon.</p>
+          <h2>Exhibitions Coming Soon</h2>
+          <p>We are preparing new exhibitions. Please check back soon.</p>
         </div>
       </div>
     `;
     return;
   }
 
-  // Render exhibition
+  // Render exhibitions index
   app.innerHTML = `
     ${renderNavigation()}
     <div class="container">
-      <div class="exhibition-header">
-        <h2 class="exhibition-title">${collection.name}</h2>
-        ${collection.description ? `<p class="exhibition-description">${collection.description}</p>` : ''}
-        <p class="exhibition-count">${paintings.length} painting${paintings.length !== 1 ? 's' : ''}</p>
+      <div class="exhibitions-index-header">
+        <h1>Exhibitions</h1>
+        <p class="exhibitions-subtitle">Explore our curated collections</p>
       </div>
 
-      <div class="gallery-grid">
-        ${paintings.map(painting => renderPaintingCard(painting, false)).join('')}
+      <div class="exhibitions-grid">
+        ${exhibitions.map(exhibition => renderExhibitionCard(exhibition)).join('')}
       </div>
+    </div>
+  `;
+}
+
+// Render an exhibition card for the index
+function renderExhibitionCard(exhibition) {
+  return `
+    <div class="exhibition-card">
+      <a href="/exhibition/${exhibition.id}" data-link>
+        <div class="exhibition-card-content">
+          <h2 class="exhibition-card-title">${exhibition.name}</h2>
+          ${exhibition.description ? `<p class="exhibition-card-description">${exhibition.description}</p>` : ''}
+          <p class="exhibition-card-count">${exhibition.painting_count || 0} painting${(exhibition.painting_count || 0) !== 1 ? 's' : ''}</p>
+          <span class="exhibition-card-link">View Exhibition →</span>
+        </div>
+      </a>
     </div>
   `;
 }

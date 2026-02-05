@@ -82,11 +82,21 @@ export async function fetchCollection(id) {
   return response.json();
 }
 
-// Fetch the active exhibition
+// Fetch the active exhibition (single - legacy)
 export async function fetchActiveExhibition() {
   const response = await fetch(`${API_BASE_URL}/collections/active`);
   if (!response.ok) {
     throw new Error('Failed to fetch active exhibition');
+  }
+
+  return response.json();
+}
+
+// Fetch all active exhibitions
+export async function fetchActiveExhibitions() {
+  const response = await fetch(`${API_BASE_URL}/collections?active=true`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch active exhibitions');
   }
 
   return response.json();

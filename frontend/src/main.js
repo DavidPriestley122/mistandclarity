@@ -5,6 +5,7 @@ import { renderIntro } from './intro.js';
 import { renderGallery } from './gallery.js';
 import { renderPaintingDetail } from './painting-detail.js';
 import { renderArtistBio } from './artist-bio.js';
+import { renderExhibitionDetail } from './exhibition-detail.js';
 import { removeAdminPanel } from './admin-panel.js';
 
 // Clean up admin panel when navigating to non-gallery pages or non-admin mode
@@ -22,6 +23,7 @@ router.onBeforeNavigate((path, params) => {
 router.addRoute('/', renderHome);
 router.addRoute('/intro', renderIntro);
 router.addRoute('/gallery', renderGallery);
+router.addRoute('/exhibition/:id', renderExhibitionDetail);
 router.addRoute('/painting/:id', renderPaintingDetail);
 router.addRoute('/artist/:slug', renderArtistBio);
 

@@ -63,6 +63,10 @@ class Router {
       const slug = path.split('/')[2];
       this.currentRoute = this.routes['/artist/:slug'];
       if (this.currentRoute) this.currentRoute(slug, params);
+    } else if (path.startsWith('/exhibition/')) {
+      const id = path.split('/')[2];
+      this.currentRoute = this.routes['/exhibition/:id'];
+      if (this.currentRoute) this.currentRoute(id, params);
     } else if (path.startsWith('/collection/')) {
       const id = path.split('/')[2];
       this.currentRoute = this.routes['/collection/:id'];
