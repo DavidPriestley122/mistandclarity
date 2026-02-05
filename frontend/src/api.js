@@ -210,3 +210,15 @@ export async function updateCollection(collectionId, data) {
 
   return response.json();
 }
+
+// Delete collection
+export async function deleteCollection(collectionId) {
+  const response = await fetch(`${API_BASE_URL}/collections/${collectionId}`, {
+    method: 'DELETE'
+  });
+  if (!response.ok) {
+    throw new Error('Failed to delete collection');
+  }
+
+  return response.json();
+}

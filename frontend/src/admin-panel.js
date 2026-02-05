@@ -8,6 +8,7 @@ import {
   reorderExhibition,
   activateExhibition,
   updateCollection,
+  deleteCollection,
   getJpegUrl
 } from './api.js';
 import { adminLink } from './admin.js';
@@ -253,6 +254,44 @@ async function handleExhibitionSubmit(e) {
   }
 }
 
+// Delete an exhibition
+async function handleDeleteExhibition() {
+  const currentExhibition = getCurrentExhibition();
+  if (!currentExhibition) return;
+
+  const confirmDelete = confirm(
+    `Are you sure you want to delete "${currentExhibition.name}"?\n\n` +
+    `This will permanently remove the exhibition and all its paintings.\n\n` +
+    `This action cannot be undone.`
+  );
+
+  if (!confirmDelete) return;
+
+  try {
+    await deleteCollection(currentExhibition.id);
+
+    // Remove from local state
+    adminPanelState.exhibitions = adminPanelState.exhibitions.filter(
+      ex => ex.id !== currentExhibition.id
+    );
+
+    // Clear current exhibition
+    adminPanelState.currentExhibitionId = null;
+    adminPanelState.exhibitionPaintings = [];
+    adminPanelState.paintingIdsInExhibition = new Set();
+
+    // Refresh UI
+    renderExhibitionSelector();
+    renderExhibitionInfo();
+    renderExhibitionPaintings();
+
+    alert(`Exhibition "${currentExhibition.name}" deleted successfully.`);
+  } catch (error) {
+    console.error('Failed to delete exhibition:', error);
+    alert('Failed to delete exhibition. Please try again.');
+  }
+}
+
 // Switch to a different exhibition
 async function handleExhibitionSwitch(collectionId) {
   if (!collectionId) return;
@@ -366,7 +405,10 @@ function renderExhibitionInfo() {
       <div class="exhibition-info">
         <div class="exhibition-name-row">
           <strong>${currentExhibition?.name || 'No exhibition selected'}</strong>
-          ${currentExhibition ? '<button id="btn-edit-info" class="btn-edit-info" title="Edit exhibition info">✎</button>' : ''}
+          <div class="exhibition-actions">
+            ${currentExhibition ? '<button id="btn-edit-info" class="btn-edit-info" title="Edit exhibition info">✎</button>' : ''}
+            ${currentExhibition ? '<button id="btn-delete-exhibition" class="btn-delete-info" title="Delete exhibition">🗑</button>' : ''}
+          </div>
         </div>
         <span class="painting-count">${paintingCount} painting${paintingCount !== 1 ? 's' : ''}</span>
       </div>
@@ -377,6 +419,12 @@ function renderExhibitionInfo() {
     const editBtn = document.getElementById('btn-edit-info');
     if (editBtn) {
       editBtn.addEventListener('click', enableEditingExhibitionInfo);
+    }
+
+    // Add event listener for delete button
+    const deleteBtn = document.getElementById('btn-delete-exhibition');
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', handleDeleteExhibition);
     }
   }
 }
