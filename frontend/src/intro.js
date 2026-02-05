@@ -44,15 +44,15 @@ export async function renderIntro() {
           </div>
 
           <div class="intro-photo">
-            <img src="/images/Chien-ying with Zhang Daqian, Fu Baoshi, Xu Beihong and others.jpg"
-                 alt="Chang Chien-ying with masters of Chinese art" />
-            <p class="photo-caption">Chang Chien-ying with masters of Chinese art, including Zhang Daqian, Fu Baoshi, and Xu Beihong</p>
+            <img src="/images/Photo 1 -Chang and Fei with students and teachers -.jpg"
+                 alt="Fine Arts Department, National Central University, Chongqing" />
+            <p class="photo-caption">Fine Arts Department, National Central University, Chongqing, c. 1942. Fei Cheng-wu (front row, right) and Chang Chien-ying (second row, right) with Fu Baoshi, Xu Beihong, Chen Zhifo, and colleagues</p>
           </div>
 
           <div class="intro-photo">
-            <img src="/images/Photo 1 -Chang and Fei with students and teachers -.jpg"
-                 alt="Fine Arts Department, National Central University, Chongqing" />
-            <p class="photo-caption">Fine Arts Department, National Central University, Chongqing, c. 1942. Fei Cheng-wu and Chang Chien-ying with Fu Baoshi, Xu Beihong, Chen Zhifo, and colleagues</p>
+            <img src="/images/Chien-ying with Zhang Daqian, Fu Baoshi, Xu Beihong and others.jpg"
+                 alt="Chang Chien-ying with masters of Chinese art" />
+            <p class="photo-caption">Chang Chien-ying with masters of Chinese art, including Zhang Daqian, Fu Baoshi, and Xu Beihong</p>
           </div>
         </section>
 
