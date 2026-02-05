@@ -166,20 +166,90 @@ async function saveExhibitionOrder() {
 }
 
 // Create a new exhibition
-async function handleCreateExhibition() {
-  const name = prompt('Enter exhibition name:');
-  if (!name) return;
+function handleCreateExhibition() {
+  showExhibitionModal();
+}
 
-  const description = prompt('Enter exhibition description (optional):') || '';
+// Show modal for creating new exhibition
+function showExhibitionModal() {
+  // Create modal HTML
+  const modalHTML = `
+    <div id="exhibition-modal" class="modal-overlay">
+      <div class="modal-content">
+        <h2>Create New Exhibition</h2>
+        <form id="exhibition-form">
+          <div class="form-group">
+            <label for="exhibition-title">Title *</label>
+            <input type="text" id="exhibition-title" required placeholder="e.g., Bird and Flower Paintings">
+          </div>
+
+          <div class="form-group">
+            <label for="exhibition-subtitle">Subtitle</label>
+            <input type="text" id="exhibition-subtitle" placeholder="e.g., Works from the 1950s">
+          </div>
+
+          <div class="form-group">
+            <label for="exhibition-intro">Introduction</label>
+            <textarea id="exhibition-intro" rows="5" placeholder="Write a short introduction to the exhibition..."></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" id="modal-cancel">Cancel</button>
+            <button type="submit" class="btn-primary">Create Exhibition</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
+
+  // Add modal to page
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+  // Add event listeners
+  document.getElementById('modal-cancel').addEventListener('click', closeExhibitionModal);
+  document.getElementById('exhibition-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'exhibition-modal') closeExhibitionModal();
+  });
+  document.getElementById('exhibition-form').addEventListener('submit', handleExhibitionSubmit);
+
+  // Focus on first field
+  document.getElementById('exhibition-title').focus();
+}
+
+// Close exhibition modal
+function closeExhibitionModal() {
+  const modal = document.getElementById('exhibition-modal');
+  if (modal) modal.remove();
+}
+
+// Handle exhibition form submission
+async function handleExhibitionSubmit(e) {
+  e.preventDefault();
+
+  const title = document.getElementById('exhibition-title').value.trim();
+  const subtitle = document.getElementById('exhibition-subtitle').value.trim();
+  const introduction = document.getElementById('exhibition-intro').value.trim();
+
+  if (!title) {
+    alert('Title is required');
+    return;
+  }
 
   try {
-    const newCollection = await createCollection(name, description);
+    // For now, combine subtitle and intro into description
+    // Later we can update the API to handle subtitle separately
+    let description = '';
+    if (subtitle) description += subtitle + '\n\n';
+    if (introduction) description += introduction;
+
+    const newCollection = await createCollection(title, description);
     adminPanelState.exhibitions.unshift(newCollection);
     renderExhibitionSelector();
-    alert(`Exhibition "${name}" created. Use the dropdown to activate it.`);
+    closeExhibitionModal();
+    alert(`Exhibition "${title}" created successfully!`);
   } catch (error) {
     console.error('Failed to create exhibition:', error);
-    alert('Failed to create exhibition.');
+    alert('Failed to create exhibition. Please try again.');
   }
 }
 
