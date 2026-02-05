@@ -297,6 +297,7 @@ header h1 {
   border: 1px solid var(--border-color);
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  color: var(--text-color);
 }
 
 @media (max-width: 968px) {
@@ -348,6 +349,7 @@ header h1 {
   margin-bottom: 14px;
   font-size: 1rem;
   line-height: 1.8;
+  color: var(--text-color);
 }
 
 .painting-detail-info p strong {
