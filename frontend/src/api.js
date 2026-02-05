@@ -94,12 +94,33 @@ export async function fetchActiveExhibition() {
 
 // Fetch all active exhibitions
 export async function fetchActiveExhibitions() {
-  const response = await fetch(`${API_BASE_URL}/collections?active=true`);
+  const response = await fetch(`${API_BASE_URL}/collections`);
   if (!response.ok) {
     throw new Error('Failed to fetch active exhibitions');
   }
 
-  return response.json();
+  const collections = await response.json();
+
+  // Filter for active collections and fetch painting count for each
+  const activeCollections = collections.filter(c => c.is_active);
+
+  // Fetch painting count for each active collection
+  const collectionsWithCounts = await Promise.all(
+    activeCollections.map(async (collection) => {
+      try {
+        const paintingsResponse = await fetch(`${API_BASE_URL}/collections/${collection.id}/paintings`);
+        if (paintingsResponse.ok) {
+          const data = await paintingsResponse.json();
+          return { ...collection, painting_count: data.paintings?.length || 0 };
+        }
+      } catch (err) {
+        console.error(`Error fetching paintings for collection ${collection.id}:`, err);
+      }
+      return { ...collection, painting_count: 0 };
+    })
+  );
+
+  return collectionsWithCounts;
 }
 
 // Create a new collection/exhibition
