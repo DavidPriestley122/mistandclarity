@@ -90,16 +90,6 @@ export async function renderIntro() {
             <p>Their work has a unique quality - combining Western (almost British) sensibility with Chinese traditions that evolved in artistic isolation, calibrated only by the artists' own taste and judgment.</p>
           </div>
 
-          <div class="intro-photos-row">
-            <div class="intro-photo-small">
-              <img src="/images/FeiCWpainting1.jpg" alt="Fei Cheng-wu painting" />
-            </div>
-            <div class="intro-photo-small">
-              <img src="/images/ChangCYpaintingfish1.jpg" alt="Chang Chien-ying painting" />
-            </div>
-          </div>
-          <p class="photo-caption-center">The artists at work</p>
-
           <div class="intro-photo">
             <img src="/images/Photo 5 - Mr and Mrs Fei withPekinese.jpg"
                  alt="At home with Pekinese dog" />

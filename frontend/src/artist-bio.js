@@ -11,6 +11,8 @@ export function renderArtistBio(artistSlug) {
       nameChinese: '張蒨英',
       nameAlt: 'Zhang Qianying',
       dates: '1909-2003',
+      image: '/images/ChangCYpaintingfish1.jpg',
+      imageCaption: 'Chang Chien-ying at work',
       sections: [
         {
           title: 'Early Life and Education',
@@ -56,6 +58,8 @@ Chang never saw China again until 2001, more than fifty years after leaving, whe
       nameChinese: '費成武',
       nameAlt: 'Fei Chengwu',
       dates: '1911-2000',
+      image: '/images/FeiCWpainting1.jpg',
+      imageCaption: 'Fei Cheng-wu at work',
       sections: [
         {
           title: 'Early Life and Education',
@@ -132,6 +136,13 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
           <p class="dates">${bio.dates}</p>
           ${bio.studioName ? `<p class="studio-name">Studio Name: ${bio.studioName}</p>` : ''}
         </header>
+
+        ${bio.image ? `
+          <div class="bio-image">
+            <img src="${bio.image}" alt="${bio.imageCaption}" />
+            <p class="bio-image-caption">${bio.imageCaption}</p>
+          </div>
+        ` : ''}
 
         <div class="bio-content">
           ${bio.sections.map(section => `
