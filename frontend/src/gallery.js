@@ -193,12 +193,23 @@ async function renderExhibitionsIndex(app) {
 
 // Render an exhibition card for the index
 function renderExhibitionCard(exhibition) {
+  const firstPainting = exhibition.first_painting;
+
   return `
     <div class="exhibition-card">
       <a href="/exhibition/${exhibition.id}" data-link>
+        ${firstPainting ? `
+          <div class="exhibition-card-image">
+            <img
+              src="${getJpegUrl(firstPainting.catalog_number)}"
+              alt="${exhibition.name}"
+              loading="lazy"
+            />
+          </div>
+        ` : ''}
         <div class="exhibition-card-content">
           <h2 class="exhibition-card-title">${exhibition.name}</h2>
-          ${exhibition.description ? `<p class="exhibition-card-description">${exhibition.description}</p>` : ''}
+          ${exhibition.subtitle ? `<p class="exhibition-card-subtitle">${exhibition.subtitle}</p>` : ''}
           <p class="exhibition-card-count">${exhibition.painting_count || 0} painting${(exhibition.painting_count || 0) !== 1 ? 's' : ''}</p>
           <span class="exhibition-card-link">View Exhibition →</span>
         </div>

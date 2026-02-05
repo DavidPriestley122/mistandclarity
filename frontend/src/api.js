@@ -104,23 +104,27 @@ export async function fetchActiveExhibitions() {
   // Filter for active collections and fetch painting count for each
   const activeCollections = collections.filter(c => c.is_active);
 
-  // Fetch painting count for each active collection
-  const collectionsWithCounts = await Promise.all(
+  // Fetch painting count and first painting for each active collection
+  const collectionsWithDetails = await Promise.all(
     activeCollections.map(async (collection) => {
       try {
         const collectionResponse = await fetch(`${API_BASE_URL}/collections/${collection.id}`);
         if (collectionResponse.ok) {
           const data = await collectionResponse.json();
-          return { ...collection, painting_count: data.paintings?.length || 0 };
+          return {
+            ...collection,
+            painting_count: data.paintings?.length || 0,
+            first_painting: data.paintings?.[0] || null
+          };
         }
       } catch (err) {
         console.error(`Error fetching paintings for collection ${collection.id}:`, err);
       }
-      return { ...collection, painting_count: 0 };
+      return { ...collection, painting_count: 0, first_painting: null };
     })
   );
 
-  return collectionsWithCounts;
+  return collectionsWithDetails;
 }
 
 // Create a new collection/exhibition

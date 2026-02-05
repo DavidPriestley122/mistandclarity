@@ -2419,6 +2419,24 @@ header h1 {
   display: block;
 }
 
+.exhibition-card-image {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  background: var(--secondary-bg);
+}
+
+.exhibition-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.exhibition-card:hover .exhibition-card-image img {
+  transform: scale(1.05);
+}
+
 .exhibition-card-content {
   padding: 40px 35px;
 }
@@ -2427,9 +2445,17 @@ header h1 {
   font-size: 1.8rem;
   font-weight: 400;
   color: var(--primary-color);
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   letter-spacing: 0.02em;
   line-height: 1.3;
+}
+
+.exhibition-card-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 15px;
+  line-height: 1.5;
 }
 
 .exhibition-card-description {
