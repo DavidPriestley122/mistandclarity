@@ -1,5 +1,5 @@
 import { renderNavigation } from './nav.js';
-import { getJpegUrl } from './api.js';
+import { fetchCollection, getJpegUrl } from './api.js';
 import { initLightbox, attachPaintingClickListeners } from './lightbox.js';
 
 export async function renderExhibitionDetail(exhibitionId) {
@@ -14,11 +14,8 @@ export async function renderExhibitionDetail(exhibitionId) {
   `;
 
   try {
-    // Fetch exhibition details
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/collections/${exhibitionId}`);
-    if (!response.ok) throw new Error('Failed to fetch exhibition');
-
-    const data = await response.json();
+    // Fetch exhibition details using API function
+    const data = await fetchCollection(exhibitionId);
     const { collection, paintings } = data;
 
     if (!collection || paintings.length === 0) {
