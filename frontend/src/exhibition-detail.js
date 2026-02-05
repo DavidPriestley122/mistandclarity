@@ -44,7 +44,8 @@ export async function renderExhibitionDetail(exhibitionId) {
 
         <div class="exhibition-header">
           <h2 class="exhibition-title">${collection.name}</h2>
-          ${collection.description ? `<p class="exhibition-description">${collection.description}</p>` : ''}
+          ${collection.subtitle ? `<p class="exhibition-subtitle">${collection.subtitle}</p>` : ''}
+          ${collection.introduction ? `<p class="exhibition-introduction">${collection.introduction}</p>` : ''}
           <p class="exhibition-count">${paintings.length} painting${paintings.length !== 1 ? 's' : ''}</p>
         </div>
 

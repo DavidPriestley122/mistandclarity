@@ -89,11 +89,11 @@ router.get('/:id', async (req, res) => {
 // Create new collection
 router.post('/', async (req, res) => {
   try {
-    const { name, description } = req.body;
+    const { name, description, subtitle, introduction } = req.body;
 
     const result = await db.query(
-      'INSERT INTO collections (name, description) VALUES ($1, $2) RETURNING *',
-      [name, description]
+      'INSERT INTO collections (name, description, subtitle, introduction) VALUES ($1, $2, $3, $4) RETURNING *',
+      [name, description, subtitle, introduction]
     );
 
     res.status(201).json(result.rows[0]);
@@ -107,17 +107,19 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, is_active } = req.body;
+    const { name, description, subtitle, introduction, is_active } = req.body;
 
     const result = await db.query(
       `UPDATE collections
        SET name = COALESCE($1, name),
            description = COALESCE($2, description),
-           is_active = COALESCE($3, is_active),
+           subtitle = COALESCE($3, subtitle),
+           introduction = COALESCE($4, introduction),
+           is_active = COALESCE($5, is_active),
            updated_at = CURRENT_TIMESTAMP
-       WHERE id = $4
+       WHERE id = $6
        RETURNING *`,
-      [name, description, is_active, id]
+      [name, description, subtitle, introduction, is_active, id]
     );
 
     if (result.rows.length === 0) {

@@ -237,13 +237,7 @@ async function handleExhibitionSubmit(e) {
   }
 
   try {
-    // For now, combine subtitle and intro into description
-    // Later we can update the API to handle subtitle separately
-    let description = '';
-    if (subtitle) description += subtitle + '\n\n';
-    if (introduction) description += introduction;
-
-    const newCollection = await createCollection(title, description);
+    const newCollection = await createCollection(title, '', subtitle, introduction);
     adminPanelState.exhibitions.unshift(newCollection);
     renderExhibitionSelector();
     closeExhibitionModal();
@@ -322,12 +316,14 @@ function cancelEditingExhibitionInfo() {
 // Save exhibition info changes
 async function saveExhibitionInfo() {
   const nameInput = document.getElementById('edit-exhibition-name');
-  const descInput = document.getElementById('edit-exhibition-description');
+  const subtitleInput = document.getElementById('edit-exhibition-subtitle');
+  const introInput = document.getElementById('edit-exhibition-introduction');
 
   if (!nameInput) return;
 
   const newName = nameInput.value.trim();
-  const newDescription = descInput ? descInput.value.trim() : '';
+  const newSubtitle = subtitleInput ? subtitleInput.value.trim() : '';
+  const newIntroduction = introInput ? introInput.value.trim() : '';
 
   if (!newName) {
     alert('Exhibition name cannot be empty.');
@@ -340,18 +336,21 @@ async function saveExhibitionInfo() {
   try {
     await updateCollection(collectionId, {
       name: newName,
-      description: newDescription
+      subtitle: newSubtitle,
+      introduction: newIntroduction
     });
 
     // Update local state
     adminPanelState.currentExhibition.name = newName;
-    adminPanelState.currentExhibition.description = newDescription;
+    adminPanelState.currentExhibition.subtitle = newSubtitle;
+    adminPanelState.currentExhibition.introduction = newIntroduction;
 
     // Update the exhibition in the list
     const exhibition = adminPanelState.exhibitions.find(ex => ex.id === collectionId);
     if (exhibition) {
       exhibition.name = newName;
-      exhibition.description = newDescription;
+      exhibition.subtitle = newSubtitle;
+      exhibition.introduction = newIntroduction;
     }
 
     adminPanelState.isEditingInfo = false;
@@ -377,17 +376,24 @@ function renderExhibitionInfo() {
     container.innerHTML = `
       <div class="exhibition-info-edit">
         <div class="edit-field">
-          <label for="edit-exhibition-name">Name:</label>
+          <label for="edit-exhibition-name">Title:</label>
           <input type="text"
                  id="edit-exhibition-name"
                  value="${currentExhibition.name || ''}"
-                 placeholder="Exhibition name">
+                 placeholder="Exhibition title">
         </div>
         <div class="edit-field">
-          <label for="edit-exhibition-description">Description:</label>
-          <textarea id="edit-exhibition-description"
+          <label for="edit-exhibition-subtitle">Subtitle:</label>
+          <input type="text"
+                 id="edit-exhibition-subtitle"
+                 value="${currentExhibition.subtitle || ''}"
+                 placeholder="e.g., Works from the 1950s">
+        </div>
+        <div class="edit-field">
+          <label for="edit-exhibition-introduction">Introduction:</label>
+          <textarea id="edit-exhibition-introduction"
                     rows="3"
-                    placeholder="Exhibition description (optional)">${currentExhibition.description || ''}</textarea>
+                    placeholder="Write a short introduction to the exhibition...">${currentExhibition.introduction || ''}</textarea>
         </div>
         <div class="edit-actions">
           <button id="btn-save-info" class="btn-small btn-save">Save</button>
@@ -410,9 +416,10 @@ function renderExhibitionInfo() {
             ${currentExhibition ? '<button id="btn-delete-exhibition" class="btn-delete-info" title="Delete exhibition">🗑</button>' : ''}
           </div>
         </div>
+        ${currentExhibition?.subtitle ? `<p class="exhibition-subtitle">${currentExhibition.subtitle}</p>` : ''}
         <span class="painting-count">${paintingCount} painting${paintingCount !== 1 ? 's' : ''}</span>
       </div>
-      ${currentExhibition?.description ? `<p class="exhibition-description">${currentExhibition.description}</p>` : ''}
+      ${currentExhibition?.introduction ? `<p class="exhibition-description">${currentExhibition.introduction}</p>` : ''}
     `;
 
     // Add event listener for edit button
