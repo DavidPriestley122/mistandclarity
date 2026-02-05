@@ -108,9 +108,9 @@ export async function fetchActiveExhibitions() {
   const collectionsWithCounts = await Promise.all(
     activeCollections.map(async (collection) => {
       try {
-        const paintingsResponse = await fetch(`${API_BASE_URL}/collections/${collection.id}/paintings`);
-        if (paintingsResponse.ok) {
-          const data = await paintingsResponse.json();
+        const collectionResponse = await fetch(`${API_BASE_URL}/collections/${collection.id}`);
+        if (collectionResponse.ok) {
+          const data = await collectionResponse.json();
           return { ...collection, painting_count: data.paintings?.length || 0 };
         }
       } catch (err) {

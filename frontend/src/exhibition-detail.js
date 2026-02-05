@@ -15,7 +15,7 @@ export async function renderExhibitionDetail(exhibitionId) {
 
   try {
     // Fetch exhibition details
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/collections/${exhibitionId}/paintings`);
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/collections/${exhibitionId}`);
     if (!response.ok) throw new Error('Failed to fetch exhibition');
 
     const data = await response.json();
