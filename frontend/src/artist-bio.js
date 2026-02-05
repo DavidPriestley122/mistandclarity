@@ -134,7 +134,6 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
           <h1>${bio.name}</h1>
           <p class="chinese-name">${bio.nameChinese} (${bio.nameAlt})</p>
           <p class="dates">${bio.dates}</p>
-          ${bio.studioName ? `<p class="studio-name">Studio Name: ${bio.studioName}</p>` : ''}
         </header>
 
         ${bio.image ? `
