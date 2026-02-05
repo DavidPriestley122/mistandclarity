@@ -1,6 +1,7 @@
 import { fetchPainting, getJpegUrl, getImageUrl } from './api.js';
 import { isAdminMode, adminLink } from './admin.js';
 import { renderNavigation } from './nav.js';
+import { initLightbox, attachPaintingClickListeners } from './lightbox.js';
 
 export async function renderPaintingDetail(id) {
   const app = document.querySelector('#app');
@@ -102,6 +103,10 @@ export async function renderPaintingDetail(id) {
         </div>
       </div>
     `;
+
+    // Initialize lightbox and attach click listeners
+    initLightbox();
+    attachPaintingClickListeners();
 
   } catch (error) {
     console.error('Error loading painting:', error);

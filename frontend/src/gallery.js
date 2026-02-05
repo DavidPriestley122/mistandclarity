@@ -9,6 +9,7 @@ import {
   setOnExhibitionChange
 } from './admin-panel.js';
 import { renderNavigation } from './nav.js';
+import { initLightbox, attachPaintingClickListeners } from './lightbox.js';
 
 // Track current gallery state for re-render
 let currentFilters = {};
@@ -29,6 +30,9 @@ export async function renderGallery(params) {
   `;
 
   try {
+    // Initialize lightbox
+    initLightbox();
+
     if (adminMode) {
       // Admin mode: show all paintings as "storage"
       await renderStorageView(app, params);
@@ -39,6 +43,9 @@ export async function renderGallery(params) {
       // Public mode: show active exhibition only
       await renderExhibitionView(app);
     }
+
+    // Attach lightbox click listeners to painting images
+    attachPaintingClickListeners();
   } catch (error) {
     console.error('Error loading gallery:', error);
     app.innerHTML = `
