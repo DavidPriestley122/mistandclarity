@@ -117,10 +117,6 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
   }
 
   const backLink = adminMode ? adminLink('/gallery') : '/';
-  const artistId = artistSlug === 'chang-chien-ying' ? '2' : '1';
-  const paintingsLink = adminMode
-    ? `/gallery?artist_id=${artistId}&admin=true`
-    : `/gallery?artist_id=${artistId}`;
 
   app.innerHTML = `
     ${renderNavigation()}
@@ -150,12 +146,6 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
               <p>${section.content}</p>
             </section>
           `).join('')}
-        </div>
-
-        <div class="bio-footer">
-          <a href="${paintingsLink}" data-link class="btn">
-            View ${bio.name.split(' ')[0]}'s Paintings
-          </a>
         </div>
       </div>
     </div>
