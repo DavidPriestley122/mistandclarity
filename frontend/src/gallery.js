@@ -39,6 +39,22 @@ export async function renderGallery(params) {
       // Initialize admin panel
       setOnExhibitionChange(() => updatePaintingCards());
       await initAdminPanel();
+
+      // Restore scroll position if returning from painting detail
+      const savedScroll = sessionStorage.getItem('galleryScrollPosition');
+      if (savedScroll) {
+        setTimeout(() => {
+          window.scrollTo(0, parseInt(savedScroll));
+          sessionStorage.removeItem('galleryScrollPosition');
+        }, 100);
+      }
+
+      // Save scroll position when clicking on paintings
+      document.querySelectorAll('.painting-card a').forEach(link => {
+        link.addEventListener('click', () => {
+          sessionStorage.setItem('galleryScrollPosition', window.scrollY);
+        });
+      });
     } else {
       // Public mode: show exhibitions index
       await renderExhibitionsIndex(app);
