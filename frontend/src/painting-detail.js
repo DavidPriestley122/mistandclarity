@@ -3,6 +3,21 @@ import { isAdminMode, adminLink } from './admin.js';
 import { renderNavigation } from './nav.js';
 import { initLightbox, attachPaintingClickListeners } from './lightbox.js';
 
+// Helper function to format price display
+function formatPriceDisplay(painting) {
+  if (!painting.sale_status || painting.sale_status === 'available') {
+    if (painting.asking_price) {
+      return `<p class="price-info"><strong>Price:</strong> £${Number(painting.asking_price).toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>`;
+    }
+    return '';
+  } else if (painting.sale_status === 'sold') {
+    return `<p class="price-info sold"><strong>SOLD</strong></p>`;
+  } else if (painting.sale_status === 'not_for_sale') {
+    return `<p class="price-info"><strong>Not for sale</strong></p>`;
+  }
+  return '';
+}
+
 // State for edit mode
 let paintingState = {
   painting: null,
@@ -146,6 +161,20 @@ function renderPaintingContent(adminMode) {
               <textarea id="edit-notes" rows="5" placeholder="Additional notes">${painting.notes || ''}</textarea>
             </div>
 
+            <div class="edit-field">
+              <label for="edit-asking-price">Asking Price (£):</label>
+              <input type="number" step="0.01" id="edit-asking-price" value="${painting.asking_price || ''}" placeholder="e.g., 5000">
+            </div>
+
+            <div class="edit-field">
+              <label for="edit-sale-status">Sale Status:</label>
+              <select id="edit-sale-status">
+                <option value="available" ${painting.sale_status === 'available' ? 'selected' : ''}>Available</option>
+                <option value="sold" ${painting.sale_status === 'sold' ? 'selected' : ''}>Sold</option>
+                <option value="not_for_sale" ${painting.sale_status === 'not_for_sale' ? 'selected' : ''}>Not for sale</option>
+              </select>
+            </div>
+
             <div class="edit-actions">
               <button id="btn-save-painting" class="btn-small btn-save">Save Changes</button>
               <button id="btn-cancel-edit" class="btn-small">Cancel</button>
@@ -231,6 +260,8 @@ function renderPaintingContent(adminMode) {
               <p class="catalog-number"><strong>Catalog Number:</strong> ${painting.catalog_number}</p>
             ` : ''}
 
+            ${formatPriceDisplay(painting)}
+
             ${painting.notes ? `
               <div class="notes">
                 <strong>Notes:</strong>
@@ -288,7 +319,9 @@ async function savePaintingChanges() {
     framed: document.getElementById('edit-framed').checked,
     mounted: document.getElementById('edit-mounted').checked,
     condition: document.getElementById('edit-condition').value.trim() || null,
-    notes: document.getElementById('edit-notes').value.trim() || null
+    notes: document.getElementById('edit-notes').value.trim() || null,
+    asking_price: parseFloat(document.getElementById('edit-asking-price').value) || null,
+    sale_status: document.getElementById('edit-sale-status').value
   };
 
   try {

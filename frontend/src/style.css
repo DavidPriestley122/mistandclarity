@@ -436,6 +436,27 @@ header h1 {
   font-style: italic;
 }
 
+.price-info {
+  font-size: 1.15rem;
+  margin-top: 25px;
+  margin-bottom: 20px;
+  padding: 15px 20px;
+  background: rgba(232, 180, 180, 0.08);
+  border-left: 3px solid var(--accent-red);
+  border-radius: 2px;
+}
+
+.price-info strong {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.price-info.sold strong {
+  color: var(--accent-red);
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+}
+
 /* Artist Biography Pages */
 .artist-bio {
   background: var(--ivory);
