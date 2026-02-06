@@ -2,6 +2,7 @@
 import {
   fetchActiveExhibition,
   fetchCollections,
+  fetchCollection,
   createCollection,
   addToExhibition,
   removeFromExhibition,
@@ -286,18 +287,25 @@ async function handleDeleteExhibition() {
   }
 }
 
-// Switch to a different exhibition
+// Switch to a different exhibition (view only, doesn't change active status)
 async function handleExhibitionSwitch(collectionId) {
   if (!collectionId) return;
 
   try {
-    await activateExhibition(collectionId);
-    await loadExhibitionData();
-    renderAdminPanel();
+    // Fetch the selected exhibition's data without activating it
+    const data = await fetchCollection(collectionId);
+    adminPanelState.currentExhibition = data.collection;
+    adminPanelState.exhibitionPaintings = data.paintings || [];
+    adminPanelState.paintingIdsInExhibition = new Set(
+      adminPanelState.exhibitionPaintings.map(p => p.id)
+    );
+
+    renderExhibitionInfo();
+    renderExhibitionPaintingsList();
     if (onExhibitionChange) onExhibitionChange();
   } catch (error) {
     console.error('Failed to switch exhibition:', error);
-    alert('Failed to activate exhibition.');
+    alert('Failed to load exhibition.');
   }
 }
 
