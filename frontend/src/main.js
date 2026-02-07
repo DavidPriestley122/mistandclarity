@@ -1,6 +1,7 @@
 import './style.css'
 import { router } from './router.js';
 import { renderHome } from './home.js';
+import { renderAbout } from './about.js';
 import { renderIntro } from './intro.js';
 import { renderGallery } from './gallery.js';
 import { renderPaintingDetail } from './painting-detail.js';
@@ -21,6 +22,7 @@ router.onBeforeNavigate((path, params) => {
 
 // Set up routes
 router.addRoute('/', renderHome);
+router.addRoute('/about', renderAbout);
 router.addRoute('/intro', renderIntro);
 router.addRoute('/gallery', renderGallery);
 router.addRoute('/exhibition/:id', renderExhibitionDetail);
