@@ -22,7 +22,7 @@ router.onBeforeNavigate((path, params) => {
 
 // Set up routes
 router.addRoute('/', renderHome);
-router.addRoute('/about', renderAbout);
+router.addRoute('/collection', renderAbout);
 router.addRoute('/intro', renderIntro);
 router.addRoute('/gallery', renderGallery);
 router.addRoute('/exhibition/:id', renderExhibitionDetail);

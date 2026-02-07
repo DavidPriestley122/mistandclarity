@@ -10,8 +10,8 @@ export function renderNavigation() {
 
   // Helper function to check if a path is active
   const isActive = (path) => {
-    if (path === '/about') {
-      return currentPath === '/about';
+    if (path === '/collection') {
+      return currentPath === '/collection';
     }
     if (path === '/intro') {
       return currentPath === '/intro';
@@ -33,7 +33,7 @@ export function renderNavigation() {
           <a href="${adminLink('/')}" data-link class="site-title">Vermillion Pavilion</a>
         </div>
         <div class="nav-links">
-          <a href="${adminLink('/about')}" data-link class="${isActive('/about') ? 'active' : ''}">About</a>
+          <a href="${adminLink('/collection')}" data-link class="${isActive('/collection') ? 'active' : ''}">About</a>
           <a href="${adminLink('/intro')}" data-link class="${isActive('/intro') ? 'active' : ''}">Introduction</a>
           <a href="${adminLink('/gallery')}" data-link class="${isActive('/gallery') ? 'active' : ''}">Gallery</a>
           <a href="${adminLink('/artist/chang-chien-ying')}" data-link class="${isActive('/artist/chang-chien-ying') ? 'active' : ''}">Chang Chien-ying</a>
