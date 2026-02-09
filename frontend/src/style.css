@@ -1,13 +1,13 @@
 :root {
   /* Catalogue-inspired color palette */
   --primary-color: #2C2C2C;
-  --accent-red: #D32F2F;
+  --accent-red: #B71C1C;
   --warm-cream: #F5F0E8;
   --ivory: #FDFCF9;
   --text-color: #3A3A3A;
   --text-muted: #6B6B6B;
   --border-color: #D4C4B0;
-  --hover-red: #B71C1C;
+  --hover-red: #A82824;
 }
 
 * {
