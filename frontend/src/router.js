@@ -55,6 +55,9 @@ class Router {
     } else if (path === '/collection') {
       this.currentRoute = this.routes['/collection'];
       if (this.currentRoute) this.currentRoute(params);
+    } else if (path === '/contact') {
+      this.currentRoute = this.routes['/contact'];
+      if (this.currentRoute) this.currentRoute(params);
     } else if (path === '/gallery') {
       this.currentRoute = this.routes['/gallery'];
       if (this.currentRoute) this.currentRoute(params);
