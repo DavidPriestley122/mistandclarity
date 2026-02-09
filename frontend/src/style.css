@@ -1960,6 +1960,10 @@ header h1 {
 
 /* Responsive Landing Page */
 @media (max-width: 768px) {
+  .landing-hero-image {
+    object-position: 60% 40%;
+  }
+
   .landing-content {
     padding: 30px 30px 60px 80px;
     max-width: 500px;
@@ -1980,6 +1984,10 @@ header h1 {
 }
 
 @media (max-width: 480px) {
+  .landing-hero-image {
+    object-position: 65% 45%;
+  }
+
   .landing-content {
     padding: 25px 20px 50px 70px;
     max-width: 400px;
