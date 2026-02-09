@@ -2186,6 +2186,11 @@ header h1 {
   background-color: var(--warm-cream);
   border-left: 3px solid var(--accent-red);
   text-align: center;
+  color: var(--primary-color);
+}
+
+.collection-highlight strong {
+  color: var(--primary-color);
 }
 
 .collection-highlight a {
