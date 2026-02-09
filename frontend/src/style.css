@@ -1928,22 +1928,29 @@ header h1 {
 
 .btn-enter {
   display: inline-block;
-  padding: 10px 28px;
+  width: 90px;
+  height: 90px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--accent-red);
   color: white;
   text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 400;
-  letter-spacing: 0.03em;
-  border-radius: 2px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  border-radius: 0;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
 }
 
 .btn-enter:hover {
   background-color: var(--hover-red);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(211, 47, 47, 0.3);
+  border-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .photo-credit {
@@ -1978,8 +1985,9 @@ header h1 {
   }
 
   .btn-enter {
-    padding: 9px 25px;
-    font-size: 0.85rem;
+    width: 80px;
+    height: 80px;
+    font-size: 0.9rem;
   }
 }
 
@@ -2002,8 +2010,10 @@ header h1 {
   }
 
   .btn-enter {
-    padding: 8px 22px;
+    width: 70px;
+    height: 70px;
     font-size: 0.8rem;
+    border-width: 2px;
   }
 
   .photo-credit {
