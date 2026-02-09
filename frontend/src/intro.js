@@ -90,7 +90,7 @@ export async function renderIntro() {
           </div>
 
           <div class="intro-text">
-            <p>Their work has a unique quality - combining Western (almost British) sensibility with Chinese traditions that evolved in artistic isolation, calibrated only by the artists' own taste and judgment.</p>
+            <p>Their work has a unique quality - combining a distinctly British sensibility with Chinese traditions that evolved in artistic isolation, calibrated only by the artists' own taste and judgment.</p>
           </div>
 
           <div class="intro-photo">
