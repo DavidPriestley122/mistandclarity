@@ -1941,16 +1941,16 @@ header h1 {
   font-weight: 600;
   letter-spacing: 0.1em;
   border-radius: 0;
-  border: 3px solid rgba(255, 255, 255, 0.9);
+  border: none;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   text-transform: uppercase;
 }
 
 .btn-enter:hover {
   background-color: var(--hover-red);
-  border-color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  transform: scale(1.02);
 }
 
 .photo-credit {
@@ -2013,7 +2013,6 @@ header h1 {
     width: 70px;
     height: 70px;
     font-size: 0.8rem;
-    border-width: 2px;
   }
 
   .photo-credit {
