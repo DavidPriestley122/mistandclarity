@@ -1961,7 +1961,7 @@ header h1 {
 /* Responsive Landing Page */
 @media (max-width: 768px) {
   .landing-hero-image {
-    object-position: 75% 40%;
+    object-position: 70% 40%;
   }
 
   .landing-content {
@@ -1985,7 +1985,7 @@ header h1 {
 
 @media (max-width: 480px) {
   .landing-hero-image {
-    object-position: 80% 45%;
+    object-position: 75% 45%;
   }
 
   .landing-content {
