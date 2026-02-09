@@ -100,16 +100,6 @@ export async function renderIntro() {
           </div>
         </section>
 
-        <!-- About the Collection -->
-        <section class="intro-section intro-collection">
-          <h2>About the Collection</h2>
-          <div class="intro-text">
-            <p>This website presents paintings from the studio of Chang Chien-ying and Fei Cheng-wu, spanning their remarkable careers from Chongqing to London. The works demonstrate their mastery across multiple styles and subjects - from traditional Chinese bird-and-flower paintings to British landscapes, from elegant calligraphy to expressive portraits.</p>
-
-            <p class="collection-highlight"><strong>These paintings are available for acquisition.</strong> For pricing information, condition reports, provenance details, or to arrange a viewing, please contact us at <a href="mailto:info@vermillionpavilion.com">info@vermillionpavilion.com</a>.</p>
-          </div>
-        </section>
-
         <!-- Explore Further -->
         <section class="intro-explore">
           <a href="/gallery" class="btn btn-large btn-primary" data-link>
