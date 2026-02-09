@@ -1929,7 +1929,7 @@ header h1 {
 .btn-enter {
   display: inline-block;
   padding: 10px 28px;
-  background-color: var(--accent-red);
+  background-color: var(--hover-red);
   color: white;
   text-decoration: none;
   font-size: 0.9rem;
@@ -1937,13 +1937,13 @@ header h1 {
   letter-spacing: 0.03em;
   border-radius: 2px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+  box-shadow: 0 4px 12px rgba(183, 28, 28, 0.3);
 }
 
 .btn-enter:hover {
-  background-color: var(--hover-red);
+  background-color: #A82824;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(211, 47, 47, 0.3);
+  box-shadow: 0 6px 16px rgba(183, 28, 28, 0.3);
 }
 
 .photo-credit {
