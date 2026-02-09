@@ -40,6 +40,10 @@
 
 - **Client-Side Router**: Vanilla JS SPA routing with History API
 
+- **Contact Page**: Dedicated contact page with email information and acquisition details
+
+- **Images**: All painting images displaying correctly (JPEG files uploaded and integrated)
+
 ### ✅ Design System
 - **Catalogue-Inspired Aesthetic**: Matches the "MIST AND CLARITY" exhibition catalogue
 - **Color Palette**:
@@ -204,35 +208,35 @@ npm run dev  # Port 5173
 ## Pending Tasks
 
 ### High Priority
-1. **Extract JPEGs**: From downloaded 114GB folder, match to catalog_reference
-2. **Upload Images**: To Cloudflare R2 or Railway storage
-3. **Update Frontend**: Display JPEG images in gallery and detail pages
-4. **Add Download Button**: "Download High-Res TIF" on detail pages
+1. **SEO Setup**:
+   - Create sitemap.xml
+   - Add Open Graph and Twitter Card meta tags
+   - Submit to Google Search Console
+   - Custom favicon (replace default Vite icon)
+
+2. **Add Download Button**: "Download High-Res TIF" on detail pages (optional)
 
 ### Medium Priority
-5. **Admin Interface**:
+3. **Admin Interface**:
    - Authentication system
    - Create/manage collections
    - Add/remove paintings from collections
    - Drag-and-drop reordering interface
    - Update painting metadata
 
-6. **About Page**: Historical context, studio name significance
-
-7. **Contact Form**: Functional email integration for inquiries
+4. **Contact Form**: Functional email integration for inquiries (currently email link only)
 
 ### Future Enhancements
-8. **Search Functionality**: Full-text search across titles, themes, notes
-9. **Advanced Filters**: Date ranges, dimensions, medium types
-10. **Image Zoom**: High-quality zoom functionality on detail pages
-11. **Social Sharing**: Meta tags for Facebook, Twitter previews
-12. **Deployment**:
+5. **Search Functionality**: Full-text search across titles, themes, notes
+6. **Advanced Filters**: Date ranges, dimensions, medium types
+7. **Image Zoom**: High-quality zoom functionality on detail pages
+8. **Analytics**: Google Analytics or similar tracking
+9. **Deployment**:
     - Frontend: Netlify
     - Backend: Railway (already hosted)
     - Database: Railway PostgreSQL (already set up)
 
 ## Known Issues
-- Images not displaying (expected - awaiting JPEG upload)
 - No authentication system yet (admin features inaccessible)
 - Contact form not functional (placeholder only)
 
@@ -273,9 +277,11 @@ npm run dev  # Port 5173
 4. **Gallery Implementation** - Grid view, filtering, detail pages
 5. **Design Overhaul** - Catalogue-inspired aesthetic implementation
 6. **Biography Pages** - Content extraction from PDF, comprehensive artist histories
-7. **Current Phase** - Awaiting image extraction and upload
+7. **Image Integration** - All 580 painting images uploaded and displaying
+8. **Contact Page** - Dedicated contact page added
+9. **Current Phase** - Pre-launch: SEO optimization and custom domain setup
 
 ---
 
-*Last Updated: 2026-01-09*
-*Project Status: Core features complete, awaiting image assets*
+*Last Updated: 2026-02-09*
+*Project Status: Core features complete, ready for launch*
