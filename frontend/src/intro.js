@@ -21,32 +21,23 @@ export async function renderIntro() {
 
         <!-- Hero Section -->
         <section class="intro-hero">
-          <h1 class="intro-main-title">Vermillion Pavilion</h1>
+          <h1 class="intro-main-title">Introduction</h1>
         </section>
 
         <!-- Main Introduction -->
         <section class="intro-section">
           <div class="intro-text">
-            <p>
-              <span class="artist-name">Chang Chien-ying</span> (1909-2003) and
-              <span class="artist-name">Fei Cheng-wu</span> (1911-2000) were the first Chinese academically trained artists to settle permanently in Britain. They called their joint studio the "Vermillion Pavilion" (in Chinese: 霧明樓, <em>Wuming Lou</em> – the names are not direct translations of each other). Theirs was an extraordinary story.
-            </p>
-          </div>
-
-          <div class="intro-cta">
-            <a href="/gallery" class="btn btn-large btn-primary" data-link>
-              View Gallery
-            </a>
-          </div>
-
-          <div class="intro-text">
-            <p>During the Anti-Japanese War (1937-1945), as young qualified artists, they found themselves part of a remarkable concentration of talent in Chongqing. There have been few times in history when such artistic creativity was gathered in one place. They counted among their friends, colleagues and teachers a group whose names read like a roll call of twentieth century Chinese art: <strong>Fu Baoshi, Xu Beihong, Zhang Daqian, Pang Xunqin, Wu Zuoren, Huang Junbi, Lin Fengmian, Chen Zhifo, Xie Zhiliu</strong>, and many others.</p>
+            <p>Chang Chien-ying (1909-2003) and Fei Cheng-wu (1911-2000) were the first Chinese academically trained artists to settle permanently in Britain. They called their joint studio the "Vermillion Pavilion" (in Chinese: 霧明樓, <em>Wuming Lou</em> – the names are not direct translations of each other). Theirs was an extraordinary story.</p>
           </div>
 
           <div class="intro-photo">
             <img src="/images/Photo 1 -Chang and Fei with students and teachers -.jpg"
                  alt="Fine Arts Department, National Central University, Chongqing" />
             <p class="photo-caption">Fine Arts Department, National Central University, Chongqing, c. 1942. Fei Cheng-wu (front row, right) and Chang Chien-ying (second row, right) with Fu Baoshi, Xu Beihong, Chen Zhifo, and colleagues</p>
+          </div>
+
+          <div class="intro-text">
+            <p>During the Anti-Japanese War (1937-1945), as young qualified artists, they found themselves part of a remarkable concentration of talent in Chongqing. There have been few times in history when such artistic creativity was gathered in one place. They counted among their friends, colleagues and teachers a group whose names read like a roll call of twentieth century Chinese art: <strong>Fu Baoshi, Xu Beihong, Zhang Daqian, Pang Xunqin, Wu Zuoren, Huang Junbi, Lin Fengmian, Chen Zhifo, Xie Zhiliu</strong>, and many others.</p>
           </div>
 
           <div class="intro-photo">
