@@ -7,6 +7,7 @@ import { renderGallery } from './gallery.js';
 import { renderPaintingDetail } from './painting-detail.js';
 import { renderArtistBio } from './artist-bio.js';
 import { renderExhibitionDetail } from './exhibition-detail.js';
+import { renderContact } from './contact.js';
 import { removeAdminPanel } from './admin-panel.js';
 
 // Clean up admin panel when navigating to non-gallery pages or non-admin mode
@@ -28,6 +29,7 @@ router.addRoute('/gallery', renderGallery);
 router.addRoute('/exhibition/:id', renderExhibitionDetail);
 router.addRoute('/painting/:id', renderPaintingDetail);
 router.addRoute('/artist/:slug', renderArtistBio);
+router.addRoute('/contact', renderContact);
 
 // Start the router
 router.start();
