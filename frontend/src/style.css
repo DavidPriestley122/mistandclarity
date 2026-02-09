@@ -736,7 +736,7 @@ header h1 {
   flex-shrink: 0;
 }
 
-.site-title {
+.site-header .site-title {
   color: var(--ivory);
   text-decoration: none;
   font-size: 1.3rem;
@@ -748,7 +748,7 @@ header h1 {
   display: inline-block;
 }
 
-.site-title:hover {
+.site-header .site-title:hover {
   opacity: 0.85;
 }
 
