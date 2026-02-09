@@ -1914,7 +1914,7 @@ header h1 {
 }
 
 .landing-description {
-  font-size: 0.92rem;
+  font-size: 1.15rem;
   color: var(--ivory);
   margin-bottom: 25px;
   line-height: 1.6;
@@ -1974,7 +1974,7 @@ header h1 {
   }
 
   .landing-description {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
   }
 
   .btn-enter {
@@ -1998,7 +1998,7 @@ header h1 {
   }
 
   .landing-description {
-    font-size: 0.85rem;
+    font-size: 1rem;
   }
 
   .btn-enter {
