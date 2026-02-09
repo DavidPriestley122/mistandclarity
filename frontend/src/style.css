@@ -760,7 +760,7 @@ header h1 {
 .nav-links a {
   color: var(--ivory);
   text-decoration: none;
-  font-size: 1.05rem;
+  font-size: 1.12rem;
   font-weight: 400;
   letter-spacing: 0.02em;
   transition: all 0.3s;
@@ -2100,6 +2100,64 @@ header h1 {
   font-weight: 700;
   color: var(--accent-red);
   letter-spacing: 0.02em;
+}
+
+/* Artists choice page */
+.artists-choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.artist-card {
+  background-color: var(--ivory);
+  padding: 40px 35px;
+  border: 1px solid var(--border-color);
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.artist-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border-color: var(--accent-red);
+}
+
+.artist-card h2 {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+
+.artist-years {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.artist-description {
+  font-size: 1.05rem;
+  color: var(--text-color);
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.artist-link-text {
+  color: var(--accent-red);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 768px) {
+  .artists-choice {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Photos */

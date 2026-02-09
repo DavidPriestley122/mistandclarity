@@ -22,6 +22,9 @@ export function renderNavigation() {
     if (path === '/contact') {
       return currentPath === '/contact';
     }
+    if (path === '/artists') {
+      return currentPath === '/artists' || currentPath.startsWith('/artist/');
+    }
     if (path.startsWith('/artist/')) {
       return currentPath === path;
     }
@@ -38,8 +41,7 @@ export function renderNavigation() {
         <div class="nav-links">
           <a href="${adminLink('/intro')}" data-link class="${isActive('/intro') ? 'active' : ''}">Introduction</a>
           <a href="${adminLink('/gallery')}" data-link class="${isActive('/gallery') ? 'active' : ''}">Gallery</a>
-          <a href="${adminLink('/artist/chang-chien-ying')}" data-link class="${isActive('/artist/chang-chien-ying') ? 'active' : ''}">Chang Chien-ying</a>
-          <a href="${adminLink('/artist/fei-cheng-wu')}" data-link class="${isActive('/artist/fei-cheng-wu') ? 'active' : ''}">Fei Cheng-wu</a>
+          <a href="${adminLink('/artists')}" data-link class="${isActive('/artists') ? 'active' : ''}">The Artists</a>
           <a href="${adminLink('/collection')}" data-link class="${isActive('/collection') ? 'active' : ''}">About</a>
           <a href="${adminLink('/contact')}" data-link class="${isActive('/contact') ? 'active' : ''}">Contact</a>
         </div>
