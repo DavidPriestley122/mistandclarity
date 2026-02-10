@@ -2048,7 +2048,7 @@ header h1 {
 
 .intro-subtitle {
   font-size: 2rem;
-  color: #E8B4B4;
+  color: var(--ivory);
   font-weight: 400;
   letter-spacing: 0.03em;
 }
@@ -2061,7 +2061,7 @@ header h1 {
 .intro-section h1 {
   font-size: 2.5rem;
   font-weight: 400;
-  color: #E8B4B4;
+  color: var(--ivory);
   margin-bottom: 40px;
   letter-spacing: 0.02em;
   text-align: center;
@@ -2070,7 +2070,7 @@ header h1 {
 .intro-section h2 {
   font-size: 2rem;
   font-weight: 400;
-  color: #E8B4B4;
+  color: var(--ivory);
   margin-bottom: 30px;
   letter-spacing: 0.02em;
   text-align: center;
