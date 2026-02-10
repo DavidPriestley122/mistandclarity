@@ -1,4 +1,11 @@
+import { setPageMeta } from './utils.js';
+
 export async function renderHome() {
+  setPageMeta(
+    'Vermillion Pavilion - Paintings by Chang Chien-ying and Fei Cheng-wu',
+    'Explore the paintings of Chang Chien-ying and Fei Cheng-wu, the first Chinese academically trained artists to settle permanently in Britain. Discover their remarkable collection from Chongqing to London.'
+  );
+
   const app = document.querySelector('#app');
 
   app.innerHTML = `

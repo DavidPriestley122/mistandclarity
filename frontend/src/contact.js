@@ -1,6 +1,12 @@
 import { renderNavigation } from './nav.js';
+import { setPageMeta } from './utils.js';
 
 export function renderContact() {
+  setPageMeta(
+    'Contact - Vermillion Pavilion',
+    'Contact us for pricing information, condition reports, framing and mounting details, or to arrange a viewing of paintings by Chang Chien-ying and Fei Cheng-wu.'
+  );
+
   const app = document.querySelector('#app');
 
   app.innerHTML = `

@@ -1,3 +1,5 @@
+import { setPageMeta } from './utils.js';
+
 // Simple vanilla JS router
 class Router {
   constructor() {
@@ -82,6 +84,10 @@ class Router {
       if (this.currentRoute) this.currentRoute(id, params);
     } else {
       // 404
+      setPageMeta(
+        '404 - Page Not Found - Vermillion Pavilion',
+        'The page you are looking for could not be found.'
+      );
       document.querySelector('#app').innerHTML = '<h1>404 - Page Not Found</h1>';
     }
   }

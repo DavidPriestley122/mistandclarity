@@ -1,7 +1,13 @@
 import { renderNavigation } from './nav.js';
 import { fetchActiveExhibition } from './api.js';
+import { setPageMeta } from './utils.js';
 
 export async function renderIntro() {
+  setPageMeta(
+    'The Artists\' Story - Vermillion Pavilion',
+    'From the artistic heart of wartime Chongqing to a lifetime in London. Discover the extraordinary journey of Chang Chien-ying and Fei Cheng-wu, sent to Britain by Xu Beihong in 1946.'
+  );
+
   const app = document.querySelector('#app');
 
   // Check if there's an active exhibition

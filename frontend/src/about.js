@@ -1,6 +1,12 @@
 import { renderNavigation } from './nav.js';
+import { setPageMeta } from './utils.js';
 
 export function renderAbout() {
+  setPageMeta(
+    'About the Collection - Vermillion Pavilion',
+    'Discover the remarkable collection of paintings by Chang Chien-ying and Fei Cheng-wu, preserved from their London studio. Learn about their exhibitions and the ongoing research since 2003.'
+  );
+
   const app = document.querySelector('#app');
 
   app.innerHTML = `

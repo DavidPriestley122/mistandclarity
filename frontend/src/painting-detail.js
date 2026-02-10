@@ -2,6 +2,7 @@ import { fetchPainting, getJpegUrl, getImageUrl, updatePainting } from './api.js
 import { isAdminMode, adminLink } from './admin.js';
 import { renderNavigation } from './nav.js';
 import { initLightbox, attachPaintingClickListeners } from './lightbox.js';
+import { setPageMeta } from './utils.js';
 
 // Helper function to format price display
 function formatPriceDisplay(painting) {
@@ -39,6 +40,13 @@ export async function renderPaintingDetail(id) {
     const painting = await fetchPainting(id);
     paintingState.painting = painting;
     paintingState.isEditing = false;
+
+    // Set page meta with painting details
+    const paintingTitle = painting.descriptive_title || painting.artists_title || 'Untitled';
+    setPageMeta(
+      `${paintingTitle} - Vermillion Pavilion`,
+      `${paintingTitle} by ${painting.artist_name || 'Unknown Artist'}. ${painting.theme ? painting.theme + '. ' : ''}View details, dimensions, and condition for this Chinese painting from the Vermillion Pavilion collection.`
+    );
 
     renderPaintingContent(adminMode);
 

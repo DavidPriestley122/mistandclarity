@@ -1,4 +1,5 @@
 import { renderNavigation } from './nav.js';
+import { setPageMeta } from './utils.js';
 
 export function renderArtistBio(artistSlug) {
   const app = document.querySelector('#app');
@@ -105,6 +106,10 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
   const bio = bios[artistSlug];
 
   if (!bio) {
+    setPageMeta(
+      'Artist Not Found - Vermillion Pavilion',
+      'Artist biography not found.'
+    );
     app.innerHTML = `
       ${renderNavigation()}
       <div class="container">
@@ -113,6 +118,12 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
     `;
     return;
   }
+
+  // Set page meta with artist details
+  setPageMeta(
+    `${bio.name} (${bio.dates}) - Vermillion Pavilion`,
+    `Biography of ${bio.name} (${bio.nameChinese}), ${bio.dates}. ${bio.sections[0].content.substring(0, 150)}...`
+  );
 
   app.innerHTML = `
     ${renderNavigation()}

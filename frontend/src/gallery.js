@@ -10,13 +10,22 @@ import {
 } from './admin-panel.js';
 import { renderNavigation } from './nav.js';
 import { initLightbox, attachPaintingClickListeners } from './lightbox.js';
+import { setPageMeta } from './utils.js';
 
 // Track current gallery state for re-render
 let currentFilters = {};
 
 export async function renderGallery(params) {
-  const app = document.querySelector('#app');
   const adminMode = isAdminMode();
+
+  setPageMeta(
+    adminMode ? 'Storage - Vermillion Pavilion' : 'Gallery - Vermillion Pavilion',
+    adminMode
+      ? 'Admin view of all paintings in the Vermillion Pavilion collection.'
+      : 'Browse exhibitions of Chinese paintings by Chang Chien-ying and Fei Cheng-wu from the Vermillion Pavilion studio.'
+  );
+
+  const app = document.querySelector('#app');
 
   // Show loading state with navigation
   app.innerHTML = `

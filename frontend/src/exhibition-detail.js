@@ -1,6 +1,7 @@
 import { renderNavigation } from './nav.js';
 import { fetchCollection, getJpegUrl } from './api.js';
 import { initLightbox, attachPaintingClickListeners } from './lightbox.js';
+import { setPageMeta } from './utils.js';
 
 export async function renderExhibitionDetail(exhibitionId) {
   const app = document.querySelector('#app');
@@ -19,6 +20,10 @@ export async function renderExhibitionDetail(exhibitionId) {
     const { collection, paintings } = data;
 
     if (!collection || paintings.length === 0) {
+      setPageMeta(
+        'Exhibition Not Found - Vermillion Pavilion',
+        'This exhibition is not available.'
+      );
       app.innerHTML = `
         ${renderNavigation()}
         <div class="container">
@@ -33,6 +38,12 @@ export async function renderExhibitionDetail(exhibitionId) {
       `;
       return;
     }
+
+    // Set page meta with exhibition details
+    setPageMeta(
+      `${collection.name} - Vermillion Pavilion`,
+      collection.subtitle || collection.introduction || `${collection.name} - A curated exhibition of ${paintings.length} painting${paintings.length !== 1 ? 's' : ''} by Chang Chien-ying and Fei Cheng-wu.`
+    );
 
     // Render exhibition
     app.innerHTML = `

@@ -1,6 +1,12 @@
 import { renderNavigation } from './nav.js';
+import { setPageMeta } from './utils.js';
 
 export function renderArtists() {
+  setPageMeta(
+    'The Artists - Vermillion Pavilion',
+    'Chang Chien-ying (1909-2003) and Fei Cheng-wu (1911-2000), the first Chinese academically trained artists to settle permanently in Britain. Read their biographies and view their works.'
+  );
+
   const app = document.querySelector('#app');
 
   app.innerHTML = `
