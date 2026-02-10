@@ -15,7 +15,7 @@ export function renderArtists() {
           <div class="intro-photo">
             <img src="/images/MrandMrsFeiWithZAZandCXN1.jpg"
                  alt="Chang Chien-ying and Fei Cheng-wu with fellow artists" />
-            <p class="photo-caption">Chang Chien-ying and Fei Cheng-wu with Zhang Anzhi and Chen Xiaonan, the four artists sent to Britain by Xu Beihong in 1946</p>
+            <p class="photo-caption">The four artists sent to Britain by Xu Beihong in 1946. Left to right: Fei Cheng-wu, Zhang Anzhi (back), Chang Chien-ying (front), and Chen Xiaonan</p>
           </div>
 
           <div class="intro-text">
