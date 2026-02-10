@@ -28,7 +28,7 @@ export function renderAbout() {
             <h2>These paintings are available for acquisition</h2>
 
             <div class="intro-text">
-              <p>For pricing information, condition reports, provenance details, or to arrange a viewing, please contact us at <a href="mailto:contact@vermillionpavilion.com">contact@vermillionpavilion.com</a>.</p>
+              <p>For pricing information, condition reports, framing and mounting details, or to arrange a viewing, please contact us at <a href="mailto:contact@vermillionpavilion.com">contact@vermillionpavilion.com</a>.</p>
             </div>
           </div>
         </section>
