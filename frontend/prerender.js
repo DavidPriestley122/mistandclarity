@@ -72,8 +72,8 @@ async function prerender() {
 
     // Replace meta description
     html = html.replace(
-      /<meta name="description" content=".*?">/,
-      `<meta name="description" content="${route.description}">`
+      /<meta name="description" content=".*?" ?\/?>/,
+      `<meta name="description" content="${route.description}" />`
     );
 
     // Create directory structure if needed
