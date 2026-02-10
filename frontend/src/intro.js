@@ -53,7 +53,7 @@ export async function renderIntro() {
           <div class="intro-photo">
             <img src="/images/Photo 2 - Chang and Fei as part of the 4.jpg"
                  alt="The four artists selected by Xu Beihong, 1946" />
-            <p class="photo-caption">The four artists selected by Xu Beihong in 1946: Chang Chien-ying, Fei Cheng-wu, Zhang Anzhi, and Chen Xiaonan. Zhang and Chen returned to China after their studies, while Chang and Fei remained in Britain for the rest of their lives.</p>
+            <p class="photo-caption">The four artists selected by Xu Beihong in 1946. Left to right: Fei Cheng-wu, Zhang Anzhi (back), Chang Chien-ying (front), and Chen Xiaonan. Zhang and Chen returned to China after their studies, while Chang and Fei remained in Britain for the rest of their lives.</p>
           </div>
 
           <div class="intro-text">
