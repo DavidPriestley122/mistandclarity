@@ -33,7 +33,7 @@ export function renderArtists() {
             <a href="/artist/fei-cheng-wu" class="artist-card" data-link>
               <h2>Fei Cheng-wu</h2>
               <p class="artist-years">費成武 (1911-2000)</p>
-              <p class="artist-description">Prolific painter who exhibited extensively across Britain, combining traditional Chinese subjects with Western artistic sensibility.</p>
+              <p class="artist-description">Master draughtsman creating carefully observed oils of figures and landscapes, and finely detailed watercolour depictions of animals and flowers.</p>
               <span class="artist-link-text">Read biography →</span>
             </a>
           </div>
