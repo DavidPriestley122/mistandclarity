@@ -2282,6 +2282,7 @@ header h1 {
 
 .acquisition-box h2 {
   margin-bottom: 20px;
+  color: var(--primary-color);
 }
 
 .acquisition-box .intro-text {
