@@ -44,6 +44,16 @@
 
 - **Images**: All painting images displaying correctly (JPEG files uploaded and integrated)
 
+### ✅ SEO Optimization
+- **Dynamic Page Titles**: Each route has unique, descriptive title tags
+  - Home, Gallery, About, Artists, Contact pages with custom titles
+  - Painting detail pages use painting title and artist name
+  - Artist biography pages use artist name and dates
+  - Exhibition pages use exhibition name
+  - 404 page with appropriate metadata
+- **Meta Descriptions**: Unique, SEO-optimized descriptions for every page
+- **Utils Module**: `utils.js` with `setPageMeta()` function for consistent metadata management
+
 ### ✅ Design System
 - **Catalogue-Inspired Aesthetic**: Matches the "MIST AND CLARITY" exhibition catalogue
 - **Color Palette**:
@@ -81,20 +91,32 @@ frontend/
 │   ├── main.js            # App initialization, route setup
 │   ├── router.js          # Vanilla JS SPA router
 │   ├── api.js             # API functions, image URL converter
+│   ├── utils.js           # Utility functions (SEO meta tags)
 │   ├── gallery.js         # Gallery homepage rendering
 │   ├── painting-detail.js # Individual painting pages
 │   ├── artist-bio.js      # Artist biography pages
+│   ├── home.js            # Landing page
+│   ├── about.js           # About the collection page
+│   ├── intro.js           # Artists' story page
+│   ├── artists.js         # Artists index page
+│   ├── exhibition-detail.js # Exhibition detail pages
+│   ├── contact.js         # Contact page
 │   └── style.css          # Complete styling (catalogue aesthetic)
 ├── .env                   # VITE_API_URL=http://localhost:3000/api
 └── package.json           # Vite 7, requires Node 20+
 ```
 
 ### Routes
-- `/` - Gallery homepage with filters
+- `/` - Landing page with hero image
+- `/gallery` - Gallery/exhibitions index (admin: storage view with all 580 paintings)
 - `/painting/:id` - Individual painting detail
+- `/collection` - About the collection page
+- `/intro` - Artists' story (Chongqing to London)
+- `/artists` - Artists index page
 - `/artist/fei-cheng-wu` - Fei Cheng-wu biography
 - `/artist/chang-chien-ying` - Chang Chien-ying biography
-- *Future*: `/collection/:id` - Curated collection view
+- `/exhibition/:id` - Exhibition detail view
+- `/contact` - Contact page
 
 ### API Endpoints
 - `GET /api/paintings` - List paintings (supports `?artist_id=X&theme=Y`)
@@ -157,6 +179,14 @@ frontend/
 'www.dropbox.com' → 'dl.dropboxusercontent.com'
 ```
 
+### SEO Implementation
+- **Utility Function**: `setPageMeta(title, description)` in `utils.js`
+- **Dynamic Metadata**: Each page sets unique title and description on render
+- **Painting Pages**: Title includes painting name, artist, and theme
+- **Artist Pages**: Title includes artist name, Chinese name, and dates
+- **Exhibition Pages**: Title uses exhibition name and subtitle
+- **Admin Mode**: Separate titles for admin vs public gallery views
+
 ### Artist ID Reference
 - **Fei Cheng-wu**: `artist_id=1`
 - **Chang Chien-ying**: `artist_id=2`
@@ -208,7 +238,8 @@ npm run dev  # Port 5173
 ## Pending Tasks
 
 ### High Priority
-1. **SEO Setup**:
+1. **SEO Enhancement** (basic SEO ✅ complete):
+   - ✅ Unique page titles and meta descriptions
    - Create sitemap.xml
    - Add Open Graph and Twitter Card meta tags
    - Submit to Google Search Console
@@ -279,9 +310,11 @@ npm run dev  # Port 5173
 6. **Biography Pages** - Content extraction from PDF, comprehensive artist histories
 7. **Image Integration** - All 580 painting images uploaded and displaying
 8. **Contact Page** - Dedicated contact page added
-9. **Current Phase** - Pre-launch: SEO optimization and custom domain setup
+9. **Design Refinements** - Brightness filters, color adjustments (ivory links)
+10. **SEO Implementation** - Dynamic page titles and meta descriptions for all routes
+11. **Current Phase** - Pre-launch: Additional SEO work (sitemap, Open Graph) and custom domain setup
 
 ---
 
-*Last Updated: 2026-02-09*
-*Project Status: Core features complete, ready for launch*
+*Last Updated: 2026-02-10*
+*Project Status: Core features complete, SEO optimized, ready for launch*
