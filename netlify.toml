@@ -3,19 +3,5 @@
   command = "npm run build"
   publish = "dist"
 
-# Prerender plugin to generate static HTML for each route
-[[plugins]]
-  package = "@netlify/plugin-prerender-spa"
-
-  [plugins.inputs]
-    # List of routes to prerender for SEO
-    routes = [
-      "/",
-      "/gallery",
-      "/collection",
-      "/intro",
-      "/artists",
-      "/artist/chang-chien-ying",
-      "/artist/fei-cheng-wu",
-      "/contact"
-    ]
+# Prerendering is now handled by vite-plugin-prerender during build
+# No need for Netlify plugin
