@@ -12,8 +12,14 @@ export function renderArtists() {
         <section class="intro-section">
           <h1>The Artists</h1>
 
+          <div class="intro-photo">
+            <img src="/images/MrandMrsFeiWithZAZand CXN1.jpg"
+                 alt="Chang Chien-ying and Fei Cheng-wu with fellow artists" />
+            <p class="photo-caption">Chang Chien-ying and Fei Cheng-wu with Zhang Anzhi and Chen Xiaonan, the four artists sent to Britain by Xu Beihong in 1946</p>
+          </div>
+
           <div class="intro-text">
-            <p><span class="artist-name">Chang Chien-ying</span> (張蒨英, 1909-2003) and <span class="artist-name">Fei Cheng-wu</span> (費成武, 1911-2000) were the first Chinese academically trained artists to settle permanently in Britain, arriving in 1946 and spending the rest of their lives working in London.</p>
+            <p>Chang Chien-ying (張蒨英, 1909-2003) and Fei Cheng-wu (費成武, 1911-2000) were the first Chinese academically trained artists to settle permanently in Britain, arriving in 1946 and spending the rest of their lives working in London.</p>
           </div>
 
           <div class="artists-choice">

@@ -48,7 +48,15 @@ export async function renderIntro() {
           <h2>The Journey to Britain</h2>
           <div class="intro-text">
             <p>In 1946, with victory in the war, their mentor <strong>Xu Beihong</strong> selected four artists to travel to Britain to study Western art techniques, intending they would return to encourage a new synthesis of Eastern and Western art. Chang Chien-ying and Fei Cheng-wu were among them.</p>
+          </div>
 
+          <div class="intro-photo">
+            <img src="/images/Photo 2 - Chang and Fei as part of the 4.jpg"
+                 alt="The four artists selected by Xu Beihong, 1946" />
+            <p class="photo-caption">The four artists selected by Xu Beihong in 1946: Chang Chien-ying, Fei Cheng-wu, Zhang Anzhi, and Chen Xiaonan. Zhang and Chen returned to China after their studies, while Chang and Fei remained in Britain for the rest of their lives.</p>
+          </div>
+
+          <div class="intro-text">
             <p>Laden with parting gifts from their artist friends, they flew from China, stopping in Vietnam, India, Iraq, Greece, and France before arriving in London in October 1946.</p>
 
             <p>They studied at the <strong>Slade School of Art</strong>, <strong>Chelsea School of Art</strong>, the <strong>Courtauld Institute</strong>, and <strong>Camberwell School of Art</strong>. They became friends with <strong>Stanley Spencer</strong>, visiting him in Cookham and exhibiting together.</p>
