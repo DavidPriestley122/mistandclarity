@@ -39,9 +39,9 @@ export function renderNavigation() {
           <a href="${adminLink('/')}" data-link class="site-title">Vermillion Pavilion</a>
         </div>
         <div class="nav-links">
-          <a href="${adminLink('/intro')}" data-link class="${isActive('/intro') ? 'active' : ''}">The Story</a>
           <a href="${adminLink('/gallery')}" data-link class="${isActive('/gallery') ? 'active' : ''}">Gallery</a>
           <a href="${adminLink('/artists')}" data-link class="${isActive('/artists') ? 'active' : ''}">The Artists</a>
+          <a href="${adminLink('/intro')}" data-link class="${isActive('/intro') ? 'active' : ''}">The Story</a>
           <a href="${adminLink('/collection')}" data-link class="${isActive('/collection') ? 'active' : ''}">About</a>
           <a href="${adminLink('/contact')}" data-link class="${isActive('/contact') ? 'active' : ''}">Contact</a>
         </div>
