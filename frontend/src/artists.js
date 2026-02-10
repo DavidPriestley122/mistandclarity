@@ -19,7 +19,7 @@ export function renderArtists() {
           </div>
 
           <div class="intro-text">
-            <p>Chang Chien-ying (張蒨英, 1909-2003) and Fei Cheng-wu (費成武, 1911-2000) were the first Chinese academically trained artists to settle permanently in Britain, arriving in 1946 and spending the rest of their lives working in London.</p>
+            <p>Chang Chien-ying (張蒨英, 1909-2003) and Fei Cheng-wu (費成武, 1911-2000) produced the majority of their work between the late 1940s and early 1960s, a remarkably productive period that established their reputations across Britain.</p>
           </div>
 
           <div class="artists-choice">
