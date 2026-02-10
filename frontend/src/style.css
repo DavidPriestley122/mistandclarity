@@ -2272,6 +2272,35 @@ header h1 {
   border-bottom-color: var(--hover-red);
 }
 
+/* Acquisition Box */
+.acquisition-box {
+  padding: 30px;
+  background-color: var(--warm-cream);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin-top: 20px;
+}
+
+.acquisition-box h2 {
+  margin-bottom: 20px;
+}
+
+.acquisition-box .intro-text {
+  margin-bottom: 0;
+  color: var(--primary-color);
+}
+
+.acquisition-box a {
+  color: var(--accent-red);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-red);
+  transition: color 0.3s;
+}
+
+.acquisition-box a:hover {
+  color: var(--hover-red);
+  border-bottom-color: var(--hover-red);
+}
+
 /* CTA Section (early in page) */
 .intro-cta {
   text-align: center;

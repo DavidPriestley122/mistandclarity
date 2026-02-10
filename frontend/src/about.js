@@ -24,10 +24,12 @@ export function renderAbout() {
         </section>
 
         <section class="intro-section">
-          <h2>These paintings are available for acquisition</h2>
+          <div class="acquisition-box">
+            <h2>These paintings are available for acquisition</h2>
 
-          <div class="intro-text">
-            <p>For pricing information, condition reports, provenance details, or to arrange a viewing, please contact us at <a href="mailto:info@vermillionpavilion.com">info@vermillionpavilion.com</a>.</p>
+            <div class="intro-text">
+              <p>For pricing information, condition reports, provenance details, or to arrange a viewing, please contact us at <a href="mailto:info@vermillionpavilion.com">info@vermillionpavilion.com</a>.</p>
+            </div>
           </div>
         </section>
 
