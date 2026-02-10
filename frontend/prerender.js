@@ -1,4 +1,3 @@
-import { JSDOM } from 'jsdom';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs/promises';
@@ -6,16 +5,48 @@ import fs from 'fs/promises';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Routes to prerender with their expected titles and descriptions
+// Routes to prerender with their SEO metadata
 const routes = [
-  { path: '/', title: 'Vermillion Pavilion - Paintings by Chang Chien-ying and Fei Cheng-wu' },
-  { path: '/gallery', title: 'Gallery - Vermillion Pavilion' },
-  { path: '/collection', title: 'About the Collection - Vermillion Pavilion' },
-  { path: '/intro', title: 'The Artists\' Story - Vermillion Pavilion' },
-  { path: '/artists', title: 'The Artists - Vermillion Pavilion' },
-  { path: '/artist/chang-chien-ying', title: 'Chang Chien-ying (1909-2003) - Vermillion Pavilion' },
-  { path: '/artist/fei-cheng-wu', title: 'Fei Cheng-wu (1911-2000) - Vermillion Pavilion' },
-  { path: '/contact', title: 'Contact - Vermillion Pavilion' }
+  {
+    path: '/',
+    title: 'Vermillion Pavilion - Paintings by Chang Chien-ying and Fei Cheng-wu',
+    description: 'Explore the paintings of Chang Chien-ying and Fei Cheng-wu, the first Chinese academically trained artists to settle permanently in Britain. Discover their remarkable collection from Chongqing to London.'
+  },
+  {
+    path: '/gallery',
+    title: 'Gallery - Vermillion Pavilion',
+    description: 'Browse exhibitions of Chinese paintings by Chang Chien-ying and Fei Cheng-wu from the Vermillion Pavilion studio.'
+  },
+  {
+    path: '/collection',
+    title: 'About the Collection - Vermillion Pavilion',
+    description: 'Discover the remarkable collection of paintings by Chang Chien-ying and Fei Cheng-wu, preserved from their London studio. Learn about their exhibitions and the ongoing research since 2003.'
+  },
+  {
+    path: '/intro',
+    title: 'The Artists\' Story - Vermillion Pavilion',
+    description: 'From the artistic heart of wartime Chongqing to a lifetime in London. Discover the extraordinary journey of Chang Chien-ying and Fei Cheng-wu, sent to Britain by Xu Beihong in 1946.'
+  },
+  {
+    path: '/artists',
+    title: 'The Artists - Vermillion Pavilion',
+    description: 'Chang Chien-ying (1909-2003) and Fei Cheng-wu (1911-2000), the first Chinese academically trained artists to settle permanently in Britain. Read their biographies and view their works.'
+  },
+  {
+    path: '/artist/chang-chien-ying',
+    title: 'Chang Chien-ying (1909-2003) - Vermillion Pavilion',
+    description: 'Biography of Chang Chien-ying (張蒨英), 1909-2003. Chang Chien-ying was born in 1909 in Wuxi, Jiangsu province. She studied calligraphy as a child under the guidance of her father...'
+  },
+  {
+    path: '/artist/fei-cheng-wu',
+    title: 'Fei Cheng-wu (1911-2000) - Vermillion Pavilion',
+    description: 'Biography of Fei Cheng-wu (費成武), 1911-2000. Fei Cheng-wu was born in 1911 in Wujiang, Jiangsu province, into an accomplished family of politicians, architects, and academics...'
+  },
+  {
+    path: '/contact',
+    title: 'Contact - Vermillion Pavilion',
+    description: 'Contact us for pricing information, condition reports, framing and mounting details, or to arrange a viewing of paintings by Chang Chien-ying and Fei Cheng-wu.'
+  }
 ];
 
 async function prerender() {
@@ -27,50 +58,23 @@ async function prerender() {
   const indexPath = join(distPath, 'index.html');
   const indexHtml = await fs.readFile(indexPath, 'utf-8');
 
-  // Read the built JavaScript
-  const assetsPath = join(distPath, 'assets');
-  const files = await fs.readdir(assetsPath);
-  const jsFile = files.find(f => f.startsWith('index-') && f.endsWith('.js'));
-
-  if (!jsFile) {
-    throw new Error('Could not find built JavaScript file');
-  }
-
-  const jsPath = join(assetsPath, jsFile);
-  const jsContent = await fs.readFile(jsPath, 'utf-8');
-
   for (const route of routes) {
     console.log(`Prerendering ${route.path}...`);
 
-    // Create a DOM from the index.html
-    const dom = new JSDOM(indexHtml, {
-      url: `http://localhost${route.path}`,
-      runScripts: 'dangerously',
-      resources: 'usable',
-      beforeParse(window) {
-        // Make the route available to the script
-        window.location.pathname = route.path;
-      }
-    });
+    // Replace title and meta description in the HTML
+    let html = indexHtml;
 
-    // Execute the JavaScript
-    try {
-      const scriptEl = dom.window.document.createElement('script');
-      scriptEl.textContent = jsContent;
-      dom.window.document.body.appendChild(scriptEl);
+    // Replace title tag
+    html = html.replace(
+      /<title>.*?<\/title>/,
+      `<title>${route.title}</title>`
+    );
 
-      // Wait a moment for JavaScript to execute
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      // Update the title directly
-      dom.window.document.title = route.title;
-
-    } catch (error) {
-      console.error(`Error executing JavaScript for ${route.path}:`, error.message);
-    }
-
-    // Get the rendered HTML
-    const html = dom.serialize();
+    // Replace meta description
+    html = html.replace(
+      /<meta name="description" content=".*?">/,
+      `<meta name="description" content="${route.description}">`
+    );
 
     // Create directory structure if needed
     const routePath = route.path === '/' ? '' : route.path;
