@@ -1,9 +1,7 @@
-import { isAdminMode, adminLink } from './admin.js';
 import { renderNavigation } from './nav.js';
 
 export function renderArtistBio(artistSlug) {
   const app = document.querySelector('#app');
-  const adminMode = isAdminMode();
 
   const bios = {
     'chang-chien-ying': {
@@ -116,15 +114,9 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
     return;
   }
 
-  const backLink = adminMode ? adminLink('/gallery') : '/';
-
   app.innerHTML = `
     ${renderNavigation()}
     <div class="container">
-      <div class="back-link">
-        <a href="${backLink}" data-link>← Back to ${adminMode ? 'Storage' : 'Home'}</a>
-      </div>
-
       <div class="artist-bio">
         <header class="bio-header">
           <h1>${bio.name}</h1>
