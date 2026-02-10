@@ -19,7 +19,7 @@ export function renderArtists() {
           </div>
 
           <div class="intro-text">
-            <p>Chang Chien-ying (張蒨英, 1909-2003) and Fei Cheng-wu (費成武, 1911-2000) produced the majority of their work between the late 1940s and early 1960s, a remarkably productive period that established their reputations across Britain.</p>
+            <p>Chang Chien-ying (張蒨英, 1909-2003) and Fei Cheng-wu (費成武, 1911-2000) called their North London home the Vermillion Pavilion. Between the late 1940s and early 1960s, they produced the majority of their work, a remarkably productive period that established their reputations across Britain.</p>
           </div>
 
           <div class="artists-choice">
