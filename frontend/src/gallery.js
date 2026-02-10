@@ -18,14 +18,11 @@ export async function renderGallery(params) {
   const app = document.querySelector('#app');
   const adminMode = isAdminMode();
 
-  // Show loading state
+  // Show loading state with navigation
   app.innerHTML = `
+    ${renderNavigation()}
     <div class="container">
-      <header>
-        <h1>Mist and Clarity</h1>
-        <p class="subtitle">Paintings by Fei Cheng-wu and Chang Chien-ying</p>
-      </header>
-      <div class="loading">Loading paintings...</div>
+      <div class="loading">Loading gallery...</div>
     </div>
   `;
 
