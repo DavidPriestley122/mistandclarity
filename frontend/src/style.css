@@ -536,6 +536,7 @@ header h1 {
   color: var(--accent-red);
   margin-bottom: 20px;
   letter-spacing: 0.02em;
+  text-align: center;
 }
 
 .bio-section p {
