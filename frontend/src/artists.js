@@ -26,7 +26,7 @@ export function renderArtists() {
             <a href="/artist/chang-chien-ying" class="artist-card" data-link>
               <h2>Chang Chien-ying</h2>
               <p class="artist-years">張蒨英 (1909-2003)</p>
-              <p class="artist-description">Member of the Royal Institute of Painters in Watercolours, known for her elegant compositions and mastery of both Chinese and Western techniques.</p>
+              <p class="artist-description">Accomplished calligrapher and painter, known for her fluid landscapes, outline-free flower paintings, and expressive depictions of birds and animals.</p>
               <span class="artist-link-text">Read biography →</span>
             </a>
 
