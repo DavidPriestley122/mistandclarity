@@ -2094,15 +2094,14 @@ header h1 {
 }
 
 .intro-text a {
-  color: var(--accent-red);
-  text-decoration: none;
-  transition: color 0.3s;
+  color: var(--ivory);
+  text-decoration: underline;
+  transition: opacity 0.3s;
   font-weight: 500;
 }
 
 .intro-text a:hover {
-  color: var(--hover-red);
-  text-decoration: underline;
+  opacity: 0.8;
 }
 
 /* Typography enhancements */
