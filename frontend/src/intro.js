@@ -19,13 +19,9 @@ export async function renderIntro() {
     <div class="intro-page">
       <div class="intro-container">
 
-        <!-- Hero Section -->
-        <section class="intro-hero">
-          <h1 class="intro-main-title">Introduction</h1>
-        </section>
-
-        <!-- Main Introduction -->
+        <!-- The Chongqing Years -->
         <section class="intro-section">
+          <h2>The Chongqing Years</h2>
           <div class="intro-text">
             <p>Chang Chien-ying (1909-2003) and Fei Cheng-wu (1911-2000) were the first Chinese academically trained artists to settle permanently in Britain. They called their joint studio the "Vermillion Pavilion" (in Chinese: 霧明樓, <em>Wuming Lou</em> – the names are not direct translations of each other). Theirs was an extraordinary story.</p>
           </div>
