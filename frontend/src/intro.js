@@ -87,21 +87,6 @@ export async function renderIntro() {
           </div>
         </section>
 
-        <!-- Explore Further -->
-        <section class="intro-explore">
-          <a href="/gallery" class="btn btn-large btn-primary" data-link>
-            View Gallery
-          </a>
-          <div class="intro-links">
-            <a href="/artist/fei-cheng-wu" class="btn btn-large btn-secondary" data-link>
-              About Fei Cheng-wu
-            </a>
-            <a href="/artist/chang-chien-ying" class="btn btn-large btn-secondary" data-link>
-              About Chang Chien-ying
-            </a>
-          </div>
-        </section>
-
       </div>
     </div>
   `;
