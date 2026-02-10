@@ -2,8 +2,9 @@
   command = "npm run build"
   publish = "dist"
 
-# SPA routing - redirect all requests to index.html
+# SPA routing - redirect to index.html only if no static file exists
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
