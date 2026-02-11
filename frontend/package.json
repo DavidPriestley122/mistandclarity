@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node prerender.js",
+    "build": "npm run build:vite && node build-with-prerender.js",
     "build:vite": "vite build",
-    "prerender": "node prerender.js",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "playwright": "^1.58.2",
+    "serve": "^14.2.5",
     "vite": "^7.2.4"
   }
 }
