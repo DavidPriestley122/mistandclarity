@@ -1,6 +1,6 @@
 [build]
   base = "frontend"
-  command = "npx playwright install --with-deps chromium && npm run build"
+  command = "npm run build"
   publish = "dist"
 
 # SPA routing - redirect to index.html only if no static file exists
