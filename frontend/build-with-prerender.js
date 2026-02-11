@@ -11,7 +11,8 @@ async function buildWithPrerender() {
   // Start the server
   const server = spawn('npx', ['serve', '-s', 'dist', '-l', '8080'], {
     stdio: 'pipe',
-    shell: true
+    shell: true,
+    detached: false
   });
 
   // Wait for server to be ready
@@ -40,27 +41,45 @@ async function buildWithPrerender() {
 
   console.log('✅ Server ready');
 
-  // Run prerendering
-  const prerender = spawn('node', ['prerender.js'], {
-    stdio: 'inherit',
-    shell: true
-  });
-
-  await new Promise((resolve, reject) => {
-    prerender.on('close', (code) => {
-      if (code === 0) {
-        resolve();
-      } else {
-        reject(new Error(`Prerender failed with code ${code}`));
-      }
+  let exitCode = 0;
+  try {
+    // Run prerendering
+    const prerender = spawn('node', ['prerender.js'], {
+      stdio: 'inherit',
+      shell: true
     });
-  });
 
-  // Stop the server
-  console.log('🛑 Stopping server...');
-  server.kill();
+    await new Promise((resolve, reject) => {
+      prerender.on('close', (code) => {
+        if (code === 0) {
+          resolve();
+        } else {
+          exitCode = code;
+          reject(new Error(`Prerender failed with code ${code}`));
+        }
+      });
+    });
+  } finally {
+    // Always stop the server, even if prerender failed
+    console.log('🛑 Stopping server...');
+    server.kill('SIGTERM');
+
+    // Force kill after 2 seconds if still running
+    setTimeout(() => {
+      if (!server.killed) {
+        console.log('Force killing server...');
+        server.kill('SIGKILL');
+      }
+    }, 2000);
+
+    // Wait a bit for cleanup
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  }
 
   console.log('✨ Build with prerendering complete!');
+
+  // Exit the process explicitly
+  process.exit(exitCode);
 }
 
 buildWithPrerender().catch((error) => {
