@@ -41,7 +41,9 @@ class Router {
   }
 
   handleRoute() {
-    const path = window.location.pathname;
+    // Normalize: strip trailing slash so "/gallery/" matches "/gallery"
+    const rawPath = window.location.pathname;
+    const path = rawPath.length > 1 && rawPath.endsWith('/') ? rawPath.slice(0, -1) : rawPath;
     const params = new URLSearchParams(window.location.search);
 
     // Run beforeNavigate callbacks
