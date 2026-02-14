@@ -2854,3 +2854,268 @@ header h1 {
     width: 100%;
   }
 }
+
+/* ==========================================
+   Contact Form Styles
+   ========================================== */
+
+/* Contact Form Toggle */
+.contact-form-toggle {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.toggle-btn {
+  padding: 12px 24px;
+  border: 2px solid var(--border-color);
+  background: var(--ivory);
+  color: var(--primary-color);
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s;
+  font-family: Georgia, serif;
+}
+
+.toggle-btn.active {
+  background: var(--accent-red);
+  color: white;
+  border-color: var(--accent-red);
+}
+
+.toggle-btn:hover:not(.active) {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+}
+
+/* Contact Form */
+.contact-form {
+  max-width: 600px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--ivory);
+  font-size: 16px;
+  font-family: Georgia, serif;
+  color: var(--primary-color);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-weight: normal;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin-top: 4px;
+}
+
+.privacy-note {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 15px;
+}
+
+.form-actions {
+  margin-top: 30px;
+}
+
+.form-message {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.form-message.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.form-message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* ==========================================
+   Admin - Contact Management Styles
+   ========================================== */
+
+.contact-view-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.contact-view-toggle .btn-small.active {
+  background: var(--accent-red);
+  color: white;
+  border-color: var(--accent-red);
+}
+
+.submissions-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.submission-item {
+  padding: 15px;
+  background: var(--ivory);
+  border: 1px solid var(--border-color);
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.submission-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.status-badge {
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.status-badge.new {
+  background: #ffc107;
+  color: #000;
+}
+
+.status-badge.read {
+  background: #17a2b8;
+  color: white;
+}
+
+.status-badge.responded {
+  background: #28a745;
+  color: white;
+}
+
+.submission-meta {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.submission-message {
+  padding: 10px;
+  background: var(--warm-cream);
+  border-left: 3px solid var(--accent-red);
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.submission-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.submission-actions select {
+  padding: 5px;
+  border: 1px solid var(--border-color);
+  background: var(--ivory);
+  color: var(--primary-color);
+  font-family: Georgia, serif;
+}
+
+.mailing-list-actions {
+  margin-bottom: 20px;
+}
+
+.mailing-list-table {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.mailing-list-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mailing-list-table th,
+.mailing-list-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--primary-color);
+}
+
+.mailing-list-table th {
+  background: var(--warm-cream);
+  font-weight: 600;
+}
+
+.btn-delete {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-family: Georgia, serif;
+}
+
+.btn-delete:hover {
+  background: #c82333;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 40px;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .contact-form-toggle {
+    flex-direction: column;
+  }
+
+  .toggle-btn {
+    width: 100%;
+  }
+
+  .mailing-list-table {
+    overflow-x: auto;
+  }
+
+  .submission-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .submission-actions select,
+  .submission-actions button {
+    width: 100%;
+  }
+}

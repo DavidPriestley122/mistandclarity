@@ -240,3 +240,68 @@ export async function updatePainting(paintingId, data) {
 
   return response.json();
 }
+
+// Submit painting inquiry
+export async function submitInquiry(name, email, message, paintingId = null) {
+  const response = await fetch(`${API_BASE_URL}/contacts/inquiry`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, message, painting_id: paintingId })
+  });
+  if (!response.ok) throw new Error('Failed to submit inquiry');
+  return response.json();
+}
+
+// Subscribe to mailing list
+export async function subscribeMailingList(name, email) {
+  const response = await fetch(`${API_BASE_URL}/contacts/subscribe`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email })
+  });
+  if (!response.ok) throw new Error('Failed to subscribe');
+  return response.json();
+}
+
+// Admin: Get all submissions
+export async function fetchSubmissions() {
+  const response = await fetch(`${API_BASE_URL}/contacts/submissions`);
+  if (!response.ok) throw new Error('Failed to fetch submissions');
+  return response.json();
+}
+
+// Admin: Get mailing list
+export async function fetchMailingList() {
+  const response = await fetch(`${API_BASE_URL}/contacts/mailing-list`);
+  if (!response.ok) throw new Error('Failed to fetch mailing list');
+  return response.json();
+}
+
+// Admin: Update submission status
+export async function updateSubmissionStatus(id, status) {
+  const response = await fetch(`${API_BASE_URL}/contacts/submissions/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status })
+  });
+  if (!response.ok) throw new Error('Failed to update submission');
+  return response.json();
+}
+
+// Admin: Delete submission
+export async function deleteSubmission(id) {
+  const response = await fetch(`${API_BASE_URL}/contacts/submissions/${id}`, {
+    method: 'DELETE'
+  });
+  if (!response.ok) throw new Error('Failed to delete submission');
+  return response.json();
+}
+
+// Admin: Unsubscribe from mailing list
+export async function unsubscribeFromList(id) {
+  const response = await fetch(`${API_BASE_URL}/contacts/mailing-list/${id}`, {
+    method: 'DELETE'
+  });
+  if (!response.ok) throw new Error('Failed to unsubscribe');
+  return response.json();
+}

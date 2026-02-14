@@ -10,7 +10,12 @@ import {
   activateExhibition,
   updateCollection,
   deleteCollection,
-  getJpegUrl
+  getJpegUrl,
+  fetchSubmissions,
+  fetchMailingList,
+  updateSubmissionStatus,
+  deleteSubmission,
+  unsubscribeFromList
 } from './api.js';
 import { adminLink } from './admin.js';
 
@@ -22,7 +27,10 @@ let adminPanelState = {
   exhibitionPaintings: [],
   paintingIdsInExhibition: new Set(),
   viewMode: 'preview', // 'list' or 'preview'
-  isEditingInfo: false
+  isEditingInfo: false,
+  contactsView: 'submissions', // 'submissions' or 'mailing-list'
+  submissions: [],
+  mailingList: []
 };
 
 // Event callbacks for gallery integration
@@ -35,7 +43,9 @@ export function setOnExhibitionChange(callback) {
 // Initialize the admin panel
 export async function initAdminPanel() {
   await loadExhibitionData();
+  await loadContactsData();
   renderAdminPanel();
+  renderContactsContent();
 }
 
 // Load exhibition data from API
@@ -652,6 +662,167 @@ function handleDragEnd(e) {
   draggedIndex = null;
 }
 
+// Contact Management Functions
+async function switchContactView(view) {
+  adminPanelState.contactsView = view;
+  await loadContactsData();
+  renderContactsContent();
+}
+
+async function loadContactsData() {
+  try {
+    if (adminPanelState.contactsView === 'submissions') {
+      adminPanelState.submissions = await fetchSubmissions();
+    } else {
+      adminPanelState.mailingList = await fetchMailingList();
+    }
+  } catch (err) {
+    console.error('Failed to load contacts data:', err);
+  }
+}
+
+function renderContactsContent() {
+  const container = document.getElementById('contacts-content');
+  if (!container) return;
+
+  if (adminPanelState.contactsView === 'submissions') {
+    container.innerHTML = renderSubmissionsList();
+  } else {
+    container.innerHTML = renderMailingListView();
+  }
+}
+
+function renderSubmissionsList() {
+  const submissions = adminPanelState.submissions;
+
+  if (submissions.length === 0) {
+    return '<p class="empty-state">No inquiries yet</p>';
+  }
+
+  return `
+    <div class="submissions-list">
+      ${submissions.map(s => `
+        <div class="submission-item ${s.status}">
+          <div class="submission-header">
+            <strong>${s.name}</strong>
+            <span class="status-badge ${s.status}">${s.status}</span>
+          </div>
+          <div class="submission-meta">
+            ${s.email} • ${new Date(s.created_at).toLocaleDateString()}
+            ${s.painting_title ? `<br>Re: ${s.painting_title}` : ''}
+          </div>
+          <div class="submission-message">${s.message}</div>
+          <div class="submission-actions">
+            <select onchange="window.updateStatus(${s.id}, this.value)">
+              <option value="new" ${s.status === 'new' ? 'selected' : ''}>New</option>
+              <option value="read" ${s.status === 'read' ? 'selected' : ''}>Read</option>
+              <option value="responded" ${s.status === 'responded' ? 'selected' : ''}>Responded</option>
+            </select>
+            <button class="btn-small btn-delete" onclick="window.deleteSubmissionClick(${s.id})">Delete</button>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderMailingListView() {
+  const list = adminPanelState.mailingList;
+
+  if (list.length === 0) {
+    return '<p class="empty-state">No subscribers yet</p>';
+  }
+
+  return `
+    <div class="mailing-list-actions">
+      <button class="btn-primary" onclick="window.exportMailingList()">
+        Export for BCC (${list.length} subscribers)
+      </button>
+    </div>
+
+    <div class="mailing-list-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Subscribed</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${list.map(subscriber => `
+            <tr>
+              <td>${subscriber.name}</td>
+              <td>${subscriber.email}</td>
+              <td>${new Date(subscriber.created_at).toLocaleDateString()}</td>
+              <td>
+                <button class="btn-small btn-delete" onclick="window.unsubscribeClick(${subscriber.id})">
+                  Remove
+                </button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// Action handlers
+async function updateStatus(id, status) {
+  try {
+    await updateSubmissionStatus(id, status);
+    await loadContactsData();
+    renderContactsContent();
+  } catch (err) {
+    alert('Failed to update status');
+  }
+}
+
+async function deleteSubmissionClick(id) {
+  if (!confirm('Delete this inquiry?')) return;
+
+  try {
+    await deleteSubmission(id);
+    await loadContactsData();
+    renderContactsContent();
+  } catch (err) {
+    alert('Failed to delete');
+  }
+}
+
+async function unsubscribeClick(id) {
+  if (!confirm('Remove this subscriber?')) return;
+
+  try {
+    await unsubscribeFromList(id);
+    await loadContactsData();
+    renderContactsContent();
+  } catch (err) {
+    alert('Failed to remove subscriber');
+  }
+}
+
+function exportMailingList() {
+  const emails = adminPanelState.mailingList.map(s => s.email).join(', ');
+
+  // Copy to clipboard
+  navigator.clipboard.writeText(emails).then(() => {
+    alert(`Copied ${adminPanelState.mailingList.length} emails to clipboard!\n\nPaste into BCC field of your email client.`);
+  }).catch(() => {
+    // Fallback: show in alert
+    alert('Email list:\n\n' + emails + '\n\nCopy this to your email BCC field.');
+  });
+}
+
+// Make contact functions globally available
+window.switchContactView = switchContactView;
+window.updateStatus = updateStatus;
+window.deleteSubmissionClick = deleteSubmissionClick;
+window.unsubscribeClick = unsubscribeClick;
+window.exportMailingList = exportMailingList;
+
 // Render the full admin panel
 function renderAdminPanel() {
   // Remove existing panel if present
@@ -695,6 +866,23 @@ function renderAdminPanel() {
           <button id="btn-toggle-view" class="btn-toggle-view">${adminPanelState.viewMode === 'list' ? 'Grid View' : 'List View'}</button>
         </div>
         <div id="exhibition-paintings-list"></div>
+      </div>
+
+      <div class="admin-panel-section">
+        <h3>Contact Management</h3>
+
+        <div class="contact-view-toggle">
+          <button class="btn-small ${adminPanelState.contactsView === 'submissions' ? 'active' : ''}"
+                  onclick="window.switchContactView('submissions')">
+            Inquiries
+          </button>
+          <button class="btn-small ${adminPanelState.contactsView === 'mailing-list' ? 'active' : ''}"
+                  onclick="window.switchContactView('mailing-list')">
+            Mailing List
+          </button>
+        </div>
+
+        <div id="contacts-content"></div>
       </div>
 
       <div class="admin-panel-footer">

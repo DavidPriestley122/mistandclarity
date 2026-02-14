@@ -18,10 +18,12 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 const paintingsRouter = require('./routes/paintings');
 const collectionsRouter = require('./routes/collections');
 const artistsRouter = require('./routes/artists');
+const contactsRouter = require('./routes/contacts');
 
 app.use('/api/paintings', paintingsRouter);
 app.use('/api/collections', collectionsRouter);
 app.use('/api/artists', artistsRouter);
+app.use('/api/contacts', contactsRouter);
 
 // Health check
 app.get('/health', (req, res) => {
