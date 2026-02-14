@@ -1,2 +1,8 @@
 # SPA redirect - serve index.html for all paths that don't match static files
-/*    /index.html   200
+# Trailing slash redirects ensure /gallery serves /gallery/index.html
+/gallery              /gallery/index.html      200
+/contact              /contact/index.html      200
+/collection           /collection/index.html   200
+/intro                /intro/index.html        200
+/artists              /artists/index.html      200
+/*                    /index.html              200
