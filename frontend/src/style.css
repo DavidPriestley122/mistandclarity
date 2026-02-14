@@ -1244,6 +1244,14 @@ header h1 {
   border-bottom: 1px solid var(--border-color);
 }
 
+.admin-panel-section h3 {
+  margin: 0 0 15px 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--primary-text);
+  letter-spacing: 0.02em;
+}
+
 .admin-panel-section label {
   display: block;
   font-size: 0.85rem;
