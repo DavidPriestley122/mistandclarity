@@ -267,6 +267,12 @@ npm run dev  # Port 5173
     - Backend: Railway (already hosted)
     - Database: Railway PostgreSQL (already set up)
 
+## Deployment (Netlify)
+- **netlify.toml**: `base = "frontend"`, `command = "npm run build"`, `publish = "dist"` — paths are relative to base, do NOT use `cd frontend` in the command or prefix publish with `frontend/`
+- **SPA Routing**: `_redirects` file contains `/* /index.html 200` catch-all. Do NOT add per-route redirect rules — they match before the catch-all and break if the target file doesn't exist
+- **Trailing slash caveat**: Prerendering creates directories (e.g., `dist/gallery/index.html`), which causes Netlify to 301 redirect `/gallery` → `/gallery/`. The client-side router must strip trailing slashes from `window.location.pathname` before matching routes
+- **Prerendering**: Playwright-based (`prerender.js` + `build-with-prerender.js`), runs during `npm run build` on Netlify. Creates static HTML for SEO. If prerendering works, Netlify serves the static files directly; if not, the SPA catch-all handles it
+
 ## Known Issues
 - No authentication system yet (admin features inaccessible)
 - Contact form not functional (placeholder only)
