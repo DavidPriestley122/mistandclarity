@@ -242,11 +242,11 @@ export async function updatePainting(paintingId, data) {
 }
 
 // Submit painting inquiry
-export async function submitInquiry(name, email, message, paintingId = null) {
+export async function submitInquiry(name, email, message, catalogNumber = null) {
   const response = await fetch(`${API_BASE_URL}/contacts/inquiry`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, email, message, painting_id: paintingId })
+    body: JSON.stringify({ name, email, message, catalog_number: catalogNumber })
   });
   if (!response.ok) throw new Error('Failed to submit inquiry');
   return response.json();

@@ -7,17 +7,30 @@ const db = require('../database');
 // POST /api/contacts/inquiry - Submit painting inquiry
 router.post('/inquiry', async (req, res) => {
   try {
-    const { name, email, message, painting_id } = req.body;
+    const { name, email, message, painting_id, catalog_number } = req.body;
 
     // Basic validation
     if (!name || !email || !message) {
       return res.status(400).json({ error: 'Name, email, and message are required' });
     }
 
+    let paintingId = painting_id || null;
+
+    // If catalog_number provided, look up the painting ID
+    if (catalog_number && !paintingId) {
+      const paintingResult = await db.query(
+        'SELECT id FROM paintings WHERE catalog_number = $1',
+        [catalog_number]
+      );
+      if (paintingResult.rows.length > 0) {
+        paintingId = paintingResult.rows[0].id;
+      }
+    }
+
     const result = await db.query(
       `INSERT INTO contact_submissions (name, email, message, painting_id)
        VALUES ($1, $2, $3, $4) RETURNING *`,
-      [name, email, message, painting_id || null]
+      [name, email, message, paintingId]
     );
 
     res.status(201).json(result.rows[0]);

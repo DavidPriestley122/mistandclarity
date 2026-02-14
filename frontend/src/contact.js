@@ -37,10 +37,8 @@ export async function renderContact() {
               </div>
 
               <div class="form-group">
-                <label for="painting">Which painting? (optional)</label>
-                <select id="painting" name="painting">
-                  <option value="">Select a painting...</option>
-                </select>
+                <label for="painting">Catalog number (optional)</label>
+                <input type="text" id="painting" name="painting" placeholder="e.g., 0042">
               </div>
 
               <div class="form-group">
@@ -85,9 +83,6 @@ export async function renderContact() {
     </div>
   `;
 
-  // Load paintings for dropdown
-  loadPaintingsDropdown();
-
   // Form mode toggle
   const toggleBtns = document.querySelectorAll('.toggle-btn');
   const inquiryFields = document.getElementById('inquiry-fields');
@@ -122,22 +117,6 @@ export async function renderContact() {
   form.addEventListener('submit', handleFormSubmit);
 }
 
-async function loadPaintingsDropdown() {
-  try {
-    const paintings = await fetchPaintings();
-    const select = document.getElementById('painting');
-
-    paintings.forEach(p => {
-      const option = document.createElement('option');
-      option.value = p.id;
-      option.textContent = `${p.catalog_number} - ${p.descriptive_title || p.artists_title}`;
-      select.appendChild(option);
-    });
-  } catch (err) {
-    console.error('Failed to load paintings:', err);
-  }
-}
-
 async function handleFormSubmit(e) {
   e.preventDefault();
 
@@ -149,9 +128,9 @@ async function handleFormSubmit(e) {
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
       const message = document.getElementById('message').value;
-      const paintingId = document.getElementById('painting').value || null;
+      const catalogNumber = document.getElementById('painting').value.trim() || null;
 
-      await submitInquiry(name, email, message, paintingId);
+      await submitInquiry(name, email, message, catalogNumber);
 
       messageEl.className = 'form-message success';
       messageEl.textContent = 'Thank you for your inquiry! We will respond within 48 hours.';
