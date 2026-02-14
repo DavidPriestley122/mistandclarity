@@ -2,11 +2,3 @@
   base = "frontend"
   command = "npm run build"
   publish = "dist"
-
-# SPA routing - redirect to index.html only if no static file exists
-# This allows pre-rendered pages to be served while supporting client-side routing
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = false
