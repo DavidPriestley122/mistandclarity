@@ -2901,7 +2901,7 @@ header h1 {
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
-  color: var(--primary-color);
+  color: #E5E5E5;
 }
 
 .form-group input,
@@ -2925,6 +2925,7 @@ header h1 {
   align-items: flex-start;
   gap: 10px;
   font-weight: normal;
+  color: #E5E5E5;
 }
 
 .checkbox-group input[type="checkbox"] {
@@ -2934,7 +2935,7 @@ header h1 {
 
 .privacy-note {
   font-size: 14px;
-  color: var(--text-muted);
+  color: #B0B0B0;
   font-style: italic;
   margin-top: 15px;
 }
