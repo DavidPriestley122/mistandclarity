@@ -1,0 +1,2 @@
+# SPA redirect - serve index.html for all paths that don't match static files
+/*    /index.html   200
