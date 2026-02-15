@@ -496,6 +496,15 @@ header h1 {
   margin-bottom: 15px;
 }
 
+.name-variants {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+}
+
 .studio-name {
   font-size: 1rem;
   color: var(--text-muted);

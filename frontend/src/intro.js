@@ -103,5 +103,83 @@ export async function renderIntro() {
 
       </div>
     </div>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "name": "Xu Beihong",
+          "alternateName": ["徐悲鴻", "Ju Peon", "Hsü Pei-hung", "Hsu Pei-hung", "Beihong Xu", "Beihong"]
+        },
+        {
+          "@type": "Person",
+          "name": "Fu Baoshi",
+          "alternateName": ["傅抱石"]
+        },
+        {
+          "@type": "Person",
+          "name": "Zhang Daqian",
+          "alternateName": ["張大千", "Zhang Yuan", "張爰", "Chang Dai-chien", "Chang Ta-chien", "Daqian Zhang"]
+        },
+        {
+          "@type": "Person",
+          "name": "Chen Zhifo",
+          "alternateName": ["陳之佛", "Xue Weng", "Xueweng", "雪翁", "Ch'en Chih-fu", "Chen Zhifu", "Chen Shaoben"]
+        },
+        {
+          "@type": "Person",
+          "name": "Zhang Anzhi",
+          "alternateName": ["張安治", "Chang An-chih", "An-chih Chang"]
+        },
+        {
+          "@type": "Person",
+          "name": "Chen Xiaonan",
+          "alternateName": ["陳曉南", "Chen Hsiao-nan"]
+        },
+        {
+          "@type": "Person",
+          "name": "Pang Xunqin",
+          "alternateName": ["龐薰琹", "Pang Hiun-kin", "Pang Hiunkin"]
+        },
+        {
+          "@type": "Person",
+          "name": "Wu Zuoren",
+          "alternateName": ["吳作人", "Wu Tso-jen"]
+        },
+        {
+          "@type": "Person",
+          "name": "Huang Junbi",
+          "alternateName": ["黃君璧", "Jun-bi Huang", "Junpi Huang", "Junbi Huang"]
+        },
+        {
+          "@type": "Person",
+          "name": "Lin Fengmian",
+          "alternateName": ["林風眠", "Lin Feng Mien", "Lin Feng Mian"]
+        },
+        {
+          "@type": "Person",
+          "name": "Xie Zhiliu",
+          "alternateName": ["謝稚柳", "Hsieh Chih-liu"]
+        },
+        {
+          "@type": "Person",
+          "name": "Lu Fengzi",
+          "alternateName": ["呂鳳子", "Lv Fengzi"]
+        },
+        {
+          "@type": "Person",
+          "name": "Zhang Shuqi",
+          "alternateName": ["張書旂", "Chang Shu-chi"]
+        },
+        {
+          "@type": "Person",
+          "name": "Hsiung Shih-I",
+          "alternateName": ["熊式一", "S.I. Hsiung", "Xiong Shiyi"]
+        }
+      ]
+    }
+    </script>
   `;
 }

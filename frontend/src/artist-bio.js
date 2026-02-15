@@ -9,6 +9,7 @@ export function renderArtistBio(artistSlug) {
       name: 'Chang Chien-ying',
       nameChinese: '張蒨英',
       nameAlt: 'Zhang Qianying',
+      nameVariants: ['Chien-ying Chang', 'Ch\'ien-ying Chang', 'Zhang Qianying'],
       dates: '1909-2003',
       image: '/images/ChangCYpaintingfish1.jpg',
       imageCaption: 'Chang Chien-ying at work',
@@ -56,6 +57,7 @@ Chang never saw China again until 2001, more than fifty years after leaving, whe
       name: 'Fei Cheng-wu',
       nameChinese: '費成武',
       nameAlt: 'Fei Chengwu',
+      nameVariants: ['Cheng-wu Fei', 'Ch\'eng-wu Fei', 'Fei Chengwu'],
       dates: '1911-2000',
       image: '/images/FeiCWpainting1.jpg',
       imageCaption: 'Fei Cheng-wu at work',
@@ -125,6 +127,19 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
     `Biography of ${bio.name} (${bio.nameChinese}), ${bio.dates}. ${bio.sections[0].content.substring(0, 150)}...`
   );
 
+  // Generate Schema.org structured data for the artist
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": bio.name,
+    "alternateName": [bio.nameChinese, ...bio.nameVariants],
+    "birthDate": bio.dates.split('-')[0],
+    "deathDate": bio.dates.split('-')[1],
+    "jobTitle": "Artist",
+    "nationality": "Chinese",
+    "knowsAbout": ["Chinese painting", "Watercolor", "Oil painting"]
+  };
+
   app.innerHTML = `
     ${renderNavigation()}
     <div class="container">
@@ -133,6 +148,9 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
           <h1>${bio.name}</h1>
           <p class="chinese-name">${bio.nameChinese} (${bio.nameAlt})</p>
           <p class="dates">${bio.dates}</p>
+          ${bio.nameVariants && bio.nameVariants.length > 0 ? `
+            <p class="name-variants">Also known as: ${bio.nameVariants.join(', ')}</p>
+          ` : ''}
         </header>
 
         ${bio.image ? `
@@ -152,5 +170,9 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
         </div>
       </div>
     </div>
+
+    <script type="application/ld+json">
+    ${JSON.stringify(schemaData, null, 2)}
+    </script>
   `;
 }
