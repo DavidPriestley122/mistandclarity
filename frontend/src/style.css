@@ -125,7 +125,8 @@ header h1 {
   letter-spacing: 0.01em;
 }
 
-.filter-group select {
+.filter-group select,
+.filter-group input[type="text"] {
   padding: 8px 14px;
   border: 1px solid var(--border-color);
   border-radius: 1px;
@@ -136,7 +137,13 @@ header h1 {
   color: var(--text-color);
 }
 
-.filter-group select:focus {
+.filter-group input[type="text"] {
+  cursor: text;
+  min-width: 220px;
+}
+
+.filter-group select:focus,
+.filter-group input[type="text"]:focus {
   outline: none;
   border-color: var(--accent-red);
   box-shadow: 0 0 0 2px rgba(200, 53, 46, 0.1);

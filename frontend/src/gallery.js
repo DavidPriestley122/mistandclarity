@@ -115,6 +115,11 @@ async function renderStorageView(app, params) {
 
       <div class="filters">
         <div class="filter-group">
+          <label for="storage-search">Search:</label>
+          <input type="text" id="storage-search" placeholder="Title, artist, or catalogue no." autocomplete="off">
+        </div>
+
+        <div class="filter-group">
           <label for="artist-filter">Artist:</label>
           <select id="artist-filter">
             <option value="">All Artists</option>
@@ -142,7 +147,7 @@ async function renderStorageView(app, params) {
       </div>
 
       <div class="gallery-info">
-        <p>Storage: ${paintings.length} paintings total</p>
+        <p>Storage: <span id="storage-count">${paintings.length}</span> paintings</p>
       </div>
 
       <div class="gallery-grid" id="gallery-grid">
@@ -150,6 +155,25 @@ async function renderStorageView(app, params) {
       </div>
     </div>
   `;
+
+  // Client-side search filter
+  function applyStorageSearch() {
+    const query = document.getElementById('storage-search').value.trim().toLowerCase();
+    const cards = document.querySelectorAll('#gallery-grid .painting-card');
+    let visible = 0;
+    cards.forEach(card => {
+      const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
+      const artist = (card.querySelector('.artist')?.textContent || '').toLowerCase();
+      const catalogNum = (card.dataset.id || '');
+      const matches = !query || title.includes(query) || artist.includes(query) || catalogNum.includes(query);
+      card.style.display = matches ? '' : 'none';
+      if (matches) visible++;
+    });
+    const countEl = document.getElementById('storage-count');
+    if (countEl) countEl.textContent = visible;
+  }
+
+  document.getElementById('storage-search').addEventListener('input', applyStorageSearch);
 
   // Add filter event listeners
   document.getElementById('artist-filter').addEventListener('change', (e) => {
@@ -171,6 +195,7 @@ async function renderStorageView(app, params) {
   });
 
   document.getElementById('clear-filters').addEventListener('click', () => {
+    document.getElementById('storage-search').value = '';
     router.navigate(buildGalleryUrl({}));
   });
 
