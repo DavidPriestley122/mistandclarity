@@ -143,6 +143,9 @@ Fei died in 2000. Chang survived him by three years, dying in 2003.`
   app.innerHTML = `
     ${renderNavigation()}
     <div class="container">
+      <div class="back-link">
+        <a href="/artists" data-link>← Back to Artists</a>
+      </div>
       <div class="artist-bio">
         <header class="bio-header">
           <h1>${bio.name}</h1>
