@@ -9,7 +9,7 @@ import {
   setOnExhibitionChange
 } from './admin-panel.js';
 import { renderNavigation } from './nav.js';
-import { initLightbox, attachPaintingClickListeners } from './lightbox.js';
+import { initLightbox, attachPaintingClickListeners, openLightbox } from './lightbox.js';
 import { setPageMeta } from './utils.js';
 
 // Track current gallery state for re-render
@@ -176,6 +176,19 @@ async function renderStorageView(app, params) {
 
   // Add click handlers for adding paintings to exhibition
   addPaintingClickHandlers();
+
+  // Add lightbox via event delegation on the grid
+  const grid = document.getElementById('gallery-grid');
+  if (grid) {
+    grid.addEventListener('click', (e) => {
+      const img = e.target.closest('.painting-image img');
+      if (img) {
+        e.preventDefault();
+        e.stopPropagation();
+        openLightbox(img.src, img.alt);
+      }
+    });
+  }
 }
 
 // Render the public exhibitions index
