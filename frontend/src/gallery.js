@@ -164,7 +164,7 @@ async function renderStorageView(app, params) {
     cards.forEach(card => {
       const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
       const artist = (card.querySelector('.artist')?.textContent || '').toLowerCase();
-      const catalogNum = (card.dataset.id || '');
+      const catalogNum = (card.dataset.catalog || '');
       const matches = !query || title.includes(query) || artist.includes(query) || catalogNum.includes(query);
       card.style.display = matches ? '' : 'none';
       if (matches) visible++;
@@ -270,7 +270,7 @@ function renderPaintingCard(painting, isAdminView) {
   const inExhibition = isAdminView && isPaintingInExhibition(painting.id);
 
   return `
-    <div class="painting-card ${inExhibition ? 'in-exhibition' : ''}" data-id="${painting.id}">
+    <div class="painting-card ${inExhibition ? 'in-exhibition' : ''}" data-id="${painting.id}" data-catalog="${painting.catalog_number || ''}">
       ${isAdminView ? `
         <button class="btn-add-to-exhibition ${inExhibition ? 'in-exhibition' : ''}"
                 data-painting='${JSON.stringify(painting).replace(/'/g, "&#39;")}'
