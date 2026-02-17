@@ -38,7 +38,6 @@ export async function renderGallery(params) {
   try {
     // Initialize lightbox
     initLightbox();
-    window._storageLightbox = (src, alt) => openLightbox(src, alt);
 
     if (adminMode) {
       // Admin mode: show all paintings as "storage"
@@ -178,6 +177,13 @@ async function renderStorageView(app, params) {
   // Add click handlers for adding paintings to exhibition
   addPaintingClickHandlers();
 
+  // Add lightbox click handlers directly on storage images
+  document.querySelectorAll('.gallery-admin .painting-image img').forEach(img => {
+    img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openLightbox(img.src, img.alt);
+    });
+  });
 }
 
 // Render the public exhibitions index
@@ -259,8 +265,6 @@ function renderPaintingCard(painting, isAdminView) {
             src="${getJpegUrl(painting.catalog_number)}"
             alt="${painting.descriptive_title || painting.artists_title || 'Untitled'}"
             loading="lazy"
-            style="cursor:zoom-in"
-            onclick="event.stopPropagation(); window._storageLightbox(this.src, this.alt)"
           />
         </div>
         <a href="${adminLink('/painting/' + painting.id)}" data-link>
