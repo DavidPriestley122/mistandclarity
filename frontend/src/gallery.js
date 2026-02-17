@@ -252,8 +252,28 @@ function renderPaintingCard(painting, isAdminView) {
                 title="${inExhibition ? 'Already in exhibition' : 'Add to exhibition'}">
           ${inExhibition ? '&#10003;' : '+'}
         </button>
-      ` : ''}
-      <a href="${isAdminView ? adminLink('/painting/' + painting.id) : '/painting/' + painting.id}" data-link>
+        <div class="painting-image">
+          <img
+            src="${getJpegUrl(painting.catalog_number)}"
+            alt="${painting.descriptive_title || painting.artists_title || 'Untitled'}"
+            loading="lazy"
+          />
+        </div>
+        <a href="${adminLink('/painting/' + painting.id)}" data-link>
+          <div class="painting-info">
+            <h3>${painting.descriptive_title || painting.artists_title || 'Untitled'}</h3>
+            <p class="artist">${painting.artist_name || 'Unknown Artist'}</p>
+            ${painting.theme ? `<p class="theme">${painting.theme}</p>` : ''}
+            ${painting.dimensions_h && painting.dimensions_w ?
+              `<p class="dimensions">${painting.dimensions_h} × ${painting.dimensions_w} cm</p>`
+              : ''}
+            <div class="painting-card-action">
+              <span class="view-details-link">View Details →</span>
+            </div>
+          </div>
+        </a>
+      ` : `
+      <a href="/painting/${painting.id}" data-link>
         <div class="painting-image">
           <img
             src="${getJpegUrl(painting.catalog_number)}"
@@ -272,7 +292,7 @@ function renderPaintingCard(painting, isAdminView) {
             <span class="view-details-link">View Details →</span>
           </div>
         </div>
-      </a>
+      </a>`}
     </div>
   `;
 }
