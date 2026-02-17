@@ -1,4 +1,4 @@
-import { fetchPainting, getJpegUrl, getImageUrl, updatePainting } from './api.js';
+import { fetchPainting, getJpegUrl, updatePainting } from './api.js';
 import { isAdminMode, adminLink } from './admin.js';
 import { renderNavigation } from './nav.js';
 import { initLightbox, attachPaintingClickListeners } from './lightbox.js';
@@ -210,13 +210,6 @@ function renderPaintingContent(adminMode) {
               src="${getJpegUrl(painting.catalog_number)}"
               alt="${painting.descriptive_title || painting.artists_title || 'Untitled'}"
             />
-            ${painting.dropbox_link_front ? `
-              <div class="download-link">
-                <a href="${getImageUrl(painting.dropbox_link_front)}" target="_blank" download>
-                  Download High-Res TIF →
-                </a>
-              </div>
-            ` : ''}
           </div>
 
           <div class="painting-detail-info">
