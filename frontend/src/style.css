@@ -1568,6 +1568,10 @@ header h1 {
   padding-right: 380px;
 }
 
+.gallery-admin .painting-image img {
+  cursor: zoom-in;
+}
+
 /* Add to Exhibition Button */
 .painting-card {
   position: relative;
