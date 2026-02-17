@@ -9,7 +9,7 @@ import {
   setOnExhibitionChange
 } from './admin-panel.js';
 import { renderNavigation } from './nav.js';
-import { initLightbox, attachPaintingClickListeners, openLightbox } from './lightbox.js';
+import { initLightbox, attachPaintingClickListeners } from './lightbox.js';
 import { setPageMeta } from './utils.js';
 
 // Track current gallery state for re-render
@@ -176,14 +176,6 @@ async function renderStorageView(app, params) {
 
   // Add click handlers for adding paintings to exhibition
   addPaintingClickHandlers();
-
-  // Add lightbox click handlers directly on storage images
-  document.querySelectorAll('.gallery-admin .painting-image img').forEach(img => {
-    img.addEventListener('click', (e) => {
-      e.stopPropagation();
-      openLightbox(img.src, img.alt);
-    });
-  });
 }
 
 // Render the public exhibitions index

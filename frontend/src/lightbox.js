@@ -8,6 +8,7 @@ let startY = 0;
 let translateX = 0;
 let translateY = 0;
 let lightboxHistoryPushed = false;
+let listenersAttached = false;
 
 export function initLightbox() {
   // Create lightbox HTML if it doesn't exist
@@ -29,8 +30,14 @@ export function initLightbox() {
       </div>
     `;
     document.body.insertAdjacentHTML('beforeend', lightboxHTML);
+  }
+
+  // Always attach listeners if not yet done this session.
+  // The lightbox HTML may exist from prerendering but without event listeners.
+  if (!listenersAttached) {
     attachLightboxListeners();
     attachPopstateListener();
+    listenersAttached = true;
   }
 }
 
@@ -55,14 +62,8 @@ function attachLightboxListeners() {
   const resetBtn = lightbox.querySelector('.lightbox-reset');
 
   // Close lightbox
-  closeBtn.addEventListener('click', () => {
-    console.log('[LIGHTBOX DEBUG] Close button clicked');
-    closeLightbox();
-  });
-  overlay.addEventListener('click', () => {
-    console.log('[LIGHTBOX DEBUG] Overlay clicked');
-    closeLightbox();
-  });
+  closeBtn.addEventListener('click', () => closeLightbox());
+  overlay.addEventListener('click', () => closeLightbox());
 
   // ESC key to close
   document.addEventListener('keydown', (e) => {
@@ -72,23 +73,9 @@ function attachLightboxListeners() {
   });
 
   // Zoom controls
-  zoomInBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    console.log('[LIGHTBOX DEBUG] Zoom IN clicked, scale before:', scale);
-    zoomImage(0.2);
-    console.log('[LIGHTBOX DEBUG] Scale after zoom in:', scale);
-  });
-  zoomOutBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    console.log('[LIGHTBOX DEBUG] Zoom OUT clicked, scale before:', scale);
-    zoomImage(-0.2);
-    console.log('[LIGHTBOX DEBUG] Scale after zoom out:', scale);
-  });
-  resetBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    console.log('[LIGHTBOX DEBUG] Reset clicked');
-    resetZoom();
-  });
+  zoomInBtn.addEventListener('click', () => zoomImage(0.2));
+  zoomOutBtn.addEventListener('click', () => zoomImage(-0.2));
+  resetBtn.addEventListener('click', resetZoom);
 
   // Mouse wheel zoom
   lightboxImage.addEventListener('wheel', (e) => {
@@ -101,13 +88,6 @@ function attachLightboxListeners() {
   lightboxImage.addEventListener('mousedown', startPan);
   document.addEventListener('mousemove', pan);
   document.addEventListener('mouseup', endPan);
-
-  // Debug: log ALL clicks when lightbox is active
-  document.addEventListener('click', (e) => {
-    if (lightbox.classList.contains('active')) {
-      console.log('[LIGHTBOX DEBUG] Click detected on:', e.target.tagName, e.target.className, 'id:', e.target.id);
-    }
-  }, true); // capture phase to see it first
 
   // Touch support
   lightboxImage.addEventListener('touchstart', handleTouchStart);
