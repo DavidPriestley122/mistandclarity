@@ -1,4 +1,6 @@
 import { isAdminMode, adminLink } from './admin.js';
+import { t, getLang, setLanguage } from './i18n.js';
+import { rerenderCurrentRoute } from './router.js';
 
 /**
  * Generates the site-wide navigation HTML
@@ -36,19 +38,29 @@ export function renderNavigation() {
       <!-- Navigation -->
       <nav class="header-nav">
         <div class="site-branding">
-          <a href="${adminLink('/')}" data-link class="site-title">Vermillion Pavilion</a>
+          <a href="${adminLink('/')}" data-link class="site-title">${t('nav.site')}</a>
         </div>
         <div class="nav-links">
-          <a href="${adminLink('/gallery')}" data-link class="${isActive('/gallery') ? 'active' : ''}">Gallery</a>
-          <a href="${adminLink('/artists')}" data-link class="${isActive('/artists') ? 'active' : ''}">The Artists</a>
-          <a href="${adminLink('/intro')}" data-link class="${isActive('/intro') ? 'active' : ''}">The Story</a>
-          <a href="${adminLink('/collection')}" data-link class="${isActive('/collection') ? 'active' : ''}">About</a>
-          <a href="${adminLink('/contact')}" data-link class="${isActive('/contact') ? 'active' : ''}">Contact</a>
+          <a href="${adminLink('/gallery')}" data-link class="${isActive('/gallery') ? 'active' : ''}">${t('nav.gallery')}</a>
+          <a href="${adminLink('/artists')}" data-link class="${isActive('/artists') ? 'active' : ''}">${t('nav.artists')}</a>
+          <a href="${adminLink('/intro')}" data-link class="${isActive('/intro') ? 'active' : ''}">${t('nav.story')}</a>
+          <a href="${adminLink('/collection')}" data-link class="${isActive('/collection') ? 'active' : ''}">${t('nav.about')}</a>
+          <a href="${adminLink('/contact')}" data-link class="${isActive('/contact') ? 'active' : ''}">${t('nav.contact')}</a>
         </div>
         <div class="nav-actions">
-          <button class="translate-btn" onclick="alert('Translation feature coming soon')">中文</button>
+          <button class="translate-btn" id="lang-toggle-btn">${t('nav.langToggle')}</button>
         </div>
       </nav>
     </header>
   `;
+}
+
+// Attach language toggle listener after nav is rendered into the DOM
+export function attachLangToggle() {
+  const btn = document.getElementById('lang-toggle-btn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    setLanguage(getLang() === 'en' ? 'zh' : 'en');
+    rerenderCurrentRoute();
+  });
 }

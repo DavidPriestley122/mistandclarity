@@ -1,8 +1,9 @@
 import { fetchPainting, getJpegUrl, updatePainting } from './api.js';
 import { isAdminMode, adminLink } from './admin.js';
-import { renderNavigation } from './nav.js';
+import { renderNavigation, attachLangToggle } from './nav.js';
 import { initLightbox, attachPaintingClickListeners } from './lightbox.js';
 import { setPageMeta } from './utils.js';
+import { t } from './i18n.js';
 
 // Helper function to format price display
 function formatPriceDisplay(painting) {
@@ -61,7 +62,7 @@ export async function renderPaintingDetail(id) {
       ${renderNavigation()}
       <div class="container">
         <div class="back-link">
-          <a href="${backLink}" data-link>← Back to ${adminMode ? 'Storage' : 'Gallery'}</a>
+          <a href="${backLink}" data-link>${adminMode ? t('paintingDetail.backToStorage') : t('paintingDetail.backToGallery')}</a>
         </div>
         <div class="error">
           <p>Error loading painting details.</p>
@@ -69,6 +70,7 @@ export async function renderPaintingDetail(id) {
         </div>
       </div>
     `;
+    attachLangToggle();
   }
 }
 
@@ -192,6 +194,8 @@ function renderPaintingContent(adminMode) {
       </div>
     `;
 
+    attachLangToggle();
+
     // Add event listeners
     document.getElementById('btn-save-painting').addEventListener('click', savePaintingChanges);
     document.getElementById('btn-cancel-edit').addEventListener('click', cancelEdit);
@@ -201,7 +205,7 @@ function renderPaintingContent(adminMode) {
       ${renderNavigation()}
       <div class="container">
         <div class="back-link">
-          <a href="${backLink}" data-link>← Back to ${adminMode ? 'Storage' : 'Gallery'}</a>
+          <a href="${backLink}" data-link>${adminMode ? t('paintingDetail.backToStorage') : t('paintingDetail.backToGallery')}</a>
         </div>
 
         <div class="painting-detail">
@@ -220,45 +224,45 @@ function renderPaintingContent(adminMode) {
 
             ${painting.artist_name ? `
               <p class="detail-artist">
-                <strong>Artist:</strong> ${painting.artist_name}
+                <strong>${t('paintingDetail.artist')}:</strong> ${painting.artist_name}
                 ${painting.name_pinyin ? `<span class="pinyin">(${painting.name_pinyin})</span>` : ''}
               </p>
             ` : ''}
 
             ${painting.theme ? `
-              <p><strong>Theme:</strong> ${painting.theme}</p>
+              <p><strong>${t('paintingDetail.theme')}:</strong> ${painting.theme}</p>
             ` : ''}
 
             ${painting.medium_detail || painting.medium_type ? `
-              <p><strong>Medium:</strong> ${painting.medium_detail || painting.medium_type}</p>
+              <p><strong>${t('paintingDetail.medium')}:</strong> ${painting.medium_detail || painting.medium_type}</p>
             ` : ''}
 
             ${painting.dimensions_h && painting.dimensions_w ? `
-              <p><strong>Dimensions:</strong> ${painting.dimensions_h} × ${painting.dimensions_w} cm</p>
+              <p><strong>${t('paintingDetail.dimensions')}:</strong> ${painting.dimensions_h} × ${painting.dimensions_w} cm</p>
             ` : ''}
 
             ${painting.signature_location ? `
-              <p><strong>Signature:</strong> ${painting.signature_location}</p>
+              <p><strong>${t('paintingDetail.signature')}:</strong> ${painting.signature_location}</p>
             ` : ''}
 
             ${painting.number_of_seals ? `
-              <p><strong>Seals:</strong> ${painting.number_of_seals}</p>
+              <p><strong>${t('paintingDetail.seals')}:</strong> ${painting.number_of_seals}</p>
             ` : ''}
 
             ${painting.framed !== null ? `
-              <p><strong>Framed:</strong> ${painting.framed ? 'Yes' : 'No'}</p>
+              <p><strong>${t('paintingDetail.framed')}:</strong> ${painting.framed ? t('paintingDetail.yes') : t('paintingDetail.no')}</p>
             ` : ''}
 
             ${painting.mounted !== null ? `
-              <p><strong>Mounted:</strong> ${painting.mounted ? 'Yes' : 'No'}</p>
+              <p><strong>${t('paintingDetail.mounted')}:</strong> ${painting.mounted ? t('paintingDetail.yes') : t('paintingDetail.no')}</p>
             ` : ''}
 
             ${painting.condition ? `
-              <p><strong>Condition:</strong> ${painting.condition}</p>
+              <p><strong>${t('paintingDetail.condition')}:</strong> ${painting.condition}</p>
             ` : ''}
 
             ${painting.catalog_number ? `
-              <p class="catalog-number"><strong>Catalog Number:</strong> ${painting.catalog_number}</p>
+              <p class="catalog-number"><strong>${t('paintingDetail.catalogNumber')}:</strong> ${painting.catalog_number}</p>
             ` : ''}
 
             ${formatPriceDisplay(painting)}
@@ -272,9 +276,9 @@ function renderPaintingContent(adminMode) {
 
             ${!adminMode ? `
               <div class="contact-cta">
-                <h3>Interested in this painting?</h3>
+                <h3>${t('paintingDetail.interestedHeading')}</h3>
                 <a href="mailto:contact@example.com?subject=Inquiry about ${painting.catalog_number || 'painting'}" class="btn">
-                  Contact Us
+                  ${t('paintingDetail.contactUs')}
                 </a>
               </div>
             ` : ''}
@@ -282,6 +286,8 @@ function renderPaintingContent(adminMode) {
         </div>
       </div>
     `;
+
+    attachLangToggle();
 
     // Add edit button listener if in admin mode
     if (adminMode) {

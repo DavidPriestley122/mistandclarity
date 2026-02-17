@@ -1,4 +1,5 @@
 import { setPageMeta } from './utils.js';
+import { t } from './i18n.js';
 
 // Simple vanilla JS router
 class Router {
@@ -87,10 +88,10 @@ class Router {
     } else {
       // 404
       setPageMeta(
-        '404 - Page Not Found - Vermillion Pavilion',
-        'The page you are looking for could not be found.'
+        t('notFound.title') + ' - Vermillion Pavilion',
+        t('notFound.message')
       );
-      document.querySelector('#app').innerHTML = '<h1>404 - Page Not Found</h1>';
+      document.querySelector('#app').innerHTML = `<h1>${t('notFound.title')}</h1>`;
     }
   }
 
@@ -100,3 +101,8 @@ class Router {
 }
 
 export const router = new Router();
+
+// Re-render the current route (e.g. after language change)
+export function rerenderCurrentRoute() {
+  router.handleRoute();
+}

@@ -128,11 +128,11 @@ export async function fetchActiveExhibitions() {
 }
 
 // Create a new collection/exhibition
-export async function createCollection(name, description, subtitle, introduction) {
+export async function createCollection(name, description, subtitle, introduction, name_zh, subtitle_zh, introduction_zh) {
   const response = await fetch(`${API_BASE_URL}/collections`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, description, subtitle, introduction })
+    body: JSON.stringify({ name, description, subtitle, introduction, name_zh, subtitle_zh, introduction_zh })
   });
   if (!response.ok) {
     throw new Error('Failed to create collection');

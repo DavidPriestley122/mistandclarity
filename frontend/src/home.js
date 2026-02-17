@@ -1,4 +1,6 @@
 import { setPageMeta } from './utils.js';
+import { t } from './i18n.js';
+import { attachLangToggle } from './nav.js';
 
 export async function renderHome() {
   setPageMeta(
@@ -20,20 +22,26 @@ export async function renderHome() {
         </div>
 
         <div class="landing-content">
-          <h1 class="landing-title">Welcome to the Vermillion Pavilion</h1>
+          <h1 class="landing-title">${t('home.title')}</h1>
           <p class="landing-description">
-            The studio of London artists Chang Chien-ying and Fei Cheng-wu
+            ${t('home.subtitle')}
           </p>
 
           <div class="btn-container">
-            <a href="/gallery" class="btn-enter" data-link>Enter</a>
+            <a href="/gallery" class="btn-enter" data-link>${t('home.enter')}</a>
+          </div>
+
+          <div class="nav-actions home-lang-toggle">
+            <button class="translate-btn" id="lang-toggle-btn">${t('nav.langToggle')}</button>
           </div>
         </div>
 
         <div class="photo-credit">
-          Middlesex Guildhall, Parliament Square, London, 1948
+          ${t('home.photoCredit')}
         </div>
       </div>
     </div>
   `;
+
+  attachLangToggle();
 }

@@ -1,7 +1,8 @@
-import { renderNavigation } from './nav.js';
+import { renderNavigation, attachLangToggle } from './nav.js';
 import { fetchCollection, getJpegUrl } from './api.js';
 import { initLightbox, attachPaintingClickListeners } from './lightbox.js';
 import { setPageMeta } from './utils.js';
+import { t, tExhibition } from './i18n.js';
 
 export async function renderExhibitionDetail(exhibitionId) {
   const app = document.querySelector('#app');
@@ -10,9 +11,10 @@ export async function renderExhibitionDetail(exhibitionId) {
   app.innerHTML = `
     ${renderNavigation()}
     <div class="container">
-      <div class="loading">Loading exhibition...</div>
+      <div class="loading">Loading...</div>
     </div>
   `;
+  attachLangToggle();
 
   try {
     // Fetch exhibition details using API function
@@ -28,36 +30,43 @@ export async function renderExhibitionDetail(exhibitionId) {
         ${renderNavigation()}
         <div class="container">
           <div class="back-link">
-            <a href="/gallery" data-link>← Back to Gallery</a>
+            <a href="/gallery" data-link>${t('exhibitionDetail.backToGallery')}</a>
           </div>
           <div class="exhibition-empty">
-            <h2>Exhibition Not Found</h2>
-            <p>This exhibition is not available.</p>
+            <h2>${t('exhibitionDetail.notFoundHeading')}</h2>
+            <p>${t('exhibitionDetail.notFoundText')}</p>
           </div>
         </div>
       `;
+      attachLangToggle();
       return;
     }
 
+    const displayName = tExhibition(collection, 'name');
+    const displaySubtitle = tExhibition(collection, 'subtitle');
+    const displayIntro = tExhibition(collection, 'introduction');
+
     // Set page meta with exhibition details
     setPageMeta(
-      `${collection.name} - Vermillion Pavilion`,
-      collection.subtitle || collection.introduction || `${collection.name} - A curated exhibition of ${paintings.length} painting${paintings.length !== 1 ? 's' : ''} by Chang Chien-ying and Fei Cheng-wu.`
+      `${displayName} - Vermillion Pavilion`,
+      displaySubtitle || displayIntro || `${displayName} - A curated exhibition of ${paintings.length} painting${paintings.length !== 1 ? 's' : ''} by Chang Chien-ying and Fei Cheng-wu.`
     );
+
+    const count = paintings.length;
 
     // Render exhibition
     app.innerHTML = `
       ${renderNavigation()}
       <div class="container">
         <div class="back-link">
-          <a href="/gallery" data-link>← Back to Gallery</a>
+          <a href="/gallery" data-link>${t('exhibitionDetail.backToGallery')}</a>
         </div>
 
         <div class="exhibition-header">
-          <h2 class="exhibition-title">${collection.name}</h2>
-          ${collection.subtitle ? `<p class="exhibition-subtitle">${collection.subtitle}</p>` : ''}
-          ${collection.introduction ? `<p class="exhibition-introduction">${collection.introduction}</p>` : ''}
-          <p class="exhibition-count">${paintings.length} painting${paintings.length !== 1 ? 's' : ''}</p>
+          <h2 class="exhibition-title">${displayName}</h2>
+          ${displaySubtitle ? `<p class="exhibition-subtitle">${displaySubtitle}</p>` : ''}
+          ${displayIntro ? `<p class="exhibition-introduction">${displayIntro}</p>` : ''}
+          <p class="exhibition-count">${count} ${count !== 1 ? t('exhibitionDetail.paintingsPlural') : t('exhibitionDetail.paintings')}</p>
         </div>
 
         <div class="gallery-grid">
@@ -65,6 +74,8 @@ export async function renderExhibitionDetail(exhibitionId) {
         </div>
       </div>
     `;
+
+    attachLangToggle();
 
     // Initialize lightbox and attach click listeners
     initLightbox();
@@ -76,14 +87,15 @@ export async function renderExhibitionDetail(exhibitionId) {
       ${renderNavigation()}
       <div class="container">
         <div class="back-link">
-          <a href="/gallery" data-link>← Back to Gallery</a>
+          <a href="/gallery" data-link>${t('exhibitionDetail.backToGallery')}</a>
         </div>
         <div class="error">
-          <p>Error loading exhibition details.</p>
+          <p>${t('exhibitionDetail.errorText')}</p>
           <p class="error-detail">${error.message}</p>
         </div>
       </div>
     `;
+    attachLangToggle();
   }
 }
 

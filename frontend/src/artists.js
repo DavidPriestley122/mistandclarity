@@ -1,5 +1,6 @@
-import { renderNavigation } from './nav.js';
+import { renderNavigation, attachLangToggle } from './nav.js';
 import { setPageMeta } from './utils.js';
+import { t } from './i18n.js';
 
 export function renderArtists() {
   setPageMeta(
@@ -16,31 +17,31 @@ export function renderArtists() {
       <div class="intro-container">
 
         <section class="intro-section">
-          <h1>The Artists</h1>
+          <h1>${t('artists.heading')}</h1>
 
           <div class="intro-photo">
             <img src="/images/MrandMrsFeiWithZAZandCXN1.jpg"
                  alt="Chang Chien-ying and Fei Cheng-wu with fellow artists" />
-            <p class="photo-caption">The four artists sent to Britain by Xu Beihong in 1946. Left to right: Fei Cheng-wu, Zhang Anzhi (back), Chang Chien-ying (front), and Chen Xiaonan</p>
+            <p class="photo-caption">${t('artists.caption')}</p>
           </div>
 
           <div class="intro-text">
-            <p>Chang Chien-ying (張蒨英, 1909-2003) and Fei Cheng-wu (費成武, 1911-2000) called their North London home the Vermillion Pavilion. Between the late 1940s and early 1960s, they produced the majority of their work, a remarkably productive period that established their reputations across Britain.</p>
+            <p>${t('artists.intro')}</p>
           </div>
 
           <div class="artists-choice">
             <a href="/artist/chang-chien-ying" class="artist-card" data-link>
               <h2>Chang Chien-ying</h2>
-              <p class="artist-years">張蒨英 (1909-2003)</p>
-              <p class="artist-description">Accomplished calligrapher and painter, known for her fluid landscapes, outline-free flower paintings, and expressive depictions of birds and animals.</p>
-              <span class="artist-link-text">Read biography →</span>
+              <p class="artist-years">${t('artists.chang.years')}</p>
+              <p class="artist-description">${t('artists.chang.description')}</p>
+              <span class="artist-link-text">${t('artists.chang.link')}</span>
             </a>
 
             <a href="/artist/fei-cheng-wu" class="artist-card" data-link>
               <h2>Fei Cheng-wu</h2>
-              <p class="artist-years">費成武 (1911-2000)</p>
-              <p class="artist-description">Master draughtsman creating carefully observed oils of figures and landscapes, and finely detailed watercolour depictions of animals and flowers.</p>
-              <span class="artist-link-text">Read biography →</span>
+              <p class="artist-years">${t('artists.fei.years')}</p>
+              <p class="artist-description">${t('artists.fei.description')}</p>
+              <span class="artist-link-text">${t('artists.fei.link')}</span>
             </a>
           </div>
 
@@ -49,4 +50,6 @@ export function renderArtists() {
       </div>
     </div>
   `;
+
+  attachLangToggle();
 }

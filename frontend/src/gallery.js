@@ -8,9 +8,10 @@ import {
   addPaintingToExhibition,
   setOnExhibitionChange
 } from './admin-panel.js';
-import { renderNavigation } from './nav.js';
+import { renderNavigation, attachLangToggle } from './nav.js';
 import { initLightbox, attachPaintingClickListeners } from './lightbox.js';
 import { setPageMeta } from './utils.js';
+import { t, tExhibition } from './i18n.js';
 
 // Track current gallery state for re-render
 let currentFilters = {};
@@ -31,7 +32,7 @@ export async function renderGallery(params) {
   app.innerHTML = `
     ${renderNavigation()}
     <div class="container">
-      <div class="loading">Loading gallery...</div>
+      <div class="loading">Loading...</div>
     </div>
   `;
 
@@ -156,6 +157,8 @@ async function renderStorageView(app, params) {
     </div>
   `;
 
+  attachLangToggle();
+
   // Client-side search filter
   function applyStorageSearch() {
     const query = document.getElementById('storage-search').value.trim().toLowerCase();
@@ -214,11 +217,12 @@ async function renderExhibitionsIndex(app) {
       ${renderNavigation()}
       <div class="container">
         <div class="exhibition-empty">
-          <h2>Exhibitions Coming Soon</h2>
-          <p>We are preparing new exhibitions. Please check back soon.</p>
+          <h2>${t('gallery.comingSoon')}</h2>
+          <p>${t('gallery.comingSoonText')}</p>
         </div>
       </div>
     `;
+    attachLangToggle();
     return;
   }
 
@@ -227,8 +231,8 @@ async function renderExhibitionsIndex(app) {
     ${renderNavigation()}
     <div class="container">
       <div class="exhibitions-index-header">
-        <h1>Exhibitions</h1>
-        <p class="exhibitions-subtitle">Explore our curated collections</p>
+        <h1>${t('gallery.heading')}</h1>
+        <p class="exhibitions-subtitle">${t('gallery.subtitle')}</p>
       </div>
 
       <div class="exhibitions-grid">
@@ -236,11 +240,16 @@ async function renderExhibitionsIndex(app) {
       </div>
     </div>
   `;
+
+  attachLangToggle();
 }
 
 // Render an exhibition card for the index
 function renderExhibitionCard(exhibition) {
   const firstPainting = exhibition.first_painting;
+  const count = exhibition.painting_count || 0;
+  const displayName = tExhibition(exhibition, 'name');
+  const displaySubtitle = tExhibition(exhibition, 'subtitle');
 
   return `
     <div class="exhibition-card">
@@ -249,16 +258,16 @@ function renderExhibitionCard(exhibition) {
           <div class="exhibition-card-image">
             <img
               src="${getJpegUrl(firstPainting.catalog_number)}"
-              alt="${exhibition.name}"
+              alt="${displayName}"
               loading="lazy"
             />
           </div>
         ` : ''}
         <div class="exhibition-card-content">
-          <h2 class="exhibition-card-title">${exhibition.name}</h2>
-          ${exhibition.subtitle ? `<p class="exhibition-card-subtitle">${exhibition.subtitle}</p>` : ''}
-          <p class="exhibition-card-count">${exhibition.painting_count || 0} painting${(exhibition.painting_count || 0) !== 1 ? 's' : ''}</p>
-          <span class="exhibition-card-link">View Exhibition →</span>
+          <h2 class="exhibition-card-title">${displayName}</h2>
+          ${displaySubtitle ? `<p class="exhibition-card-subtitle">${displaySubtitle}</p>` : ''}
+          <p class="exhibition-card-count">${count} ${count !== 1 ? t('gallery.paintingsPlural') : t('gallery.paintings')}</p>
+          <span class="exhibition-card-link">${t('gallery.viewExhibition')}</span>
         </div>
       </a>
     </div>

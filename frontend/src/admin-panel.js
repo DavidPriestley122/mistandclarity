@@ -205,6 +205,21 @@ function showExhibitionModal() {
             <textarea id="exhibition-intro" rows="5" placeholder="Write a short introduction to the exhibition..."></textarea>
           </div>
 
+          <div class="form-group">
+            <label for="exhibition-title-zh">Chinese Name (中文名稱)</label>
+            <input type="text" id="exhibition-title-zh" placeholder="e.g., 花鳥畫展">
+          </div>
+
+          <div class="form-group">
+            <label for="exhibition-subtitle-zh">Chinese Subtitle (中文副題)</label>
+            <input type="text" id="exhibition-subtitle-zh" placeholder="e.g., 1950年代作品">
+          </div>
+
+          <div class="form-group">
+            <label for="exhibition-intro-zh">Chinese Introduction (中文簡介)</label>
+            <textarea id="exhibition-intro-zh" rows="5" placeholder="展覽中文簡介..."></textarea>
+          </div>
+
           <div class="form-actions">
             <button type="button" class="btn-cancel" id="modal-cancel">Cancel</button>
             <button type="submit" class="btn-primary">Create Exhibition</button>
@@ -241,6 +256,9 @@ async function handleExhibitionSubmit(e) {
   const title = document.getElementById('exhibition-title').value.trim();
   const subtitle = document.getElementById('exhibition-subtitle').value.trim();
   const introduction = document.getElementById('exhibition-intro').value.trim();
+  const name_zh = document.getElementById('exhibition-title-zh').value.trim() || null;
+  const subtitle_zh = document.getElementById('exhibition-subtitle-zh').value.trim() || null;
+  const introduction_zh = document.getElementById('exhibition-intro-zh').value.trim() || null;
 
   if (!title) {
     alert('Title is required');
@@ -248,7 +266,7 @@ async function handleExhibitionSubmit(e) {
   }
 
   try {
-    const newCollection = await createCollection(title, '', subtitle, introduction);
+    const newCollection = await createCollection(title, '', subtitle, introduction, name_zh, subtitle_zh, introduction_zh);
     adminPanelState.exhibitions.unshift(newCollection);
     renderExhibitionSelector();
     closeExhibitionModal();
@@ -336,12 +354,18 @@ async function saveExhibitionInfo() {
   const nameInput = document.getElementById('edit-exhibition-name');
   const subtitleInput = document.getElementById('edit-exhibition-subtitle');
   const introInput = document.getElementById('edit-exhibition-introduction');
+  const nameZhInput = document.getElementById('edit-exhibition-name-zh');
+  const subtitleZhInput = document.getElementById('edit-exhibition-subtitle-zh');
+  const introZhInput = document.getElementById('edit-exhibition-introduction-zh');
 
   if (!nameInput) return;
 
   const newName = nameInput.value.trim();
   const newSubtitle = subtitleInput ? subtitleInput.value.trim() : '';
   const newIntroduction = introInput ? introInput.value.trim() : '';
+  const newNameZh = nameZhInput ? nameZhInput.value.trim() || null : null;
+  const newSubtitleZh = subtitleZhInput ? subtitleZhInput.value.trim() || null : null;
+  const newIntroductionZh = introZhInput ? introZhInput.value.trim() || null : null;
 
   if (!newName) {
     alert('Exhibition name cannot be empty.');
@@ -355,13 +379,19 @@ async function saveExhibitionInfo() {
     await updateCollection(collectionId, {
       name: newName,
       subtitle: newSubtitle,
-      introduction: newIntroduction
+      introduction: newIntroduction,
+      name_zh: newNameZh,
+      subtitle_zh: newSubtitleZh,
+      introduction_zh: newIntroductionZh
     });
 
     // Update local state
     adminPanelState.currentExhibition.name = newName;
     adminPanelState.currentExhibition.subtitle = newSubtitle;
     adminPanelState.currentExhibition.introduction = newIntroduction;
+    adminPanelState.currentExhibition.name_zh = newNameZh;
+    adminPanelState.currentExhibition.subtitle_zh = newSubtitleZh;
+    adminPanelState.currentExhibition.introduction_zh = newIntroductionZh;
 
     // Update the exhibition in the list
     const exhibition = adminPanelState.exhibitions.find(ex => ex.id === collectionId);
@@ -369,6 +399,9 @@ async function saveExhibitionInfo() {
       exhibition.name = newName;
       exhibition.subtitle = newSubtitle;
       exhibition.introduction = newIntroduction;
+      exhibition.name_zh = newNameZh;
+      exhibition.subtitle_zh = newSubtitleZh;
+      exhibition.introduction_zh = newIntroductionZh;
     }
 
     adminPanelState.isEditingInfo = false;
@@ -412,6 +445,26 @@ function renderExhibitionInfo() {
           <textarea id="edit-exhibition-introduction"
                     rows="3"
                     placeholder="Write a short introduction to the exhibition...">${currentExhibition.introduction || ''}</textarea>
+        </div>
+        <div class="edit-field">
+          <label for="edit-exhibition-name-zh">Chinese Name (中文名稱):</label>
+          <input type="text"
+                 id="edit-exhibition-name-zh"
+                 value="${currentExhibition.name_zh || ''}"
+                 placeholder="e.g., 花鳥畫展">
+        </div>
+        <div class="edit-field">
+          <label for="edit-exhibition-subtitle-zh">Chinese Subtitle (中文副題):</label>
+          <input type="text"
+                 id="edit-exhibition-subtitle-zh"
+                 value="${currentExhibition.subtitle_zh || ''}"
+                 placeholder="e.g., 1950年代作品">
+        </div>
+        <div class="edit-field">
+          <label for="edit-exhibition-introduction-zh">Chinese Introduction (中文簡介):</label>
+          <textarea id="edit-exhibition-introduction-zh"
+                    rows="3"
+                    placeholder="展覽中文簡介...">${currentExhibition.introduction_zh || ''}</textarea>
         </div>
         <div class="edit-actions">
           <button id="btn-save-info" class="btn-small btn-save">Save</button>

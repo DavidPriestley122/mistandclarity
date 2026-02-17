@@ -1,6 +1,7 @@
-import { renderNavigation } from './nav.js';
+import { renderNavigation, attachLangToggle } from './nav.js';
 import { setPageMeta } from './utils.js';
 import { submitInquiry, subscribeMailingList, fetchPaintings } from './api.js';
+import { t } from './i18n.js';
 
 export async function renderContact() {
   setPageMeta(
@@ -16,33 +17,33 @@ export async function renderContact() {
     <div class="intro-page">
       <div class="intro-container">
         <section class="intro-section">
-          <h1>Contact</h1>
+          <h1>${t('contact.heading')}</h1>
 
           <div class="contact-form-toggle">
-            <button class="toggle-btn active" data-mode="inquiry">Inquire about a painting</button>
-            <button class="toggle-btn" data-mode="subscribe">Join mailing list</button>
+            <button class="toggle-btn active" data-mode="inquiry">${t('contact.tabInquiry')}</button>
+            <button class="toggle-btn" data-mode="subscribe">${t('contact.tabSubscribe')}</button>
           </div>
 
           <form id="contact-form" class="contact-form">
             <!-- Inquiry mode (default) -->
             <div id="inquiry-fields">
               <div class="form-group">
-                <label for="name">Name *</label>
+                <label for="name">${t('contact.name')}</label>
                 <input type="text" id="name" name="name" required>
               </div>
 
               <div class="form-group">
-                <label for="email">Email *</label>
+                <label for="email">${t('contact.email')}</label>
                 <input type="email" id="email" name="email" required>
               </div>
 
               <div class="form-group">
-                <label for="painting">Catalog number (optional)</label>
-                <input type="text" id="painting" name="painting" placeholder="e.g., 0042">
+                <label for="painting">${t('contact.catalogNumber')}</label>
+                <input type="text" id="painting" name="painting" placeholder="${t('contact.catalogPlaceholder')}">
               </div>
 
               <div class="form-group">
-                <label for="message">Message *</label>
+                <label for="message">${t('contact.message')}</label>
                 <textarea id="message" name="message" rows="5" required></textarea>
               </div>
             </div>
@@ -50,30 +51,29 @@ export async function renderContact() {
             <!-- Subscribe mode (hidden by default) -->
             <div id="subscribe-fields" style="display: none;">
               <div class="form-group">
-                <label for="sub-name">Name *</label>
+                <label for="sub-name">${t('contact.subName')}</label>
                 <input type="text" id="sub-name" name="sub-name" required>
               </div>
 
               <div class="form-group">
-                <label for="sub-email">Email *</label>
+                <label for="sub-email">${t('contact.subEmail')}</label>
                 <input type="email" id="sub-email" name="sub-email" required>
               </div>
 
               <div class="form-group checkbox-group">
                 <label>
                   <input type="checkbox" id="consent" name="consent" required>
-                  I consent to receive occasional emails about new painting exhibitions
+                  ${t('contact.consent')}
                 </label>
               </div>
 
               <p class="privacy-note">
-                We will only email you about new exhibitions. You can unsubscribe at any time.
-                We will never share your email with third parties.
+                ${t('contact.privacy')}
               </p>
             </div>
 
             <div class="form-actions">
-              <button type="submit" class="btn-primary">Submit</button>
+              <button type="submit" class="btn-primary">${t('contact.submit')}</button>
             </div>
 
             <div id="form-message" class="form-message"></div>
@@ -82,6 +82,8 @@ export async function renderContact() {
       </div>
     </div>
   `;
+
+  attachLangToggle();
 
   // Form mode toggle
   const toggleBtns = document.querySelectorAll('.toggle-btn');
@@ -133,7 +135,7 @@ async function handleFormSubmit(e) {
       await submitInquiry(name, email, message, catalogNumber);
 
       messageEl.className = 'form-message success';
-      messageEl.textContent = 'Thank you for your inquiry! We will respond within 48 hours.';
+      messageEl.textContent = t('contact.successInquiry');
 
     } else {
       const name = document.getElementById('sub-name').value;
@@ -142,7 +144,7 @@ async function handleFormSubmit(e) {
       await subscribeMailingList(name, email);
 
       messageEl.className = 'form-message success';
-      messageEl.textContent = 'Thank you for subscribing! You will receive updates about new exhibitions.';
+      messageEl.textContent = t('contact.successSubscribe');
     }
 
     // Reset form
@@ -150,6 +152,6 @@ async function handleFormSubmit(e) {
 
   } catch (err) {
     messageEl.className = 'form-message error';
-    messageEl.textContent = 'Failed to submit. Please try again or email us directly at contact@vermillionpavilion.com';
+    messageEl.textContent = t('contact.error');
   }
 }

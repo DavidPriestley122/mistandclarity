@@ -89,11 +89,11 @@ router.get('/:id', async (req, res) => {
 // Create new collection
 router.post('/', async (req, res) => {
   try {
-    const { name, description, subtitle, introduction } = req.body;
+    const { name, description, subtitle, introduction, name_zh, subtitle_zh, introduction_zh } = req.body;
 
     const result = await db.query(
-      'INSERT INTO collections (name, description, subtitle, introduction) VALUES ($1, $2, $3, $4) RETURNING *',
-      [name, description, subtitle, introduction]
+      'INSERT INTO collections (name, description, subtitle, introduction, name_zh, subtitle_zh, introduction_zh) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+      [name, description, subtitle, introduction, name_zh || null, subtitle_zh || null, introduction_zh || null]
     );
 
     res.status(201).json(result.rows[0]);
@@ -107,7 +107,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, subtitle, introduction, is_active } = req.body;
+    const { name, description, subtitle, introduction, is_active, name_zh, subtitle_zh, introduction_zh } = req.body;
 
     const result = await db.query(
       `UPDATE collections
@@ -116,10 +116,13 @@ router.put('/:id', async (req, res) => {
            subtitle = COALESCE($3, subtitle),
            introduction = COALESCE($4, introduction),
            is_active = COALESCE($5, is_active),
+           name_zh = COALESCE($6, name_zh),
+           subtitle_zh = COALESCE($7, subtitle_zh),
+           introduction_zh = COALESCE($8, introduction_zh),
            updated_at = CURRENT_TIMESTAMP
-       WHERE id = $6
+       WHERE id = $9
        RETURNING *`,
-      [name, description, subtitle, introduction, is_active, id]
+      [name, description, subtitle, introduction, is_active, name_zh, subtitle_zh, introduction_zh, id]
     );
 
     if (result.rows.length === 0) {
