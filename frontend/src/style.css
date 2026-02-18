@@ -1985,6 +1985,12 @@ header h1 {
   box-shadow: 0 6px 16px rgba(183, 28, 28, 0.3);
 }
 
+:lang(zh-Hant) .btn-enter {
+  padding: 10px 16px;
+  font-size: 1.1rem;
+  letter-spacing: 0;
+}
+
 .photo-credit {
   position: absolute;
   bottom: 20px;
