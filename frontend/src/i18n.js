@@ -141,9 +141,9 @@ const translations = {
       langToggle: 'English'
     },
     home: {
-      title: '歡迎來到霧明樓',
-      subtitle: '倫敦藝術家張蒨英與費成武的畫室',
-      enter: '進入',
+      title: 'Welcome to the Vermillion Pavilion',
+      subtitle: 'The studio of London artists Chang Chien-ying and Fei Cheng-wu',
+      enter: '入',
       photoCredit: '倫敦議會廣場米德塞克斯市政廳，1948年'
     },
     about: {
