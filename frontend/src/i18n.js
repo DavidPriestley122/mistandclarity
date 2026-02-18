@@ -143,7 +143,7 @@ const translations = {
     home: {
       title: 'Welcome to the Vermillion Pavilion',
       subtitle: 'The studio of London artists Chang Chien-ying and Fei Cheng-wu',
-      enter: '入',
+      enter: '進入',
       photoCredit: '倫敦議會廣場米德塞克斯市政廳，1948年'
     },
     about: {
