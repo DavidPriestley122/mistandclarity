@@ -30,10 +30,10 @@ export async function renderHome() {
           <div class="btn-container">
             <a href="/gallery" class="btn-enter" data-link>${t('home.enter')}</a>
           </div>
+        </div>
 
-          <div class="nav-actions home-lang-toggle">
-            <button class="translate-btn" id="lang-toggle-btn">${t('nav.langToggle')}</button>
-          </div>
+        <div class="home-lang-toggle">
+          <button class="translate-btn" id="lang-toggle-btn">${t('nav.langToggle')}</button>
         </div>
 
         <div class="photo-credit">

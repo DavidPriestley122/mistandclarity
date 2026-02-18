@@ -1933,6 +1933,13 @@ header h1 {
   max-width: 700px;
 }
 
+.home-lang-toggle {
+  position: absolute;
+  top: 32px;
+  right: 40px;
+  z-index: 4;
+}
+
 .landing-title {
   font-size: 1.9rem;
   font-weight: 400;
