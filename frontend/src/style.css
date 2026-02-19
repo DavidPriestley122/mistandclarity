@@ -2004,16 +2004,22 @@ header h1 {
   }
 
   .landing-content {
-    padding: 30px 30px 60px 80px;
-    max-width: 500px;
+    padding: 30px 25px 60px 25px;
+    max-width: 100%;
   }
 
   .landing-title {
-    font-size: 1.7rem;
+    font-size: 1.5rem;
+    white-space: normal;
   }
 
   .landing-description {
-    font-size: 1rem;
+    font-size: 0.95rem;
+    white-space: normal;
+  }
+
+  .btn-container {
+    text-align: left;
   }
 
   .btn-enter {
@@ -2028,16 +2034,16 @@ header h1 {
   }
 
   .landing-content {
-    padding: 25px 20px 50px 70px;
-    max-width: 400px;
+    padding: 20px 20px 50px 20px;
+    max-width: 100%;
   }
 
   .landing-title {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
 
   .landing-description {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
   }
 
   .btn-enter {
