@@ -14,11 +14,14 @@ export async function renderHome() {
     <div class="landing-page">
       <div class="landing-hero">
         <div class="landing-image-container">
-          <img
-            src="/images/Hero image.jpg"
-            alt="Chang Chien-ying and Fei Cheng-wu painting outdoors in London, 1948"
-            class="landing-hero-image"
-          />
+          <picture>
+            <source srcset="/images/Hero image.webp" type="image/webp">
+            <img
+              src="/images/Hero image.jpg"
+              alt="Chang Chien-ying and Fei Cheng-wu painting outdoors in London, 1948"
+              class="landing-hero-image"
+            />
+          </picture>
         </div>
 
         <div class="landing-content">
