@@ -114,7 +114,7 @@ const translations = {
       yes: 'Yes',
       no: 'No',
       interestedHeading: 'Interested in this painting?',
-      contactUs: 'Contact Us'
+      emailUs: 'Email us at'
     },
     exhibitionDetail: {
       backToGallery: '← Back to Gallery',
@@ -243,7 +243,7 @@ const translations = {
       yes: '是',
       no: '否',
       interestedHeading: '有意收藏此畫？',
-      contactUs: '聯絡我們'
+      emailUs: '請發電郵至'
     },
     exhibitionDetail: {
       backToGallery: '← 返回展覽',
