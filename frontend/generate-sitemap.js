@@ -44,12 +44,6 @@ async function generateSitemap() {
     }
     console.log(`   Added ${active.length} exhibition(s)`);
 
-    // All paintings
-    const paintings = await fetchJson('/paintings');
-    for (const p of paintings) {
-      entries.push(urlEntry({ url: `/painting/${p.id}`, priority: '0.5', changefreq: 'yearly' }));
-    }
-    console.log(`   Added ${paintings.length} painting(s)`);
   } catch (err) {
     console.warn('   Warning: could not fetch dynamic pages:', err.message);
     console.warn('   Sitemap will contain static pages only');
