@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:vite && node build-with-prerender.js",
+    "build": "npm run build:vite && node generate-sitemap.js && node build-with-prerender.js",
     "build:vite": "vite build",
     "postinstall": "playwright install chromium",
     "preview": "vite preview"
