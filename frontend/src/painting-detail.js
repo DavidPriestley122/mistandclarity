@@ -277,7 +277,7 @@ function renderPaintingContent(adminMode) {
             ${!adminMode ? `
               <div class="contact-cta">
                 <h3>${t('paintingDetail.interestedHeading')}</h3>
-                <a href="mailto:contact@example.com?subject=Inquiry about ${painting.catalog_number || 'painting'}" class="btn">
+                <a href="mailto:contact@vermillionpavilion.com?subject=Inquiry about ${painting.catalog_number || 'painting'}" class="btn">
                   ${t('paintingDetail.contactUs')}
                 </a>
               </div>
