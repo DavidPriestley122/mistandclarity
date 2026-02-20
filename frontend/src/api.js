@@ -1,6 +1,23 @@
 // API configuration
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
+// Returns Authorization header object if a token is stored
+function adminAuthHeaders() {
+  const token = sessionStorage.getItem('adminToken');
+  return token ? { 'Authorization': `Bearer ${token}` } : {};
+}
+
+// Admin login - returns { token }
+export async function adminLogin(password) {
+  const response = await fetch(`${API_BASE_URL}/admin/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password })
+  });
+  if (!response.ok) throw new Error('Incorrect password');
+  return response.json();
+}
+
 // Helper function to convert Dropbox preview link to raw image URL (legacy)
 export function getImageUrl(dropboxLink) {
   if (!dropboxLink || dropboxLink.toLowerCase() === 'no') {
@@ -131,7 +148,7 @@ export async function fetchActiveExhibitions() {
 export async function createCollection(name, description, subtitle, introduction, name_zh, subtitle_zh, introduction_zh) {
   const response = await fetch(`${API_BASE_URL}/collections`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...adminAuthHeaders() },
     body: JSON.stringify({ name, description, subtitle, introduction, name_zh, subtitle_zh, introduction_zh })
   });
   if (!response.ok) {
@@ -145,7 +162,7 @@ export async function createCollection(name, description, subtitle, introduction
 export async function addToExhibition(collectionId, paintingId) {
   const response = await fetch(`${API_BASE_URL}/collections/${collectionId}/paintings`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...adminAuthHeaders() },
     body: JSON.stringify({ painting_id: paintingId })
   });
   if (!response.ok) {
@@ -161,7 +178,8 @@ export async function addToExhibition(collectionId, paintingId) {
 // Remove painting from a collection/exhibition
 export async function removeFromExhibition(collectionId, paintingId) {
   const response = await fetch(`${API_BASE_URL}/collections/${collectionId}/paintings/${paintingId}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    headers: { ...adminAuthHeaders() }
   });
   if (!response.ok) {
     throw new Error('Failed to remove painting from exhibition');
@@ -179,7 +197,7 @@ export async function reorderExhibition(collectionId, paintingIds) {
 
   const response = await fetch(`${API_BASE_URL}/collections/${collectionId}/reorder`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...adminAuthHeaders() },
     body: JSON.stringify({ painting_orders })
   });
   if (!response.ok) {
@@ -192,7 +210,8 @@ export async function reorderExhibition(collectionId, paintingIds) {
 // Activate a collection as the current exhibition
 export async function activateExhibition(collectionId) {
   const response = await fetch(`${API_BASE_URL}/collections/${collectionId}/activate`, {
-    method: 'PUT'
+    method: 'PUT',
+    headers: { ...adminAuthHeaders() }
   });
   if (!response.ok) {
     throw new Error('Failed to activate exhibition');
@@ -205,7 +224,7 @@ export async function activateExhibition(collectionId) {
 export async function updateCollection(collectionId, data) {
   const response = await fetch(`${API_BASE_URL}/collections/${collectionId}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...adminAuthHeaders() },
     body: JSON.stringify(data)
   });
   if (!response.ok) {
@@ -218,7 +237,8 @@ export async function updateCollection(collectionId, data) {
 // Delete collection
 export async function deleteCollection(collectionId) {
   const response = await fetch(`${API_BASE_URL}/collections/${collectionId}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    headers: { ...adminAuthHeaders() }
   });
   if (!response.ok) {
     throw new Error('Failed to delete collection');
@@ -231,7 +251,7 @@ export async function deleteCollection(collectionId) {
 export async function updatePainting(paintingId, data) {
   const response = await fetch(`${API_BASE_URL}/paintings/${paintingId}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...adminAuthHeaders() },
     body: JSON.stringify(data)
   });
   if (!response.ok) {
@@ -265,14 +285,18 @@ export async function subscribeMailingList(name, email) {
 
 // Admin: Get all submissions
 export async function fetchSubmissions() {
-  const response = await fetch(`${API_BASE_URL}/contacts/submissions`);
+  const response = await fetch(`${API_BASE_URL}/contacts/submissions`, {
+    headers: { ...adminAuthHeaders() }
+  });
   if (!response.ok) throw new Error('Failed to fetch submissions');
   return response.json();
 }
 
 // Admin: Get mailing list
 export async function fetchMailingList() {
-  const response = await fetch(`${API_BASE_URL}/contacts/mailing-list`);
+  const response = await fetch(`${API_BASE_URL}/contacts/mailing-list`, {
+    headers: { ...adminAuthHeaders() }
+  });
   if (!response.ok) throw new Error('Failed to fetch mailing list');
   return response.json();
 }
@@ -281,7 +305,7 @@ export async function fetchMailingList() {
 export async function updateSubmissionStatus(id, status) {
   const response = await fetch(`${API_BASE_URL}/contacts/submissions/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...adminAuthHeaders() },
     body: JSON.stringify({ status })
   });
   if (!response.ok) throw new Error('Failed to update submission');
@@ -291,7 +315,8 @@ export async function updateSubmissionStatus(id, status) {
 // Admin: Delete submission
 export async function deleteSubmission(id) {
   const response = await fetch(`${API_BASE_URL}/contacts/submissions/${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    headers: { ...adminAuthHeaders() }
   });
   if (!response.ok) throw new Error('Failed to delete submission');
   return response.json();
@@ -300,7 +325,8 @@ export async function deleteSubmission(id) {
 // Admin: Unsubscribe from mailing list
 export async function unsubscribeFromList(id) {
   const response = await fetch(`${API_BASE_URL}/contacts/mailing-list/${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    headers: { ...adminAuthHeaders() }
   });
   if (!response.ok) throw new Error('Failed to unsubscribe');
   return response.json();

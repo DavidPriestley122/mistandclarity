@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../database');
+const { requireAuth } = require('../middleware/auth');
 
 // PUBLIC ENDPOINTS (no auth required)
 
@@ -65,10 +66,10 @@ router.post('/subscribe', async (req, res) => {
   }
 });
 
-// ADMIN ENDPOINTS (no backend auth - frontend checks ?admin=true)
+// ADMIN ENDPOINTS
 
 // GET /api/contacts/submissions - Get all inquiries
-router.get('/submissions', async (req, res) => {
+router.get('/submissions', requireAuth, async (req, res) => {
   try {
     const result = await db.query(
       `SELECT cs.*, p.descriptive_title as painting_title, p.catalog_number
@@ -84,7 +85,7 @@ router.get('/submissions', async (req, res) => {
 });
 
 // GET /api/contacts/mailing-list - Get all subscribers
-router.get('/mailing-list', async (req, res) => {
+router.get('/mailing-list', requireAuth, async (req, res) => {
   try {
     const result = await db.query(
       `SELECT * FROM mailing_list ORDER BY created_at DESC`
@@ -97,7 +98,7 @@ router.get('/mailing-list', async (req, res) => {
 });
 
 // PUT /api/contacts/submissions/:id - Update submission status
-router.put('/submissions/:id', async (req, res) => {
+router.put('/submissions/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
@@ -119,7 +120,7 @@ router.put('/submissions/:id', async (req, res) => {
 });
 
 // DELETE /api/contacts/submissions/:id - Delete inquiry
-router.delete('/submissions/:id', async (req, res) => {
+router.delete('/submissions/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     await db.query('DELETE FROM contact_submissions WHERE id = $1', [id]);
@@ -131,7 +132,7 @@ router.delete('/submissions/:id', async (req, res) => {
 });
 
 // DELETE /api/contacts/mailing-list/:id - Unsubscribe
-router.delete('/mailing-list/:id', async (req, res) => {
+router.delete('/mailing-list/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     await db.query('DELETE FROM mailing_list WHERE id = $1', [id]);

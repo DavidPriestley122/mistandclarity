@@ -1,13 +1,29 @@
 // Admin mode state management
 
-// Check if admin mode is active
-export function isAdminMode() {
+export function isAdminParamPresent() {
   return new URLSearchParams(window.location.search).get('admin') === 'true';
+}
+
+export function getAdminToken() {
+  return sessionStorage.getItem('adminToken');
+}
+
+export function setAdminToken(token) {
+  sessionStorage.setItem('adminToken', token);
+}
+
+export function clearAdminToken() {
+  sessionStorage.removeItem('adminToken');
+}
+
+// Admin mode requires both the ?admin=true param AND a valid token
+export function isAdminMode() {
+  return isAdminParamPresent() && !!getAdminToken();
 }
 
 // Preserve admin mode when navigating - returns path with admin param if needed
 export function adminLink(path) {
-  if (!isAdminMode()) {
+  if (!isAdminParamPresent()) {
     return path;
   }
 
@@ -30,7 +46,7 @@ export function buildGalleryUrl(filters = {}) {
 
   if (filters.artist_id) params.set('artist_id', filters.artist_id);
   if (filters.theme) params.set('theme', filters.theme);
-  if (isAdminMode()) params.set('admin', 'true');
+  if (isAdminParamPresent()) params.set('admin', 'true');
 
   const query = params.toString();
   return '/gallery' + (query ? '?' + query : '');

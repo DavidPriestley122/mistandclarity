@@ -19,11 +19,13 @@ const paintingsRouter = require('./routes/paintings');
 const collectionsRouter = require('./routes/collections');
 const artistsRouter = require('./routes/artists');
 const contactsRouter = require('./routes/contacts');
+const adminRouter = require('./routes/admin');
 
 app.use('/api/paintings', paintingsRouter);
 app.use('/api/collections', collectionsRouter);
 app.use('/api/artists', artistsRouter);
 app.use('/api/contacts', contactsRouter);
+app.use('/api/admin', adminRouter);
 
 // Health check
 app.get('/health', (req, res) => {

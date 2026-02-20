@@ -1545,6 +1545,58 @@ header h1 {
   border-color: var(--hover-red);
 }
 
+/* Admin Login Form */
+.admin-login-box {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 40px;
+  background: var(--warm-cream);
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+}
+
+.admin-login-box h2 {
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--primary-color);
+  margin-bottom: 24px;
+  letter-spacing: 0.03em;
+}
+
+.admin-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-login-form label {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.admin-login-form input[type="password"] {
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: white;
+  color: var(--text-color);
+}
+
+.admin-login-form input[type="password"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.login-error {
+  color: var(--accent-red);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
 /* Admin Mode Banner in Gallery */
 .admin-mode-banner {
   margin-top: 20px;

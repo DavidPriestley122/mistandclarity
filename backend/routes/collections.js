@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../database');
+const { requireAuth } = require('../middleware/auth');
 
 // Get all collections
 router.get('/', async (req, res) => {
@@ -87,7 +88,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create new collection
-router.post('/', async (req, res) => {
+router.post('/', requireAuth, async (req, res) => {
   try {
     const { name, description, subtitle, introduction, name_zh, subtitle_zh, introduction_zh } = req.body;
 
@@ -104,7 +105,7 @@ router.post('/', async (req, res) => {
 });
 
 // Update collection
-router.put('/:id', async (req, res) => {
+router.put('/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { name, description, subtitle, introduction, is_active, name_zh, subtitle_zh, introduction_zh } = req.body;
@@ -137,7 +138,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Activate a collection as the current exhibition
-router.put('/:id/activate', async (req, res) => {
+router.put('/:id/activate', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -179,7 +180,7 @@ router.put('/:id/activate', async (req, res) => {
 });
 
 // Delete collection
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const result = await db.query(
@@ -199,7 +200,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 // Add painting to collection
-router.post('/:id/paintings', async (req, res) => {
+router.post('/:id/paintings', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { painting_id } = req.body;
@@ -229,7 +230,7 @@ router.post('/:id/paintings', async (req, res) => {
 });
 
 // Remove painting from collection
-router.delete('/:id/paintings/:painting_id', async (req, res) => {
+router.delete('/:id/paintings/:painting_id', requireAuth, async (req, res) => {
   try {
     const { id, painting_id } = req.params;
 
@@ -250,7 +251,7 @@ router.delete('/:id/paintings/:painting_id', async (req, res) => {
 });
 
 // Reorder paintings in collection (this is the critical feature!)
-router.put('/:id/reorder', async (req, res) => {
+router.put('/:id/reorder', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { painting_orders } = req.body; // Array of { painting_id, display_order }

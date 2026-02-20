@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../database');
+const { requireAuth } = require('../middleware/auth');
 
 // Get all paintings (with optional filtering)
 router.get('/', async (req, res) => {
@@ -73,7 +74,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create new painting
-router.post('/', async (req, res) => {
+router.post('/', requireAuth, async (req, res) => {
   try {
     const {
       catalog_number, catalog_reference, artist_id, theme,
@@ -112,7 +113,7 @@ router.post('/', async (req, res) => {
 });
 
 // Update painting
-router.put('/:id', async (req, res) => {
+router.put('/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -141,7 +142,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete painting
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const result = await db.query(

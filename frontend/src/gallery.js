@@ -1,6 +1,7 @@
 import { fetchPaintings, fetchArtists, fetchActiveExhibition, fetchActiveExhibitions, getJpegUrl } from './api.js';
 import { router } from './router.js';
-import { isAdminMode, adminLink, buildGalleryUrl } from './admin.js';
+import { isAdminMode, isAdminParamPresent, setAdminToken, adminLink, buildGalleryUrl } from './admin.js';
+import { adminLogin } from './api.js';
 import {
   initAdminPanel,
   removeAdminPanel,
@@ -17,6 +18,12 @@ import { t, tExhibition } from './i18n.js';
 let currentFilters = {};
 
 export async function renderGallery(params) {
+  // If ?admin=true is present but no valid token, show login form
+  if (isAdminParamPresent() && !isAdminMode()) {
+    renderAdminLogin(params);
+    return;
+  }
+
   const adminMode = isAdminMode();
 
   setPageMeta(
@@ -83,6 +90,55 @@ export async function renderGallery(params) {
       </div>
     `;
   }
+}
+
+// Show login form when ?admin=true but no token
+function renderAdminLogin(params) {
+  const app = document.querySelector('#app');
+  app.innerHTML = `
+    ${renderNavigation()}
+    <div class="container">
+      <div class="admin-login-box">
+        <h2>Admin Login</h2>
+        <div class="admin-login-form">
+          <label for="admin-password">Password</label>
+          <input type="password" id="admin-password" placeholder="Enter admin password" autocomplete="current-password" />
+          <button id="btn-admin-login" class="btn-small btn-save">Login</button>
+          <p id="login-error" class="login-error" hidden>Incorrect password. Please try again.</p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  attachLangToggle();
+
+  const input = document.getElementById('admin-password');
+  const btn = document.getElementById('btn-admin-login');
+  const errorMsg = document.getElementById('login-error');
+
+  async function attemptLogin() {
+    const password = input.value;
+    if (!password) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Logging in…';
+    errorMsg.hidden = true;
+
+    try {
+      const { token } = await adminLogin(password);
+      setAdminToken(token);
+      renderGallery(params);
+    } catch {
+      errorMsg.hidden = false;
+      btn.disabled = false;
+      btn.textContent = 'Login';
+      input.focus();
+    }
+  }
+
+  btn.addEventListener('click', attemptLogin);
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') attemptLogin(); });
+  input.focus();
 }
 
 // Render the admin storage view (all 580 paintings)
