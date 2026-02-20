@@ -207,16 +207,28 @@ export async function reorderExhibition(collectionId, paintingIds) {
   return response.json();
 }
 
-// Activate a collection as the current exhibition
+// Activate a single exhibition (others unaffected)
 export async function activateExhibition(collectionId) {
   const response = await fetch(`${API_BASE_URL}/collections/${collectionId}/activate`, {
     method: 'PUT',
     headers: { ...adminAuthHeaders() }
   });
-  if (!response.ok) {
-    throw new Error('Failed to activate exhibition');
-  }
+  if (!response.ok) throw new Error('Failed to activate exhibition');
+  return response.json();
+}
 
+// Deactivate a single exhibition
+export async function deactivateExhibition(collectionId) {
+  return updateCollection(collectionId, { is_active: false });
+}
+
+// Deactivate all exhibitions
+export async function deactivateAllExhibitions() {
+  const response = await fetch(`${API_BASE_URL}/collections/deactivate-all`, {
+    method: 'PUT',
+    headers: { ...adminAuthHeaders() }
+  });
+  if (!response.ok) throw new Error('Failed to deactivate all exhibitions');
   return response.json();
 }
 

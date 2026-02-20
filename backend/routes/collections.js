@@ -104,6 +104,17 @@ router.post('/', requireAuth, async (req, res) => {
   }
 });
 
+// Deactivate all collections
+router.put('/deactivate-all', requireAuth, async (req, res) => {
+  try {
+    await db.query('UPDATE collections SET is_active = false, updated_at = CURRENT_TIMESTAMP');
+    res.json({ message: 'All exhibitions deactivated' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to deactivate exhibitions' });
+  }
+});
+
 // Update collection
 router.put('/:id', requireAuth, async (req, res) => {
   try {
@@ -137,42 +148,18 @@ router.put('/:id', requireAuth, async (req, res) => {
   }
 });
 
-// Activate a collection as the current exhibition
+// Activate a single collection (does not affect others)
 router.put('/:id/activate', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
-
-    // Use a transaction to deactivate all, then activate the target
-    const client = await db.pool.connect();
-
-    try {
-      await client.query('BEGIN');
-
-      // Deactivate all collections
-      await client.query('UPDATE collections SET is_active = false');
-
-      // Activate the specified collection
-      const result = await client.query(
-        `UPDATE collections
-         SET is_active = true, updated_at = CURRENT_TIMESTAMP
-         WHERE id = $1
-         RETURNING *`,
-        [id]
-      );
-
-      if (result.rows.length === 0) {
-        await client.query('ROLLBACK');
-        return res.status(404).json({ error: 'Collection not found' });
-      }
-
-      await client.query('COMMIT');
-      res.json(result.rows[0]);
-    } catch (err) {
-      await client.query('ROLLBACK');
-      throw err;
-    } finally {
-      client.release();
+    const result = await db.query(
+      `UPDATE collections SET is_active = true, updated_at = CURRENT_TIMESTAMP WHERE id = $1 RETURNING *`,
+      [id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Collection not found' });
     }
+    res.json(result.rows[0]);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to activate collection' });

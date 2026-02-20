@@ -8,6 +8,8 @@ import {
   removeFromExhibition,
   reorderExhibition,
   activateExhibition,
+  deactivateExhibition,
+  deactivateAllExhibitions,
   updateCollection,
   deleteCollection,
   getJpegUrl,
@@ -277,6 +279,54 @@ async function handleExhibitionSubmit(e) {
   }
 }
 
+// Activate or deactivate the current exhibition
+async function handleToggleActive() {
+  const currentExhibition = getCurrentExhibition();
+  if (!currentExhibition) return;
+
+  try {
+    let updated;
+    if (currentExhibition.is_active) {
+      updated = await deactivateExhibition(currentExhibition.id);
+    } else {
+      updated = await activateExhibition(currentExhibition.id);
+    }
+
+    // Update local state
+    currentExhibition.is_active = updated.is_active;
+    const ex = adminPanelState.exhibitions.find(e => e.id === currentExhibition.id);
+    if (ex) ex.is_active = updated.is_active;
+
+    renderExhibitionInfo();
+    renderExhibitionSelector();
+  } catch (error) {
+    console.error('Failed to toggle exhibition status:', error);
+    alert('Failed to update exhibition status.');
+  }
+}
+
+// Deactivate all exhibitions
+async function handleDeactivateAll() {
+  const activeCount = adminPanelState.exhibitions.filter(e => e.is_active).length;
+  if (activeCount === 0) {
+    alert('No exhibitions are currently active.');
+    return;
+  }
+
+  if (!confirm(`Deactivate all ${activeCount} active exhibition${activeCount !== 1 ? 's' : ''}?`)) return;
+
+  try {
+    await deactivateAllExhibitions();
+    adminPanelState.exhibitions.forEach(e => e.is_active = false);
+    if (adminPanelState.currentExhibition) adminPanelState.currentExhibition.is_active = false;
+    renderExhibitionInfo();
+    renderExhibitionSelector();
+  } catch (error) {
+    console.error('Failed to deactivate all exhibitions:', error);
+    alert('Failed to deactivate exhibitions.');
+  }
+}
+
 // Delete an exhibition
 async function handleDeleteExhibition() {
   const currentExhibition = getCurrentExhibition();
@@ -483,6 +533,7 @@ function renderExhibitionInfo() {
         <div class="exhibition-name-row">
           <strong>${currentExhibition?.name || 'No exhibition selected'}</strong>
           <div class="exhibition-actions">
+            ${currentExhibition ? `<button id="btn-toggle-active" class="btn-small ${currentExhibition.is_active ? 'btn-deactivate' : 'btn-activate'}">${currentExhibition.is_active ? 'Deactivate' : 'Activate'}</button>` : ''}
             ${currentExhibition ? '<button id="btn-edit-info" class="btn-edit-info" title="Edit exhibition info">✎</button>' : ''}
             ${currentExhibition ? '<button id="btn-delete-exhibition" class="btn-delete-info" title="Delete exhibition">🗑</button>' : ''}
           </div>
@@ -492,6 +543,12 @@ function renderExhibitionInfo() {
       </div>
       ${currentExhibition?.introduction ? `<p class="exhibition-description">${currentExhibition.introduction}</p>` : ''}
     `;
+
+    // Add event listener for activate/deactivate button
+    const toggleActiveBtn = document.getElementById('btn-toggle-active');
+    if (toggleActiveBtn) {
+      toggleActiveBtn.addEventListener('click', handleToggleActive);
+    }
 
     // Add event listener for edit button
     const editBtn = document.getElementById('btn-edit-info');
@@ -907,6 +964,7 @@ function renderAdminPanel() {
           `).join('')}
         </select>
         <button id="btn-create-exhibition" class="btn-small">+ New Exhibition</button>
+        <button id="btn-deactivate-all" class="btn-small btn-deactivate">Deactivate All</button>
       </div>
 
       <div class="admin-panel-section" id="exhibition-info-container">
@@ -962,6 +1020,7 @@ function renderAdminPanel() {
   });
 
   document.getElementById('btn-create-exhibition').addEventListener('click', handleCreateExhibition);
+  document.getElementById('btn-deactivate-all').addEventListener('click', handleDeactivateAll);
 
   document.getElementById('btn-toggle-view').addEventListener('click', toggleViewMode);
 
