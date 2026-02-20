@@ -281,7 +281,7 @@ async function handleExhibitionSubmit(e) {
 
 // Activate or deactivate the current exhibition
 async function handleToggleActive() {
-  const currentExhibition = getCurrentExhibition();
+  const currentExhibition = adminPanelState.currentExhibition;
   if (!currentExhibition) return;
 
   try {
@@ -329,7 +329,7 @@ async function handleDeactivateAll() {
 
 // Delete an exhibition
 async function handleDeleteExhibition() {
-  const currentExhibition = getCurrentExhibition();
+  const currentExhibition = adminPanelState.currentExhibition;
   if (!currentExhibition) return;
 
   const confirmDelete = confirm(
