@@ -59,8 +59,23 @@ async function loadExhibitionData() {
     ]);
 
     adminPanelState.exhibitions = collections;
-    adminPanelState.currentExhibition = activeResult.collection;
-    adminPanelState.exhibitionPaintings = activeResult.paintings || [];
+
+    const savedId = parseInt(sessionStorage.getItem('adminSelectedExhibitionId'));
+    const savedExists = savedId && collections.some(c => c.id === savedId);
+    const activeId = activeResult.collection?.id;
+
+    if (savedExists && savedId !== activeId) {
+      const saved = await fetchCollection(savedId);
+      adminPanelState.currentExhibition = saved.collection;
+      adminPanelState.exhibitionPaintings = saved.paintings || [];
+    } else {
+      adminPanelState.currentExhibition = activeResult.collection;
+      adminPanelState.exhibitionPaintings = activeResult.paintings || [];
+      if (activeResult.collection) {
+        sessionStorage.setItem('adminSelectedExhibitionId', activeResult.collection.id);
+      }
+    }
+
     adminPanelState.paintingIdsInExhibition = new Set(
       adminPanelState.exhibitionPaintings.map(p => p.id)
     );
@@ -368,6 +383,8 @@ async function handleDeleteExhibition() {
 // Switch to a different exhibition (view only, doesn't change active status)
 async function handleExhibitionSwitch(collectionId) {
   if (!collectionId) return;
+
+  sessionStorage.setItem('adminSelectedExhibitionId', collectionId);
 
   try {
     // Fetch the selected exhibition's data without activating it
