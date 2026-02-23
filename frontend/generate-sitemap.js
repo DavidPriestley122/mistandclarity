@@ -5,14 +5,14 @@ const BASE_URL = 'https://vermillionpavilion.com';
 const API_URL = 'https://mistandclarity-production.up.railway.app/api';
 
 const STATIC_PAGES = [
-  { url: '/',                  priority: '1.0', changefreq: 'monthly' },
-  { url: '/gallery',          priority: '0.9', changefreq: 'weekly'  },
-  { url: '/artists',          priority: '0.8', changefreq: 'monthly' },
-  { url: '/artist/chang-chien-ying', priority: '0.8', changefreq: 'monthly' },
-  { url: '/artist/fei-cheng-wu',     priority: '0.8', changefreq: 'monthly' },
-  { url: '/intro',            priority: '0.7', changefreq: 'monthly' },
-  { url: '/collection',       priority: '0.7', changefreq: 'monthly' },
-  { url: '/contact',          priority: '0.6', changefreq: 'monthly' },
+  { url: '/',                        priority: '1.0', changefreq: 'monthly' },
+  { url: '/gallery/',                priority: '0.9', changefreq: 'weekly'  },
+  { url: '/artists/',                priority: '0.8', changefreq: 'monthly' },
+  { url: '/artist/chang-chien-ying/', priority: '0.8', changefreq: 'monthly' },
+  { url: '/artist/fei-cheng-wu/',    priority: '0.8', changefreq: 'monthly' },
+  { url: '/intro/',                  priority: '0.7', changefreq: 'monthly' },
+  { url: '/collection/',             priority: '0.7', changefreq: 'monthly' },
+  { url: '/contact/',                priority: '0.6', changefreq: 'monthly' },
 ];
 
 function urlEntry({ url, priority, changefreq }) {
@@ -40,7 +40,7 @@ async function generateSitemap() {
     const collections = await fetchJson('/collections');
     const active = collections.filter(c => c.is_active);
     for (const col of active) {
-      entries.push(urlEntry({ url: `/exhibition/${col.id}`, priority: '0.8', changefreq: 'weekly' }));
+      entries.push(urlEntry({ url: `/exhibition/${col.id}/`, priority: '0.8', changefreq: 'weekly' }));
     }
     console.log(`   Added ${active.length} exhibition(s)`);
 
