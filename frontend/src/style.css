@@ -1212,6 +1212,12 @@ header h1 {
   transition: width 0.3s ease, opacity 0.3s ease;
 }
 
+.admin-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
 .admin-panel.collapsed {
   width: 0;
   opacity: 0;
@@ -1412,8 +1418,6 @@ header h1 {
 }
 
 .exhibition-paintings {
-  flex: 1;
-  overflow-y: auto;
   padding-bottom: 0;
 }
 
@@ -1424,10 +1428,6 @@ header h1 {
   margin-bottom: 12px;
 }
 
-#exhibition-paintings-list {
-  max-height: calc(100vh - 380px);
-  overflow-y: auto;
-}
 
 .empty-message {
   font-size: 0.9rem;
@@ -1790,8 +1790,6 @@ header h1 {
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   padding: 10px;
-  max-height: calc(100vh - 380px);
-  overflow-y: auto;
 }
 
 .preview-painting-card {
@@ -1896,11 +1894,6 @@ header h1 {
   font-weight: 500;
 }
 
-/* List Mode Specific Styles */
-.exhibition-paintings-list-mode {
-  max-height: calc(100vh - 380px);
-  overflow-y: auto;
-}
 
 /* Responsive Admin Panel */
 @media (max-width: 1200px) {
@@ -1912,13 +1905,8 @@ header h1 {
     width: 300px;
   }
 
-  #exhibition-paintings-list {
-    max-height: calc(100vh - 400px);
-  }
-
   .exhibition-paintings-preview-mode {
     grid-template-columns: 1fr;
-    max-height: calc(100vh - 400px);
   }
 }
 

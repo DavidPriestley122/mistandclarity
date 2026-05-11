@@ -970,47 +970,51 @@ function renderAdminPanel() {
         <button id="btn-close-admin" class="btn-close-admin" title="Exit Admin Mode">&times;</button>
       </div>
 
-      <div class="admin-panel-section">
-        <label for="exhibition-selector">Current Exhibition:</label>
-        <select id="exhibition-selector">
-          <option value="">-- Select Exhibition --</option>
-          ${adminPanelState.exhibitions.map(ex => `
-            <option value="${ex.id}" ${ex.id === currentExhibition?.id ? 'selected' : ''}>
-              ${ex.name} ${ex.is_active ? '(Active)' : ''}
-            </option>
-          `).join('')}
-        </select>
-        <button id="btn-create-exhibition" class="btn-small">+ New Exhibition</button>
-        <button id="btn-deactivate-all" class="btn-small btn-deactivate">Deactivate All</button>
-      </div>
+      <div class="admin-panel-body">
 
-      <div class="admin-panel-section" id="exhibition-info-container">
-        <!-- Exhibition info will be rendered here -->
-      </div>
-
-      <div class="admin-panel-section exhibition-paintings">
-        <div class="exhibition-paintings-header">
-          <h4>Paintings in Exhibition</h4>
-          <button id="btn-toggle-view" class="btn-toggle-view">${adminPanelState.viewMode === 'list' ? 'Grid View' : 'List View'}</button>
-        </div>
-        <div id="exhibition-paintings-list"></div>
-      </div>
-
-      <div class="admin-panel-section">
-        <h3>Contact Management</h3>
-
-        <div class="contact-view-toggle">
-          <button class="btn-small ${adminPanelState.contactsView === 'submissions' ? 'active' : ''}"
-                  onclick="window.switchContactView('submissions')">
-            Inquiries
-          </button>
-          <button class="btn-small ${adminPanelState.contactsView === 'mailing-list' ? 'active' : ''}"
-                  onclick="window.switchContactView('mailing-list')">
-            Mailing List
-          </button>
+        <div class="admin-panel-section">
+          <label for="exhibition-selector">Current Exhibition:</label>
+          <select id="exhibition-selector">
+            <option value="">-- Select Exhibition --</option>
+            ${adminPanelState.exhibitions.map(ex => `
+              <option value="${ex.id}" ${ex.id === currentExhibition?.id ? 'selected' : ''}>
+                ${ex.name} ${ex.is_active ? '(Active)' : ''}
+              </option>
+            `).join('')}
+          </select>
+          <button id="btn-create-exhibition" class="btn-small">+ New Exhibition</button>
+          <button id="btn-deactivate-all" class="btn-small btn-deactivate">Deactivate All</button>
         </div>
 
-        <div id="contacts-content"></div>
+        <div class="admin-panel-section" id="exhibition-info-container">
+          <!-- Exhibition info will be rendered here -->
+        </div>
+
+        <div class="admin-panel-section exhibition-paintings">
+          <div class="exhibition-paintings-header">
+            <h4>Paintings in Exhibition</h4>
+            <button id="btn-toggle-view" class="btn-toggle-view">${adminPanelState.viewMode === 'list' ? 'Grid View' : 'List View'}</button>
+          </div>
+          <div id="exhibition-paintings-list"></div>
+        </div>
+
+        <div class="admin-panel-section">
+          <h3>Contact Management</h3>
+
+          <div class="contact-view-toggle">
+            <button class="btn-small ${adminPanelState.contactsView === 'submissions' ? 'active' : ''}"
+                    onclick="window.switchContactView('submissions')">
+              Inquiries
+            </button>
+            <button class="btn-small ${adminPanelState.contactsView === 'mailing-list' ? 'active' : ''}"
+                    onclick="window.switchContactView('mailing-list')">
+              Mailing List
+            </button>
+          </div>
+
+          <div id="contacts-content"></div>
+        </div>
+
       </div>
 
       <div class="admin-panel-footer">
