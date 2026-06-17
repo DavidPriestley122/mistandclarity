@@ -1811,7 +1811,6 @@ header h1 {
 .preview-painting-card.dragging {
   opacity: 0.5;
   transform: rotate(2deg);
-  pointer-events: none;
 }
 
 .preview-painting-card.drag-over {

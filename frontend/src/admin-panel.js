@@ -750,7 +750,7 @@ function handleDragLeave(e) {
   }
 }
 
-async function handleDrop(e) {
+function handleDrop(e) {
   if (e.stopPropagation) {
     e.stopPropagation();
   }
@@ -762,16 +762,12 @@ async function handleDrop(e) {
   if (draggedElement !== dropTarget) {
     const dropIndex = parseInt(dropTarget.dataset.index);
 
-    // Reorder the paintings array
     const paintings = adminPanelState.exhibitionPaintings;
     const [movedPainting] = paintings.splice(draggedIndex, 1);
     paintings.splice(dropIndex, 0, movedPainting);
 
-    // Save the new order
-    await saveExhibitionOrder();
-
-    // Re-render
     renderExhibitionPaintingsList();
+    saveExhibitionOrder();
   }
 
   return false;
