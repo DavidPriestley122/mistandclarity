@@ -687,7 +687,8 @@ function renderPreviewMode(container) {
       <button class="preview-remove-btn" data-id="${painting.id}" title="Remove from exhibition">&times;</button>
       <div class="preview-painting-image">
         <img src="${getJpegUrl(painting.catalog_number)}"
-             alt="${painting.descriptive_title || painting.artists_title || 'Untitled'}" />
+             alt="${painting.descriptive_title || painting.artists_title || 'Untitled'}"
+             draggable="false" />
       </div>
       <div class="preview-painting-info">
         <div class="preview-painting-title">${painting.descriptive_title || painting.artists_title || 'Untitled'}</div>
@@ -744,7 +745,9 @@ function handleDragEnter(e) {
 }
 
 function handleDragLeave(e) {
-  e.currentTarget.classList.remove('drag-over');
+  if (!e.currentTarget.contains(e.relatedTarget)) {
+    e.currentTarget.classList.remove('drag-over');
+  }
 }
 
 async function handleDrop(e) {
