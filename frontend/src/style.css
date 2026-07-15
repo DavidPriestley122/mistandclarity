@@ -1096,20 +1096,44 @@ header h1 {
 
 @media (max-width: 768px) {
   .header-nav {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
     height: auto;
-    padding: 15px 20px;
+    padding: 10px 15px 12px;
+    gap: 8px 12px;
+  }
+
+  .site-branding {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .nav-actions {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .site-header .site-title {
+    font-size: 1.4rem;
+  }
+
+  .translate-btn {
+    padding: 5px 14px;
+    font-size: 0.9rem;
   }
 
   .nav-links {
-    gap: 20px;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    gap: 6px 18px;
     flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 15px;
   }
 
   .nav-links a {
     font-size: 0.95rem;
+    padding: 2px 0;
   }
 
   .calligraphy-lintel-bar {
