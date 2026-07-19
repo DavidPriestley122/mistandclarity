@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../database');
 const { requireAuth } = require('../middleware/auth');
+const { notifyInquiry, notifySubscription } = require('../services/mailer');
 
 // PUBLIC ENDPOINTS (no auth required)
 
@@ -16,15 +17,27 @@ router.post('/inquiry', async (req, res) => {
     }
 
     let paintingId = painting_id || null;
+    let paintingTitle = null;
+    let paintingCatalog = catalog_number || null;
 
     // If catalog_number provided, look up the painting ID
     if (catalog_number && !paintingId) {
       const paintingResult = await db.query(
-        'SELECT id FROM paintings WHERE catalog_number = $1',
+        'SELECT id, descriptive_title, artists_title FROM paintings WHERE catalog_number = $1',
         [catalog_number]
       );
       if (paintingResult.rows.length > 0) {
         paintingId = paintingResult.rows[0].id;
+        paintingTitle = paintingResult.rows[0].descriptive_title || paintingResult.rows[0].artists_title;
+      }
+    } else if (paintingId) {
+      const paintingResult = await db.query(
+        'SELECT descriptive_title, artists_title, catalog_number FROM paintings WHERE id = $1',
+        [paintingId]
+      );
+      if (paintingResult.rows.length > 0) {
+        paintingTitle = paintingResult.rows[0].descriptive_title || paintingResult.rows[0].artists_title;
+        paintingCatalog = paintingResult.rows[0].catalog_number;
       }
     }
 
@@ -33,6 +46,9 @@ router.post('/inquiry', async (req, res) => {
        VALUES ($1, $2, $3, $4) RETURNING *`,
       [name, email, message, paintingId]
     );
+
+    // Notify by email in the background; the submission is already saved
+    notifyInquiry({ name, email, message, paintingTitle, catalogNumber: paintingCatalog });
 
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -57,6 +73,11 @@ router.post('/subscribe', async (req, res) => {
        RETURNING *`,
       [name, email]
     );
+
+    // Notify only for genuinely new subscribers (duplicates return no row)
+    if (result.rows[0]) {
+      notifySubscription({ name, email });
+    }
 
     // Return success even if duplicate (ON CONFLICT prevents error)
     res.status(201).json(result.rows[0] || { message: 'Already subscribed' });
