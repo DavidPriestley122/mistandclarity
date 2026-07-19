@@ -1,14 +1,14 @@
 const nodemailer = require('nodemailer');
 
-// Email notifications are optional: if SMTP credentials are not configured,
+// Email notifications are optional: if neither Resend nor SMTP is configured,
 // every send is skipped with a log line and the site works exactly as before.
-// Required env vars: SMTP_USER, SMTP_PASS
-// Optional: SMTP_HOST (default smtp.zoho.eu), SMTP_PORT (default 465),
-//           NOTIFY_EMAIL (default contact@vermillionpavilion.com)
-
-function isConfigured() {
-  return Boolean(process.env.SMTP_USER && process.env.SMTP_PASS);
-}
+// Preferred: RESEND_API_KEY (HTTPS API — Railway blocks outbound SMTP ports).
+//   Optional: RESEND_FROM (default onboarding@resend.dev; requires a domain
+//   verified in Resend to use your own address)
+// Fallback: SMTP_USER + SMTP_PASS, with optional SMTP_HOST (default
+//   smtp.zoho.eu) and SMTP_PORT (default 465)
+// Recipient: NOTIFY_EMAIL (default contact@vermillionpavilion.com; an
+//   unverified Resend account can only deliver to its own signup address)
 
 function getTransporter() {
   return nodemailer.createTransport({
@@ -18,25 +18,53 @@ function getTransporter() {
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS
-    }
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 20000
   });
+}
+
+async function sendViaResend({ subject, text, replyTo, to }) {
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      from: process.env.RESEND_FROM || 'Vermillion Pavilion <onboarding@resend.dev>',
+      to,
+      subject,
+      text,
+      ...(replyTo ? { reply_to: replyTo } : {})
+    })
+  });
+  if (!response.ok) {
+    const body = await response.text().catch(() => '');
+    throw new Error(`Resend API ${response.status}: ${body}`);
+  }
 }
 
 // Fire-and-forget: never throws, so a mail failure can't break the API response
 async function sendNotification({ subject, text, replyTo }) {
-  if (!isConfigured()) {
-    console.log(`Email notification skipped (SMTP not configured): ${subject}`);
-    return;
-  }
+  const to = process.env.NOTIFY_EMAIL || 'contact@vermillionpavilion.com';
 
   try {
-    await getTransporter().sendMail({
-      from: `"Vermillion Pavilion" <${process.env.SMTP_USER}>`,
-      to: process.env.NOTIFY_EMAIL || 'contact@vermillionpavilion.com',
-      subject,
-      text,
-      ...(replyTo ? { replyTo } : {})
-    });
+    if (process.env.RESEND_API_KEY) {
+      await sendViaResend({ subject, text, replyTo, to });
+    } else if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+      await getTransporter().sendMail({
+        from: `"Vermillion Pavilion" <${process.env.SMTP_USER}>`,
+        to,
+        subject,
+        text,
+        ...(replyTo ? { replyTo } : {})
+      });
+    } else {
+      console.log(`Email notification skipped (no email service configured): ${subject}`);
+      return;
+    }
     console.log(`Email notification sent: ${subject}`);
   } catch (err) {
     console.error(`Email notification failed (${subject}):`, err.message);
