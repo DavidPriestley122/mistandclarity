@@ -48,21 +48,22 @@ export async function renderContact() {
               </div>
             </div>
 
-            <!-- Subscribe mode (hidden by default) -->
+            <!-- Subscribe mode (hidden by default; required flags are set on tab switch,
+                 because hidden required fields silently block native form validation) -->
             <div id="subscribe-fields" style="display: none;">
               <div class="form-group">
                 <label for="sub-name">${t('contact.subName')}</label>
-                <input type="text" id="sub-name" name="sub-name" required>
+                <input type="text" id="sub-name" name="sub-name">
               </div>
 
               <div class="form-group">
                 <label for="sub-email">${t('contact.subEmail')}</label>
-                <input type="email" id="sub-email" name="sub-email" required>
+                <input type="email" id="sub-email" name="sub-email">
               </div>
 
               <div class="form-group checkbox-group">
                 <label>
-                  <input type="checkbox" id="consent" name="consent" required>
+                  <input type="checkbox" id="consent" name="consent">
                   ${t('contact.consent')}
                 </label>
               </div>
@@ -104,16 +105,17 @@ export async function renderContact() {
       toggleBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      // Toggle field visibility
-      if (mode === 'inquiry') {
-        inquiryFields.style.display = 'block';
-        subscribeFields.style.display = 'none';
-        document.querySelector('#message').required = true;
-      } else {
-        inquiryFields.style.display = 'none';
-        subscribeFields.style.display = 'block';
-        document.querySelector('#message').required = false;
-      }
+      // Toggle field visibility and required flags together: a hidden field
+      // must never be required, or the browser blocks submission silently
+      const isInquiry = mode === 'inquiry';
+      inquiryFields.style.display = isInquiry ? 'block' : 'none';
+      subscribeFields.style.display = isInquiry ? 'none' : 'block';
+      ['name', 'email', 'message'].forEach(id => {
+        document.getElementById(id).required = isInquiry;
+      });
+      ['sub-name', 'sub-email', 'consent'].forEach(id => {
+        document.getElementById(id).required = !isInquiry;
+      });
 
       // Clear form message
       document.getElementById('form-message').textContent = '';
