@@ -1436,6 +1436,31 @@ header h1 {
   color: white;
 }
 
+.btn-archive {
+  background-color: #8d6e30;
+  border-color: #8d6e30;
+  color: white;
+}
+
+.exhibition-status-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.exhibition-status-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.exhibition-status-label.status-active { color: #2e7d32; }
+.exhibition-status-label.status-archived { color: #8d6e30; }
+.exhibition-status-label.status-private { color: #888; }
+
 .btn-save:hover {
   background-color: var(--hover-red);
   border-color: var(--hover-red);
@@ -1715,6 +1740,19 @@ header h1 {
   background-color: var(--ivory);
   border: 1px solid var(--border-color);
   border-radius: 2px;
+}
+
+.exhibition-past-notice {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent-red);
+  margin-bottom: 12px;
+}
+
+.enquire-link {
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
 }
 
 .exhibition-title {
@@ -2724,6 +2762,19 @@ header h1 {
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 40px;
   margin-bottom: 60px;
+}
+
+.past-exhibitions-section {
+  margin-top: 40px;
+  border-top: 1px solid rgba(245, 240, 232, 0.2);
+}
+
+.past-exhibitions-section .exhibitions-index-header {
+  padding-top: 50px;
+}
+
+.past-exhibitions-section .exhibitions-index-header h1 {
+  font-size: 2.2rem;
 }
 
 .exhibition-card {

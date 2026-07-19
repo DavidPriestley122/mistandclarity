@@ -92,6 +92,8 @@ const translations = {
     gallery: {
       heading: 'Exhibitions',
       subtitle: 'Explore our curated collections',
+      pastHeading: 'Past Exhibitions',
+      pastSubtitle: 'Earlier exhibitions from our archive',
       comingSoon: 'Exhibitions Coming Soon',
       comingSoonText: 'We are preparing new exhibitions. Please check back soon.',
       paintings: 'painting',
@@ -114,10 +116,12 @@ const translations = {
       yes: 'Yes',
       no: 'No',
       interestedHeading: 'Interested in this painting?',
-      emailUs: 'Email us at'
+      emailUs: 'Email us at',
+      enquireLink: 'Enquire about this work →'
     },
     exhibitionDetail: {
       backToGallery: '← Back to Gallery',
+      pastNotice: 'Past exhibition',
       notFoundHeading: 'Exhibition Not Found',
       notFoundText: 'This exhibition is not available.',
       paintings: 'painting',
@@ -221,6 +225,8 @@ const translations = {
     gallery: {
       heading: '展覽',
       subtitle: '探索我們精心策劃的藏品',
+      pastHeading: '過往展覽',
+      pastSubtitle: '展覽檔案中的早前展覽',
       comingSoon: '展覽即將推出',
       comingSoonText: '我們正在籌備新展覽，敬請期待。',
       paintings: '幅畫作',
@@ -243,10 +249,12 @@ const translations = {
       yes: '是',
       no: '否',
       interestedHeading: '有意收藏此畫？',
-      emailUs: '請發電郵至'
+      emailUs: '請發電郵至',
+      enquireLink: '查詢此作品 →'
     },
     exhibitionDetail: {
       backToGallery: '← 返回展覽',
+      pastNotice: '過往展覽',
       notFoundHeading: '找不到展覽',
       notFoundText: '此展覽暫不開放。',
       paintings: '幅畫作',

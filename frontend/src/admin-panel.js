@@ -8,7 +8,8 @@ import {
   removeFromExhibition,
   reorderExhibition,
   activateExhibition,
-  deactivateExhibition,
+  archiveExhibition,
+  setExhibitionPrivate,
   deactivateAllExhibitions,
   updateCollection,
   deleteCollection,
@@ -294,28 +295,42 @@ async function handleExhibitionSubmit(e) {
   }
 }
 
-// Activate or deactivate the current exhibition
-async function handleToggleActive() {
+// Exhibition status label: 'active' (current show), 'archived' (past show), 'private' (draft)
+function getExhibitionStatus(exhibition) {
+  if (!exhibition) return null;
+  if (exhibition.is_active) return 'active';
+  if (exhibition.is_archived) return 'archived';
+  return 'private';
+}
+
+// Set the current exhibition's status ('active' | 'archived' | 'private')
+async function handleSetStatus(status) {
   const currentExhibition = adminPanelState.currentExhibition;
   if (!currentExhibition) return;
 
   try {
     let updated;
-    if (currentExhibition.is_active) {
-      updated = await deactivateExhibition(currentExhibition.id);
-    } else {
+    if (status === 'active') {
       updated = await activateExhibition(currentExhibition.id);
+    } else if (status === 'archived') {
+      updated = await archiveExhibition(currentExhibition.id);
+    } else {
+      updated = await setExhibitionPrivate(currentExhibition.id);
     }
 
     // Update local state
     currentExhibition.is_active = updated.is_active;
+    currentExhibition.is_archived = updated.is_archived;
     const ex = adminPanelState.exhibitions.find(e => e.id === currentExhibition.id);
-    if (ex) ex.is_active = updated.is_active;
+    if (ex) {
+      ex.is_active = updated.is_active;
+      ex.is_archived = updated.is_archived;
+    }
 
     renderExhibitionInfo();
     renderExhibitionSelector();
   } catch (error) {
-    console.error('Failed to toggle exhibition status:', error);
+    console.error('Failed to update exhibition status:', error);
     alert('Failed to update exhibition status.');
   }
 }
@@ -545,27 +560,36 @@ function renderExhibitionInfo() {
     document.getElementById('btn-save-info').addEventListener('click', saveExhibitionInfo);
     document.getElementById('btn-cancel-info').addEventListener('click', cancelEditingExhibitionInfo);
   } else {
+    const status = getExhibitionStatus(currentExhibition);
+    const statusLabels = { active: 'Active', archived: 'Archived', private: 'Private' };
+
     container.innerHTML = `
       <div class="exhibition-info">
         <div class="exhibition-name-row">
           <strong>${currentExhibition?.name || 'No exhibition selected'}</strong>
           <div class="exhibition-actions">
-            ${currentExhibition ? `<button id="btn-toggle-active" class="btn-small ${currentExhibition.is_active ? 'btn-deactivate' : 'btn-activate'}">${currentExhibition.is_active ? 'Deactivate' : 'Activate'}</button>` : ''}
             ${currentExhibition ? '<button id="btn-edit-info" class="btn-edit-info" title="Edit exhibition info">✎</button>' : ''}
             ${currentExhibition ? '<button id="btn-delete-exhibition" class="btn-delete-info" title="Delete exhibition">🗑</button>' : ''}
           </div>
         </div>
+        ${currentExhibition ? `
+          <div class="exhibition-status-row">
+            <span class="exhibition-status-label status-${status}">${statusLabels[status]}</span>
+            ${status !== 'active' ? '<button id="btn-status-active" class="btn-small btn-activate">Activate</button>' : ''}
+            ${status !== 'archived' ? '<button id="btn-status-archived" class="btn-small btn-archive">Archive</button>' : ''}
+            ${status !== 'private' ? '<button id="btn-status-private" class="btn-small btn-deactivate">Make Private</button>' : ''}
+          </div>
+        ` : ''}
         ${currentExhibition?.subtitle ? `<p class="exhibition-subtitle">${currentExhibition.subtitle}</p>` : ''}
         <span class="painting-count">${paintingCount} painting${paintingCount !== 1 ? 's' : ''}</span>
       </div>
       ${currentExhibition?.introduction ? `<p class="exhibition-description">${currentExhibition.introduction}</p>` : ''}
     `;
 
-    // Add event listener for activate/deactivate button
-    const toggleActiveBtn = document.getElementById('btn-toggle-active');
-    if (toggleActiveBtn) {
-      toggleActiveBtn.addEventListener('click', handleToggleActive);
-    }
+    // Add event listeners for status buttons
+    document.getElementById('btn-status-active')?.addEventListener('click', () => handleSetStatus('active'));
+    document.getElementById('btn-status-archived')?.addEventListener('click', () => handleSetStatus('archived'));
+    document.getElementById('btn-status-private')?.addEventListener('click', () => handleSetStatus('private'));
 
     // Add event listener for edit button
     const editBtn = document.getElementById('btn-edit-info');
@@ -607,7 +631,7 @@ function renderExhibitionSelector() {
     <option value="">-- Select Exhibition --</option>
     ${adminPanelState.exhibitions.map(ex => `
       <option value="${ex.id}" ${ex.id === currentId ? 'selected' : ''}>
-        ${ex.name} ${ex.is_active ? '(Active)' : ''}
+        ${ex.name} ${ex.is_active ? '(Active)' : ex.is_archived ? '(Archived)' : ''}
       </option>
     `).join('')}
   `;

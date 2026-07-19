@@ -89,9 +89,11 @@ export async function fetchCollections() {
   return response.json();
 }
 
-// Fetch collection with paintings
+// Fetch collection with paintings (auth header lets admins see private drafts)
 export async function fetchCollection(id) {
-  const response = await fetch(`${API_BASE_URL}/collections/${id}`);
+  const response = await fetch(`${API_BASE_URL}/collections/${id}`, {
+    headers: { ...adminAuthHeaders() }
+  });
   if (!response.ok) {
     throw new Error('Failed to fetch collection');
   }
@@ -109,21 +111,21 @@ export async function fetchActiveExhibition() {
   return response.json();
 }
 
-// Fetch all active exhibitions
-export async function fetchActiveExhibitions() {
+// Fetch all public exhibitions, split into current (active) and past (archived)
+export async function fetchPublicExhibitions() {
   const response = await fetch(`${API_BASE_URL}/collections`);
   if (!response.ok) {
-    throw new Error('Failed to fetch active exhibitions');
+    throw new Error('Failed to fetch exhibitions');
   }
 
   const collections = await response.json();
 
-  // Filter for active collections and fetch painting count for each
-  const activeCollections = collections.filter(c => c.is_active);
+  // Public = current shows plus archived past shows
+  const publicCollections = collections.filter(c => c.is_active || c.is_archived);
 
-  // Fetch painting count and first painting for each active collection
+  // Fetch painting count and first painting for each public collection
   const collectionsWithDetails = await Promise.all(
-    activeCollections.map(async (collection) => {
+    publicCollections.map(async (collection) => {
       try {
         const collectionResponse = await fetch(`${API_BASE_URL}/collections/${collection.id}`);
         if (collectionResponse.ok) {
@@ -141,7 +143,10 @@ export async function fetchActiveExhibitions() {
     })
   );
 
-  return collectionsWithDetails;
+  return {
+    current: collectionsWithDetails.filter(c => c.is_active),
+    past: collectionsWithDetails.filter(c => !c.is_active && c.is_archived)
+  };
 }
 
 // Create a new collection/exhibition
@@ -217,9 +222,19 @@ export async function activateExhibition(collectionId) {
   return response.json();
 }
 
-// Deactivate a single exhibition
-export async function deactivateExhibition(collectionId) {
-  return updateCollection(collectionId, { is_active: false });
+// Archive an exhibition (past show: public but no longer current)
+export async function archiveExhibition(collectionId) {
+  const response = await fetch(`${API_BASE_URL}/collections/${collectionId}/archive`, {
+    method: 'PUT',
+    headers: { ...adminAuthHeaders() }
+  });
+  if (!response.ok) throw new Error('Failed to archive exhibition');
+  return response.json();
+}
+
+// Make an exhibition private (neither current nor archived)
+export async function setExhibitionPrivate(collectionId) {
+  return updateCollection(collectionId, { is_active: false, is_archived: false });
 }
 
 // Deactivate all exhibitions

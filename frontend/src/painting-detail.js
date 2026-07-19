@@ -5,17 +5,46 @@ import { initLightbox, attachPaintingClickListeners } from './lightbox.js';
 import { setPageMeta } from './utils.js';
 import { t } from './i18n.js';
 
-// Helper function to format price display
-function formatPriceDisplay(painting) {
+// Helper function to format price display.
+// Availability and prices are only shown for works in a current exhibition
+// (admins always see them); works from past exhibitions show SOLD only.
+function formatPriceDisplay(painting, adminMode) {
+  const showAvailability = adminMode || painting.in_current_exhibition;
+
   if (!painting.sale_status || painting.sale_status === 'available') {
-    if (painting.asking_price) {
+    if (showAvailability && painting.asking_price) {
       return `<p class="price-info"><strong>Price:</strong> £${Number(painting.asking_price).toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>`;
     }
     return '';
   } else if (painting.sale_status === 'sold') {
-    return `<p class="price-info sold"><strong>SOLD</strong></p>`;
+    if (showAvailability || painting.in_past_exhibition) {
+      return `<p class="price-info sold"><strong>SOLD</strong></p>`;
+    }
+    return '';
   } else if (painting.sale_status === 'not_for_sale') {
-    return `<p class="price-info"><strong>Not for sale</strong></p>`;
+    return showAvailability ? `<p class="price-info"><strong>Not for sale</strong></p>` : '';
+  }
+  return '';
+}
+
+// Contact call-to-action: full invitation for works in a current exhibition,
+// a neutral enquiry link for unsold works from past exhibitions, nothing otherwise
+function formatContactCta(painting) {
+  if (painting.in_current_exhibition) {
+    return `
+      <div class="contact-cta">
+        <h3>${t('paintingDetail.interestedHeading')}</h3>
+        <p>${t('paintingDetail.emailUs')} <a href="mailto:contact@vermillionpavilion.com">contact@vermillionpavilion.com</a></p>
+      </div>
+    `;
+  }
+  if (painting.in_past_exhibition && painting.sale_status !== 'sold') {
+    const catalogParam = painting.catalog_number ? `?catalog=${encodeURIComponent(painting.catalog_number)}` : '';
+    return `
+      <div class="contact-cta">
+        <p><a href="/contact${catalogParam}" data-link class="enquire-link">${t('paintingDetail.enquireLink')}</a></p>
+      </div>
+    `;
   }
   return '';
 }
@@ -265,7 +294,7 @@ function renderPaintingContent(adminMode) {
               <p class="catalog-number"><strong>${t('paintingDetail.catalogNumber')}:</strong> ${painting.catalog_number}</p>
             ` : ''}
 
-            ${formatPriceDisplay(painting)}
+            ${formatPriceDisplay(painting, adminMode)}
 
             ${painting.notes ? `
               <div class="notes">
@@ -274,12 +303,7 @@ function renderPaintingContent(adminMode) {
               </div>
             ` : ''}
 
-            ${!adminMode ? `
-              <div class="contact-cta">
-                <h3>${t('paintingDetail.interestedHeading')}</h3>
-                <p>${t('paintingDetail.emailUs')} <a href="mailto:contact@vermillionpavilion.com">contact@vermillionpavilion.com</a></p>
-              </div>
-            ` : ''}
+            ${!adminMode ? formatContactCta(painting) : ''}
           </div>
         </div>
       </div>

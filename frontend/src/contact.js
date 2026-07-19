@@ -85,6 +85,12 @@ export async function renderContact() {
 
   attachLangToggle();
 
+  // Pre-fill catalogue number when arriving from a painting's enquiry link
+  const catalogParam = new URLSearchParams(window.location.search).get('catalog');
+  if (catalogParam) {
+    document.getElementById('painting').value = catalogParam;
+  }
+
   // Form mode toggle
   const toggleBtns = document.querySelectorAll('.toggle-btn');
   const inquiryFields = document.getElementById('inquiry-fields');

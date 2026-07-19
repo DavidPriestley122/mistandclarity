@@ -16,4 +16,16 @@ function requireAuth(req, res, next) {
   }
 }
 
-module.exports = { requireAuth };
+// Non-blocking check: true if the request carries a valid admin token
+function hasValidToken(req) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) return false;
+  try {
+    jwt.verify(authHeader.slice(7), process.env.JWT_SECRET);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+module.exports = { requireAuth, hasValidToken };

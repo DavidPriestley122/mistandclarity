@@ -63,6 +63,7 @@ export async function renderExhibitionDetail(exhibitionId) {
         </div>
 
         <div class="exhibition-header">
+          ${!collection.is_active && collection.is_archived ? `<p class="exhibition-past-notice">${t('exhibitionDetail.pastNotice')}</p>` : ''}
           <h2 class="exhibition-title">${displayName}</h2>
           ${displaySubtitle ? `<p class="exhibition-subtitle">${displaySubtitle}</p>` : ''}
           ${displayIntro ? `<p class="exhibition-introduction">${displayIntro}</p>` : ''}

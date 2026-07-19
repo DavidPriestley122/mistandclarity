@@ -29,6 +29,7 @@
 - Artist biography pages (Fei Cheng-wu, Chang Chien-ying)
 - About / collection / intro / contact pages
 - Exhibition detail pages
+- Past-exhibitions archive: archived shows stay public under "Past Exhibitions" (no prices; neutral enquiry link on unsold works); availability/prices shown only for works in a current show; private drafts hidden from public API
 - Fully responsive design
 
 ### ✅ Admin Mode (`?admin=true`)
@@ -37,6 +38,7 @@
 - Artist and theme dropdown filters
 - Collapsible admin side panel (380px):
   - Create / edit / delete exhibitions
+  - Exhibition status: Active (current show) / Archived (past show, public) / Private (draft)
   - Add / remove paintings from exhibitions
   - Drag-and-drop or arrow-key reordering
   - Contact submissions management (view, mark status, delete)
@@ -71,7 +73,7 @@ backend/
 ├── database.js            # PostgreSQL pool (max 5 connections, SSL in prod)
 ├── routes/
 │   ├── paintings.js       # GET /, GET /:id, POST, PUT /:id, DELETE /:id
-│   ├── collections.js     # Full CRUD + /activate, /:id/paintings, /:id/reorder
+│   ├── collections.js     # Full CRUD + /activate, /archive, /:id/paintings, /:id/reorder
 │   ├── artists.js         # GET /, GET /:id, POST, PUT /:id
 │   └── contacts.js        # /inquiry (public), /subscribe (public), /submissions (admin), /mailing-list (admin)
 ├── middleware/            # (empty — auth middleware to be added)

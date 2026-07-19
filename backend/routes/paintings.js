@@ -55,7 +55,17 @@ router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const result = await db.query(
-      `SELECT p.*, a.name_preferred as artist_name, a.name_pinyin
+      `SELECT p.*, a.name_preferred as artist_name, a.name_pinyin,
+        EXISTS(
+          SELECT 1 FROM collection_paintings cp
+          JOIN collections c ON c.id = cp.collection_id
+          WHERE cp.painting_id = p.id AND c.is_active = true
+        ) as in_current_exhibition,
+        EXISTS(
+          SELECT 1 FROM collection_paintings cp
+          JOIN collections c ON c.id = cp.collection_id
+          WHERE cp.painting_id = p.id AND c.is_archived = true AND c.is_active = false
+        ) as in_past_exhibition
        FROM paintings p
        LEFT JOIN artists a ON p.artist_id = a.id
        WHERE p.id = $1`,

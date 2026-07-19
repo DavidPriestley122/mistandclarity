@@ -1,4 +1,4 @@
-import { fetchPaintings, fetchArtists, fetchActiveExhibition, fetchActiveExhibitions, getJpegUrl } from './api.js';
+import { fetchPaintings, fetchArtists, fetchPublicExhibitions, getJpegUrl } from './api.js';
 import { router } from './router.js';
 import { isAdminMode, isAdminParamPresent, setAdminToken, adminLink, buildGalleryUrl } from './admin.js';
 import { adminLogin } from './api.js';
@@ -262,13 +262,12 @@ async function renderStorageView(app, params) {
   addPaintingClickHandlers();
 }
 
-// Render the public exhibitions index
+// Render the public exhibitions index (current shows + past exhibitions archive)
 async function renderExhibitionsIndex(app) {
-  // Fetch all active exhibitions
-  const exhibitions = await fetchActiveExhibitions();
+  const { current, past } = await fetchPublicExhibitions();
 
-  if (!exhibitions || exhibitions.length === 0) {
-    // No active exhibitions
+  if (current.length === 0 && past.length === 0) {
+    // Nothing public yet
     app.innerHTML = `
       ${renderNavigation()}
       <div class="container">
@@ -286,14 +285,34 @@ async function renderExhibitionsIndex(app) {
   app.innerHTML = `
     ${renderNavigation()}
     <div class="container">
-      <div class="exhibitions-index-header">
-        <h1>${t('gallery.heading')}</h1>
-        <p class="exhibitions-subtitle">${t('gallery.subtitle')}</p>
-      </div>
+      ${current.length > 0 ? `
+        <div class="exhibitions-index-header">
+          <h1>${t('gallery.heading')}</h1>
+          <p class="exhibitions-subtitle">${t('gallery.subtitle')}</p>
+        </div>
 
-      <div class="exhibitions-grid">
-        ${exhibitions.map(exhibition => renderExhibitionCard(exhibition)).join('')}
-      </div>
+        <div class="exhibitions-grid">
+          ${current.map(exhibition => renderExhibitionCard(exhibition)).join('')}
+        </div>
+      ` : `
+        <div class="exhibition-empty">
+          <h2>${t('gallery.comingSoon')}</h2>
+          <p>${t('gallery.comingSoonText')}</p>
+        </div>
+      `}
+
+      ${past.length > 0 ? `
+        <div class="past-exhibitions-section">
+          <div class="exhibitions-index-header">
+            <h1>${t('gallery.pastHeading')}</h1>
+            <p class="exhibitions-subtitle">${t('gallery.pastSubtitle')}</p>
+          </div>
+
+          <div class="exhibitions-grid">
+            ${past.map(exhibition => renderExhibitionCard(exhibition)).join('')}
+          </div>
+        </div>
+      ` : ''}
     </div>
   `;
 

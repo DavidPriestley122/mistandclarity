@@ -36,13 +36,30 @@ async function generateSitemap() {
   const entries = [...STATIC_PAGES.map(urlEntry)];
 
   try {
-    // Active exhibitions
+    // Public exhibitions: current (active) and past (archived)
     const collections = await fetchJson('/collections');
-    const active = collections.filter(c => c.is_active);
-    for (const col of active) {
-      entries.push(urlEntry({ url: `/exhibition/${col.id}/`, priority: '0.8', changefreq: 'weekly' }));
+    const publicCollections = collections.filter(c => c.is_active || c.is_archived);
+    for (const col of publicCollections) {
+      entries.push(urlEntry({
+        url: `/exhibition/${col.id}/`,
+        priority: col.is_active ? '0.8' : '0.6',
+        changefreq: col.is_active ? 'weekly' : 'monthly'
+      }));
     }
-    console.log(`   Added ${active.length} exhibition(s)`);
+    console.log(`   Added ${publicCollections.length} exhibition(s)`);
+
+    // Painting pages for every publicly exhibited work (deduplicated)
+    const paintingIds = new Set();
+    for (const col of publicCollections) {
+      const data = await fetchJson(`/collections/${col.id}`);
+      for (const p of data.paintings || []) {
+        paintingIds.add(p.id);
+      }
+    }
+    for (const id of paintingIds) {
+      entries.push(urlEntry({ url: `/painting/${id}`, priority: '0.5', changefreq: 'monthly' }));
+    }
+    console.log(`   Added ${paintingIds.size} painting page(s)`);
 
   } catch (err) {
     console.warn('   Warning: could not fetch dynamic pages:', err.message);

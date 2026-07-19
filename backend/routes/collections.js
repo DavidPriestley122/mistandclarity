@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../database');
-const { requireAuth } = require('../middleware/auth');
+const { requireAuth, hasValidToken } = require('../middleware/auth');
 
 // Get all collections
 router.get('/', async (req, res) => {
@@ -66,6 +66,12 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ error: 'Collection not found' });
     }
 
+    // Private drafts (neither active nor archived) are admin-only
+    const col = collectionResult.rows[0];
+    if (!col.is_active && !col.is_archived && !hasValidToken(req)) {
+      return res.status(404).json({ error: 'Collection not found' });
+    }
+
     // Get paintings in this collection (ordered by display_order)
     const paintingsResult = await db.query(
       `SELECT p.*, cp.display_order, a.name_preferred as artist_name
@@ -119,7 +125,7 @@ router.put('/deactivate-all', requireAuth, async (req, res) => {
 router.put('/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, subtitle, introduction, is_active, name_zh, subtitle_zh, introduction_zh } = req.body;
+    const { name, description, subtitle, introduction, is_active, is_archived, name_zh, subtitle_zh, introduction_zh } = req.body;
 
     const result = await db.query(
       `UPDATE collections
@@ -128,13 +134,14 @@ router.put('/:id', requireAuth, async (req, res) => {
            subtitle = COALESCE($3, subtitle),
            introduction = COALESCE($4, introduction),
            is_active = COALESCE($5, is_active),
-           name_zh = COALESCE($6, name_zh),
-           subtitle_zh = COALESCE($7, subtitle_zh),
-           introduction_zh = COALESCE($8, introduction_zh),
+           is_archived = COALESCE($6, is_archived),
+           name_zh = COALESCE($7, name_zh),
+           subtitle_zh = COALESCE($8, subtitle_zh),
+           introduction_zh = COALESCE($9, introduction_zh),
            updated_at = CURRENT_TIMESTAMP
-       WHERE id = $9
+       WHERE id = $10
        RETURNING *`,
-      [name, description, subtitle, introduction, is_active, name_zh, subtitle_zh, introduction_zh, id]
+      [name, description, subtitle, introduction, is_active, is_archived, name_zh, subtitle_zh, introduction_zh, id]
     );
 
     if (result.rows.length === 0) {
@@ -153,7 +160,7 @@ router.put('/:id/activate', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const result = await db.query(
-      `UPDATE collections SET is_active = true, updated_at = CURRENT_TIMESTAMP WHERE id = $1 RETURNING *`,
+      `UPDATE collections SET is_active = true, is_archived = false, updated_at = CURRENT_TIMESTAMP WHERE id = $1 RETURNING *`,
       [id]
     );
     if (result.rows.length === 0) {
@@ -163,6 +170,24 @@ router.put('/:id/activate', requireAuth, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to activate collection' });
+  }
+});
+
+// Archive a collection (past exhibition: public but no longer current)
+router.put('/:id/archive', requireAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.query(
+      `UPDATE collections SET is_active = false, is_archived = true, updated_at = CURRENT_TIMESTAMP WHERE id = $1 RETURNING *`,
+      [id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Collection not found' });
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to archive collection' });
   }
 });
 
